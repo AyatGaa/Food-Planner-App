@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class SplashScreenFragment extends Fragment {
@@ -53,7 +54,9 @@ public class SplashScreenFragment extends Fragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Toast.makeText(getContext(), "end of 3 sec", Toast.LENGTH_SHORT).show();
             }
         }, 3000);
+
     }
 }
