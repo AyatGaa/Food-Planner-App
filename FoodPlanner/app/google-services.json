@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "869393563539",
+    "project_id": "foodi-5018b",
+    "storage_bucket": "foodi-5018b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869393563539:android:9a41468f1d9becd3d73266",
+        "android_client_info": {
+          "package_name": "com.example.foodplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869393563539-8nps0t8hhcm4vafo9r75kh4sine4todi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodplanner",
+            "certificate_hash": "3db2f1a8a76595a9e998f523d93bd8f630e229f0"
+          }
+        },
+        {
+          "client_id": "869393563539-rfhoksvvvtoncjai3eiu2ljgre636m69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB32XI4T4hGSaSBYWqg0ApKpNufNgQWaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869393563539-rfhoksvvvtoncjai3eiu2ljgre636m69.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
