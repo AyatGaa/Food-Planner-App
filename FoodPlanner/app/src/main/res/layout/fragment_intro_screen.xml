@@ -63,7 +63,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_get_started"
+        android:id="@+id/btnGetStarted"
         style="@android:style/Widget.Button"
         android:layout_width="200dp"
         android:layout_height="50dp"
@@ -83,7 +83,7 @@
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_signup"
+        android:id="@+id/btnSignUpIntro"
         style="@android:style/Widget.Button"
         android:layout_width="200dp"
         android:layout_height="50dp"
@@ -98,9 +98,9 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="@+id/btn_get_started"
-        app:layout_constraintStart_toStartOf="@+id/btn_get_started"
-        app:layout_constraintTop_toBottomOf="@+id/btn_get_started"
+        app:layout_constraintEnd_toEndOf="@+id/btnGetStarted"
+        app:layout_constraintStart_toStartOf="@+id/btnGetStarted"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetStarted"
         app:layout_constraintVertical_bias="0.894" />
 
     <TextView
@@ -125,23 +125,25 @@
         android:text="@string/let_s_discover_our_world"
         android:textAlignment="center"
         android:textColor="#524949"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/txt_welcome"
 
         app:layout_constraintStart_toStartOf="@+id/txt_welcome"
         app:layout_constraintTop_toBottomOf="@+id/txt_welcome" />
 
     <TextView
-        android:id="@+id/txt_login"
+        android:id="@+id/txtLoginIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="@string/already_have_an_account_login"
+        android:fontFamily="@font/gluten_regular"
+        android:text="@string/signup_prompt"
         android:textAlignment="center"
         android:textColor="@color/primary"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignUpIntro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

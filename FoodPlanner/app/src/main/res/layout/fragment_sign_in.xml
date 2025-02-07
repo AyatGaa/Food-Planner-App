@@ -5,49 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/signup_background"
-    tools:context=".SignUpFragment">
+    tools:context=".SignInFragment">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtSignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/gluten_regular"
-        android:text="@string/signup"
+        android:text="@string/sign_in"
         android:textColor="@color/white"
         android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edtUsernameSignUp"
+        android:id="@+id/edtEmailSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/edittext_background"
-        android:drawableStart="@drawable/user"
-        android:drawablePadding="16dp"
-        android:elevation="10dp"
-        android:ems="10"
-        android:fontFamily="@font/gluten_light"
-        android:hint="@string/name_hint"
-        android:importantForAutofill="yes"
-        android:inputType="textPersonName"
-        android:padding="8dp"
-        android:textColorHint="@color/primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <EditText
-        android:id="@+id/edtEmailSignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="136dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/edittext_background"
         android:drawableStart="@drawable/mail"
@@ -62,10 +40,10 @@
         android:textColorHint="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtUsernameSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSignup" />
 
     <EditText
-        android:id="@+id/edtPasswordSignUp"
+        android:id="@+id/edtPasswordSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -83,40 +61,12 @@
         android:padding="10dp"
         android:textColorHint="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignIn" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="395dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="705dp" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_signup"
+        android:id="@+id/btnSignIn"
         style="@android:style/Widget.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -126,32 +76,57 @@
         android:background="@drawable/custom_button"
         android:elevation="10dp"
         android:fontFamily="@font/gluten_light"
-        android:text="@string/signup"
+        android:text="@string/sign_in"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold"
-
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignIn" />
 
     <TextView
-        android:id="@+id/txt_login"
+        android:id="@+id/txtSignUpIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/gluten_light"
-        android:text="@string/signup_prompt"
+        android:text="@string/signin_prompt"
         android:textAlignment="center"
         android:textColor="@color/primary"
-
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="26dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSignUpIn" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSignInWithGoogle"
+        style="@android:style/Widget.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/custom_outline_button"
+        android:drawableStart="@drawable/google_icon"
+        android:elevation="10dp"
+        android:padding="10dp"
+        android:text="@string/sign_in_with_google"
+        android:textColor="@color/primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/btnSignIn"
+        app:layout_constraintStart_toStartOf="@+id/btnSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,18 +9,22 @@
 
     <ImageView
         android:id="@+id/logo_intro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/logo4"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="209dp"
+        android:background="@drawable/cutlery_primary_color"
         android:contentDescription="@string/logo" />
 
     <TextView
         android:id="@+id/text_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:layout_marginStart="76dp"
         android:layout_marginTop="90dp"
         android:fontFamily="@font/gluten_regular"
         android:text="@string/plan_your_meals"
