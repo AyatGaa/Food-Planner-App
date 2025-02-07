@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class SplashScreenFragment extends Fragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.i("TAG", "run: herere");
                 Toast.makeText(getContext(), "end of 3 sec", Toast.LENGTH_SHORT).show();
             }
         }, 3000);
