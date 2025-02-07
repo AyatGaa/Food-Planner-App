@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">FoodPlanner</string>
+    <string name="app_name">Foodi</string>
+    <string name="plan_your_meals">Plan Your Meals</string>
+    <string name="default_web_client">869393563539-8nps0t8hhcm4vafo9r75kh4sine4todi.apps.googleusercontent.com</string>
+
+    <string name="logo">logo</string>
+    <!-- Strings related to login -->
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="name_hint">Name</string>
+
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+
+    <string name="signup_button">Signup</string>
+    <string name="signup_prompt">Already have an account? Sign In</string>
+
+    <string name="signup">Signup</string>
+    <string name="signin_prompt">Don\'t have an account? Sign up</string>
+
+    <string name="foodi">Foodi</string>
+    <string name="get_started">Get Started</string>
+    <string name="let_s_discover_our_world">Let\'s Discover our world!</string>
+    <string name="welcome_to_our_foodi">Welcome to our Foodi!</string>
+
+
+    <string name="app_logo">app Logo</string>
+    <string name="sign_in_with_google">Sign In With Google</string>
+    <string name="sign_in">sign In</string>
 </resources>
