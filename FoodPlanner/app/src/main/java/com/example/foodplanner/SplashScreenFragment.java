@@ -1,5 +1,7 @@
 package com.example.foodplanner;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodplanner.utils.AppFunctions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 public class SplashScreenFragment extends Fragment {
 
@@ -26,6 +32,7 @@ public class SplashScreenFragment extends Fragment {
     TextView planYourMeals;
     Animation logoAnimation;
     Animation texAnimation;
+    private FirebaseAuth mAuth;
 
     public SplashScreenFragment() {
 
@@ -50,15 +57,38 @@ public class SplashScreenFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        mAuth = FirebaseAuth.getInstance();
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.i("TAG", "run: herere");
                 Toast.makeText(getContext(), "end of 3 sec", Toast.LENGTH_SHORT).show();
-                 Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_introScreenFragment);
+              //   Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_introScreenFragment);
+                checkFirstTime();
             }
         }, 3000);
 
+    }
+    private void checkFirstTime(){
+
+        SharedPreferences prefs = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
+            if(isFirstTime){
+                AppFunctions.navigateTo(getView(), R.id.action_splashScreenFragment_to_introScreenFragment);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("isFirstTime", false);
+                editor.apply();
+            }else{
+                checkUserStatus();
+
+            }
+    }
+    private void checkUserStatus(){
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(mAuth.getCurrentUser() != null){
+            Navigation.findNavController(getView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment);
+        }else{
+            Navigation.findNavController(getView()).navigate(R.id.action_splashScreenFragment_to_signInFragment);
+        }
     }
 }

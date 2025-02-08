@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_introScreenFragment"
             app:destination="@id/introScreenFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/introScreenFragment"
@@ -31,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.foodplanner.SignInFragment"
+        android:name="com.example.foodplanner.signin.view.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -43,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.foodplanner.SignUpFragment"
+        android:name="com.example.foodplanner.signup.view.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action

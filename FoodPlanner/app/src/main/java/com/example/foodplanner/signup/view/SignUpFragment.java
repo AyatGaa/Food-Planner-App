@@ -1,4 +1,4 @@
-package com.example.foodplanner;
+package com.example.foodplanner.signup.view;
 
 import static android.widget.Toast.makeText;
 
@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.foodplanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -45,18 +45,13 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_sign_up, container, false);
-        edtUsernameSignUp = view.findViewById(R.id.edtUsernameSignUp);
-        edtEmailSignUp = view.findViewById(R.id.edtEmailSignUp);
-        edtPasswordSignUp = view.findViewById(R.id.edtPasswordSignUp);
-            txtSignin = view.findViewById(R.id.txtSignIn);
-        btnSignUp = view.findViewById(R.id.btnSignUp);
+        setSignUpUi(view);
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Log.i("TAG", "onClick: llll");
                 Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_homeScreenFragment);
-
 //                String email = edtEmailSignUp.getText().toString().trim();
 //                String password = edtPasswordSignUp.getText().toString().trim();
 //                signUp(email, password);
@@ -67,7 +62,6 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_signInFragment);
-
             }
         });
         return view;
@@ -88,4 +82,12 @@ public class SignUpFragment extends Fragment {
         });
     }
 
+void setSignUpUi(View view ){
+
+    edtUsernameSignUp = view.findViewById(R.id.edtUsernameSignUp);
+    edtEmailSignUp = view.findViewById(R.id.edtEmailSignUp);
+    edtPasswordSignUp = view.findViewById(R.id.edtPasswordSignUp);
+    txtSignin = view.findViewById(R.id.txtSignIn);
+    btnSignUp = view.findViewById(R.id.btnSignUp);
+}
 }
