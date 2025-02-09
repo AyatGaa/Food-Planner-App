@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.example.foodplanner.R;
 import com.example.foodplanner.signin.view.SignInView;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class AuthRepositoryImpl implements AuthRepository {
-    private static final int RC_SIGN_IN = 9001;
+
     private static final String TAG = "signin";
     private FirebaseAuth mAuth;
     private static AuthRepositoryImpl authRepository = null;
@@ -74,8 +75,8 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public void signInWithGoogle(String idToken, AuthCallback authCallback) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+    public void signInWithGoogle(GoogleSignInAccount account, AuthCallback authCallback) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

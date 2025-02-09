@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class SignInFragment extends Fragment implements SignInView {
     EditText edtEmailSignIn, editPasswordSignIn;
     TextView txtSignUpIn;
     Button btnSignIn, btnGoogleSignIn;
-
+    private ProgressBar progressBarSignIn;
 
     SignInPresenter signInPresenter;
 
@@ -63,6 +64,7 @@ public class SignInFragment extends Fragment implements SignInView {
         btnSignIn = view.findViewById(R.id.btnSignIn);
         txtSignUpIn = view.findViewById(R.id.txtSignUpIn);
         btnGoogleSignIn = view.findViewById(R.id.btnSignInWithGoogle);
+        progressBarSignIn = view.findViewById(R.id.progressBarSignIn);
     }
 
     @Override
@@ -71,18 +73,14 @@ public class SignInFragment extends Fragment implements SignInView {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         setupUI(view);
         signInPresenter = new SignInPresenterImpl(this);
-        mAuth = FirebaseAuth.getInstance();
 
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
-        // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
+
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,8 +101,7 @@ public class SignInFragment extends Fragment implements SignInView {
         btnGoogleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                signIn();
+                signInWithGoogle();
             }
         });
         return view;
@@ -127,7 +124,18 @@ public class SignInFragment extends Fragment implements SignInView {
         Log.i(TAG, "showErrorSignIn:GOOGLE in Fragment ");
         Toast.makeText(getActivity(), errMessage, Toast.LENGTH_SHORT).show();
     }
-    private void signIn() {
+
+    @Override
+    public void showLoading() {
+        progressBarSignIn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBarSignIn.setVisibility(View.VISIBLE);
+    }
+
+    private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -137,7 +145,12 @@ public class SignInFragment extends Fragment implements SignInView {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                signInPresenter.signInWithGoogle(account);
+            } catch (ApiException e) {
+                showErrorSignIn("Google sign-in failed: " + e.getMessage());
+            }
         }
     }
 
