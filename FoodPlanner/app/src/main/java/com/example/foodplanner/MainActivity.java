@@ -28,8 +28,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    Button btnSignWithGoogle;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
@@ -42,41 +40,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    private void signInWithGoogle(String idToken){
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if (task.isSuccessful()) {
-                    Log.d("TAG", "signInWithCredential:success");
-                    //   FirebaseUser user = mAuth.getCurrentUser();
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG", "signInWithCredential:failure", task.getException());
-
-                }
-            }
-        });
-    }
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-    private void signUp(String email, String password){
-
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.i("TAG", "onComplete: Done llog up ");
-                }else{
-
-                    Log.i("TAG", "onComplete:WRONG ");
-
-                }
-            }
-        });
-    }
 }

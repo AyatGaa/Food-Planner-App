@@ -30,8 +30,7 @@ public class SplashScreenFragment extends Fragment {
 
     ImageView logo;
     TextView planYourMeals;
-    Animation logoAnimation;
-    Animation texAnimation;
+    Animation logoAnimation, texAnimation;
     private FirebaseAuth mAuth;
 
     public SplashScreenFragment() {
@@ -85,7 +84,7 @@ public class SplashScreenFragment extends Fragment {
     }
     private void checkUserStatus(){
         FirebaseUser user = mAuth.getCurrentUser();
-        if(mAuth.getCurrentUser() != null){
+        if(user != null){
             Navigation.findNavController(getView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment);
         }else{
             Navigation.findNavController(getView()).navigate(R.id.action_splashScreenFragment_to_signInFragment);
