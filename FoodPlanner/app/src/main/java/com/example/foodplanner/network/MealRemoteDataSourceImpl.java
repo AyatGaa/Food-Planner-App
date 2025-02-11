@@ -41,24 +41,19 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     @Override
     public void mealNetworkCall(NetworkCallback callBack) {
 
-
         List<Meal> mealData = new ArrayList<>();
         Call<Meals> mealsCall = mealService.getAllMeals(" ");
-        mealsCall.enqueue(new Callback<Meals>() {
 
+        mealsCall.enqueue(new Callback<Meals>() {
             @Override
             public void onResponse(Call<Meals> call, Response<Meals> response) {
                 if (response.isSuccessful()) {
-
-
                     mealData.addAll(response.body().getMeals());
                     if (mealData.size() > 0) {
                         callBack.onSuccess(mealData);
                         Log.i("TAG", "onResponse: " + mealData.size() + mealData.get(0));
                     }
-
                 }
-
             }
 
             @Override

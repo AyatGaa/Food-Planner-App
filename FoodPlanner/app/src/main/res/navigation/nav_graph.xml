@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeScreenFragment"
-        android:name="com.example.foodplanner.HomeScreenFragment"
+        android:name="com.example.foodplanner.homescreen.view.HomeScreenFragment"
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen" />
 </navigation>

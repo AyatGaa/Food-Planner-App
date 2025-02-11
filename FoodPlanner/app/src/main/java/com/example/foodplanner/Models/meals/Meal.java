@@ -2,14 +2,13 @@ package com.example.foodplanner.Models.meals;
 
 public class Meal {
     public String idMeal;
-    public String strMeal;
-    public Object strDrinkAlternate;
-    public String strCategory;
-    public String strArea;
-    public String strInstructions;
-    public String strMealThumb;
+    public String strMeal; //name
+    public String strCategory;//category
+    public String strArea; //country
+    public String strInstructions; //steps
+    public String strMealThumb; //image
     public String strTags;
-    public String strYoutube;
+    public String strYoutube;//video
     public String strIngredient1;
     public String strIngredient2;
     public String strIngredient3;
@@ -50,8 +49,60 @@ public class Meal {
     public String strMeasure18;
     public String strMeasure19;
     public String strMeasure20;
-    public String strSource;
-    public Object strImageSource;
-    public Object strCreativeCommonsConfirmed;
-    public Object dateModified;
+
+    public String getIdMeal() {
+        return idMeal;
+    }
+
+    public void setIdMeal(String idMeal) {
+        this.idMeal = idMeal;
+    }
+
+    public String getStrMeal() {
+        return strMeal;
+    }
+
+    public void setStrMeal(String strMeal) {
+        this.strMeal = strMeal;
+    }
+
+    public String getStrCategory() {
+        return strCategory;
+    }
+
+    public void setStrCategory(String strCategory) {
+        this.strCategory = strCategory;
+    }
+
+    public String getStrArea() {
+        return strArea;
+    }
+
+    public void setStrArea(String strArea) {
+        this.strArea = strArea;
+    }
+
+    public String getStrInstructions() {
+        return strInstructions;
+    }
+
+    public void setStrInstructions(String strInstructions) {
+        this.strInstructions = strInstructions;
+    }
+
+    public String getStrMealThumb() {
+        return strMealThumb;
+    }
+
+    public void setStrMealThumb(String strMealThumb) {
+        this.strMealThumb = strMealThumb;
+    }
+
+    public String getStrYoutube() {
+        return strYoutube;
+    }
+
+    public void setStrYoutube(String strYoutube) {
+        this.strYoutube = strYoutube;
+    }
 }
