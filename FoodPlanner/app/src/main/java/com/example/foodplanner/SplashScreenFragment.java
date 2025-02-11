@@ -86,6 +86,7 @@ public class SplashScreenFragment extends Fragment {
         FirebaseUser user = mAuth.getCurrentUser();
         if(user != null){
             Navigation.findNavController(getView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment);
+
         }else{
             Navigation.findNavController(getView()).navigate(R.id.action_splashScreenFragment_to_signInFragment);
         }

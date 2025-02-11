@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FoodPlanner" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+       <item name="colorPrimary">@color/white</item>
+       <item name="colorPrimaryVariant">@color/white</item>
     </style>
 
     <style name="Theme.FoodPlanner" parent="Base.Theme.FoodPlanner" />
