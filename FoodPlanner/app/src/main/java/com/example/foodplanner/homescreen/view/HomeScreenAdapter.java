@@ -48,16 +48,13 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
         Meal meal = mealList.get(position);
         Log.i("TAG", "onBindViewHolder: hehr " + meal.getIdMeal());
         holder.txtMealName.setText(meal.getStrMeal());
-        holder.txtMealCat.setText(meal.getStrCategory());
-        holder.txtMealArea.setText(meal.getStrArea());
+
 
         Glide.with(context).load(meal.getStrMealThumb())
                 .error(R.drawable.ic_launcher_background)
-                .into(holder.imageView);
+                .into(holder.mealCardImage);
 
-        holder.constraintLayout.setOnClickListener(v -> {
-            Toast.makeText(context, meal.getStrMeal(), Toast.LENGTH_SHORT).show();
-        });
+
         Log.i("TAG", "onBindViewHolder: MEAl clicked");
     }
 
@@ -73,21 +70,19 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtMealName;
-        public TextView txtMealCat;
-        public TextView txtMealArea;
 
-        public ImageView imageView;
+
+
+        public ImageView mealCardImage, countryFlag;
         public ConstraintLayout constraintLayout;
-        public Button addMealToFav;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txtMealName = itemView.findViewById(R.id.txt_meal_name);
-            txtMealCat = itemView.findViewById(R.id.txt_meal_cat);
-            txtMealArea = itemView.findViewById(R.id.txt_meal_area);
-            imageView = itemView.findViewById(R.id.imageView);
-            constraintLayout = itemView.findViewById(R.id.constraintLayout);
+            txtMealName = itemView.findViewById(R.id.mealName);
+            mealCardImage = itemView.findViewById(R.id.mealCardImage);
+            countryFlag = itemView.findViewById(R.id.countryFlag);
+
         }
     }
 }

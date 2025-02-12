@@ -4,87 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    android:background="@color/white">
 
-    android:orientation="vertical"
-    app:cardBackgroundColor="@color/primary"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="7dp">
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
 
-
+        <!-- Meal Image -->
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="110dp"
-            android:layout_height="108dp"
+            android:id="@+id/mealCardImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/preview1"
 
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="44dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:contentDescription="Meal Image"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/add_meal"
-            android:layout_width="0dp"
+        <!-- Meal Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="30dp"
-            android:backgroundTint="#2196F3"
-            android:text="add meal"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_meal_area" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/txt_meal_cat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="24dp"
+            <!-- Meal Name -->
+            <TextView
+                android:id="@+id/mealName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/gluten_regular"
+                android:text="Meal Name"
+android:elevation="10dp"
+                android:textSize="22sp"
+                android:textColor="@color/black"/>
 
-            android:hint="meal category"
-            android:textSize="20sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="@+id/txt_meal_name"
-            app:layout_constraintStart_toStartOf="@+id/txt_meal_name"
-            app:layout_constraintTop_toBottomOf="@+id/txt_meal_name" />
+            <!-- Country Flag -->
+            <ImageView
+                android:id="@+id/countryFlag"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/eg"
 
-
-        <TextView
-            android:id="@+id/txt_meal_area"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="12dp"
-            android:hint="meal area"
-            android:textSize="20sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="@+id/txt_meal_cat"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/txt_meal_cat"
-            app:layout_constraintTop_toBottomOf="@+id/txt_meal_cat" />
-
-        <TextView
-            android:id="@+id/txt_meal_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="36dp"
-
-            android:hint="meal name"
-            android:textSize="20sp"
-            android:textStyle="normal"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:contentDescription="Country Flag"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
