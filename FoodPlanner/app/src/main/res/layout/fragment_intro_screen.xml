@@ -124,7 +124,7 @@
         android:fontFamily="@font/gluten_regular"
         android:text="@string/let_s_discover_our_world"
         android:textAlignment="center"
-        android:textColor="#524949"
+        android:textColor="@color/gray"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/txt_welcome"
 

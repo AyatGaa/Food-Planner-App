@@ -51,13 +51,13 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
         AuthRepositoryImpl authRepository = AuthRepositoryImpl.getInstance();
-        btnLogOut = view.findViewById(R.id.btnLogOut);
-        homeRecyclerView = view.findViewById(R.id.homeRecyclerView);
+    //    btnLogOut = view.findViewById(R.id.btnLogOut);
+        homeRecyclerView = view.findViewById(R.id.cozyMealRecyclerView);
 
         homeRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         homeRecyclerView.setLayoutManager(layoutManager);
 
         MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance());
@@ -68,13 +68,13 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
         homeRecyclerView.setAdapter(homeScreenAdapter);
 
    homeScreenPresenter.getMeals();
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("TAG", "onClick: logiut");
-                authRepository.signOut();
-            }
-        });
+//        btnLogOut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.i("TAG", "onClick: logiut");
+//                authRepository.signOut();
+//            }
+//        });
 
         // Inflate the layout for this fragment
         return view;
