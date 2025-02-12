@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeScreenFragment">
+    android:backgroundTint="@color/primary"
+    tools:context=".homescreen.view.HomeScreenFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="80dp"
         android:text="HOme Screen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.419"
+        app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,11 +24,30 @@
         android:id="@+id/btnLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="204dp"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="@color/primary"
         android:text="Logout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRecyclerView"
+        android:layout_width="424dp"
+        android:layout_height="498dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogOut"
+        tools:ignore="MissingConstraints"
+        tools:listitem="@layout/meal_card" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
