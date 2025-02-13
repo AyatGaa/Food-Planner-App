@@ -9,5 +9,6 @@ public interface AuthRepository {
     void signUp(String email, String password, AuthCallback callback);
     void signInWithGoogle(GoogleSignInAccount account, AuthCallback callback);
     void signOut();
+    String getCurrentUserName();
 
 }

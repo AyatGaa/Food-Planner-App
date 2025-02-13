@@ -35,6 +35,7 @@ public class AuthRepositoryImpl implements AuthRepository {
         }
         return authRepository;
     }
+
     private AuthRepositoryImpl() {
         mAuth = FirebaseAuth.getInstance();
     }
@@ -57,21 +58,27 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public void signUp(String email, String password, AuthCallback authCallback) {
-        mAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.i("TAG", "onComplete: Done sign up in auth ");
-                    authCallback.onSuccess(task.getResult().getUser());
-                }else{
-                    Log.i("TAG", "onComplete:WRONG  in auth imple class");
-                    authCallback.onFailure(task.getException().getMessage());
+    public String getCurrentUserName() {
+        String userName = mAuth.getCurrentUser().getDisplayName();
+        return userName;
+    }
 
-                }
-            }
-        });
+    @Override
+    public void signUp(String email, String password, AuthCallback authCallback) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("TAG", "onComplete: Done sign up in auth ");
+                            authCallback.onSuccess(task.getResult().getUser());
+                        } else {
+                            Log.i("TAG", "onComplete:WRONG  in auth imple class");
+                            authCallback.onFailure(task.getException().getMessage());
+
+                        }
+                    }
+                });
     }
 
     @Override
@@ -94,6 +101,7 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     public void signOut() {
+        Log.d(TAG, "signOut: from auth repo");
         mAuth.signOut();
     }
 

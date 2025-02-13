@@ -20,11 +20,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.network.CategoryRemoteDataSource;
-import com.example.foodplanner.network.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSource;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.network.NetworkCallback;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -35,9 +32,9 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
     CategoryRemoteDataSource crds;
     BottomNavigationView bottomNavigationView;
     NavController navController;
-    BottomAppBar bottomAppBar;
 
-    void hideShowNavBar(){
+
+    void hideShowNavBar() {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -50,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
 
             // Hide bottom navigation on Splash Screen
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-                if (destination.getId() == R.id.splashScreenFragment || destination.getId() == R.id.signInFragment) {
+                if (destination.getId() == R.id.splashScreenFragment || destination.getId() == R.id.signInFragment
+                        || destination.getId() == R.id.introScreenFragment || destination.getId() == R.id.signUpFragment) {
                     bottomNavigationView.setVisibility(View.GONE);
 
                 } else {
@@ -62,23 +60,13 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
             Log.e("MainActivity", "NavHostFragment is NULL");
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("TAG", "onCreate: 2bel el set");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         hideShowNavBar();
-
-   navController.addOnDestinationChangedListener((controller, destination, arguments) ->{
-        if(destination.getId() == R.id.splashScreenFragment || destination.getId() == R.id.signInFragment){
-            bottomNavigationView.setVisibility(View.GONE);
-        }else{
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        }
-
-   });
-
-
 
         Log.d("TAG", "onCreate: b3d set");
 //        rds = MealRemoteDataSourceImpl.getInstance();
