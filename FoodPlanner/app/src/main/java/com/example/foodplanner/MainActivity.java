@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
     BottomAppBar bottomAppBar;
 
     void hideShowNavBar(){
-        bottomAppBar = findViewById(R.id.bottomAppBar);
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 if (destination.getId() == R.id.splashScreenFragment || destination.getId() == R.id.signInFragment) {
                     bottomNavigationView.setVisibility(View.GONE);
-                    bottomAppBar.setVisibility(View.GONE);
+
                 } else {
                     bottomNavigationView.setVisibility(View.VISIBLE);
-                    bottomAppBar.setVisibility(View.VISIBLE);
+
                 }
             });
         } else {
@@ -68,6 +68,18 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         hideShowNavBar();
+
+   navController.addOnDestinationChangedListener((controller, destination, arguments) ->{
+        if(destination.getId() == R.id.splashScreenFragment || destination.getId() == R.id.signInFragment){
+            bottomNavigationView.setVisibility(View.GONE);
+        }else{
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+
+   });
+
+
+
         Log.d("TAG", "onCreate: b3d set");
 //        rds = MealRemoteDataSourceImpl.getInstance();
 //        rds.mealNetworkCall(MainActivity.this);
