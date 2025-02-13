@@ -44,10 +44,10 @@ public class UserFragment extends Fragment {
     userName.setText(" " + authRepository.getCurrentUserName());
     signOut.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) { //MAKE ANOTHER TAPS UNAVILABLE IF HE NOT SIGNED
             Log.d("TAG", "signOut: from auth repo");
             authRepository.signOut();
-            Navigation.findNavController(view).navigate(R.id.action_userFragment_to_homeScreenFragment);
+            Navigation.findNavController(view).navigate(R.id.action_userFragment_to_introScreenFragment); //go to intro screen
         }
     });
         return view;

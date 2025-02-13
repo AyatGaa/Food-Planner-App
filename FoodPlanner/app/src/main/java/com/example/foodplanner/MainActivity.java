@@ -76,6 +76,14 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
 //        crds.categoryNetworkCall(MainActivity.this);
 
     }
+    public void setBottomNavEnabled(boolean isEnabled) {
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setEnabled(isEnabled);
+            for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
+                bottomNavigationView.getMenu().getItem(i).setEnabled(isEnabled);
+            }
+        }
+    }
 
     @Nullable
     @Override

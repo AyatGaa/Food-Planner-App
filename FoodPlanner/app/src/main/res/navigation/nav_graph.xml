@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.example.foodplanner.SplashScreenFragment"
+        android:name="com.example.foodplanner.splashscreen.view.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -87,5 +87,8 @@
         <action
             android:id="@+id/action_userFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_introScreenFragment"
+            app:destination="@id/introScreenFragment" />
     </fragment>
 </navigation>
