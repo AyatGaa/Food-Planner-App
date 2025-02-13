@@ -80,11 +80,14 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
     @Nullable
     @Override
     public View onCreateView(@Nullable View parent, @NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+//        crds = CategoryRemoteDataSourceImpl.getInstance();
+//        crds.categoryNetworkCall(MainActivity.this);
         return super.onCreateView(parent, name, context, attrs);
     }
 
     @Override
     public void onSuccess(List<Meal> meals) {
+
         Log.i("TAG", "onSuccess: geot measl in main " + meals.size());
         Log.i("TAG", "onSuccess: geot measl in main " + meals.get(0).getStrCategory());
 
@@ -104,5 +107,16 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
     @Override
     public void onCategoryFailure(String errorMessage) {
         Log.i("TAG", "onFailure: somthin wrong mainssssss");
+    }
+
+    @Override
+    public void onRandomMealSuccess(Meal meal) {
+        Log.i("TAG", "onSuccess:RANDOM MEAL MAIN " + meal.getIdMeal());
+        Log.i("TAG", "onSuccess: RANDOM MEAL MAIN in main " + meal.getStrCategory());
+    }
+
+    @Override
+    public void onRandomMealFailure(String errorMessage) {
+        Log.i("TAG", "onRandomMealFailure: somthin wrong main ");
     }
 }

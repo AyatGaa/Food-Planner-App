@@ -9,6 +9,10 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,6 +30,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(MEAL_PATH)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
 
         mealService = retrofit.create(MealService.class);
@@ -40,28 +45,35 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
 
     @Override
     public void mealNetworkCall(NetworkCallback callBack) {
+        Single<Meals> mealsSingle = mealService.getAllMeals(" ");
+        mealsSingle.subscribeOn(Schedulers.io())
+                .map(meals -> meals.getMeals())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        mealList -> {
+                            callBack.onSuccess(mealList);
+                            Log.i("TAG", "mealNetworkCall: witth rx done" + mealList.size());
+                        },
+                        error -> {
+                            callBack.onFailure(error.getMessage());
+                            Log.i("TAG", "mealNetworkCall: witth rx fail" + error.getMessage());
+                        });
+    }
 
-        List<Meal> mealData = new ArrayList<>();
-        Call<Meals> mealsCall = mealService.getAllMeals(" ");
-
-        mealsCall.enqueue(new Callback<Meals>() {
-            @Override
-            public void onResponse(Call<Meals> call, Response<Meals> response) {
-                if (response.isSuccessful()) {
-                    mealData.addAll(response.body().getMeals());
-                    if (mealData.size() > 0) {
-                        callBack.onSuccess(mealData);
-                        Log.i("TAG", "onResponse: " + mealData.size() + mealData.get(0));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Meals> call, Throwable t) {
-                callBack.onFailure(t.getMessage());
-                t.printStackTrace();
-                Log.i("TAG", "onFailure: somthin wrongg  ");
-            }
-        });
+    @Override
+    public void randomMealNetworkCall(NetworkCallback callBack) {
+        Single<Meals> mealsSingle = mealService.getRandomMeal();
+        mealsSingle.subscribeOn(Schedulers.io())
+                .map(meals -> meals.getMeals())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        mealList -> {
+                            callBack.onRandomMealSuccess(mealList.get(0));
+                            Log.i("TAG", "randomMealNetworkCall:  done" + mealList.size());
+                        },
+                        error -> {
+                            callBack.onRandomMealFailure(error.getMessage());
+                            Log.i("TAG", "mealNetwrandomMealNetworkCallorkCall:  fail" + error.getMessage());
+                        });
     }
 }

@@ -49,7 +49,6 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
         Log.i("TAG", "onBindViewHolder: hehr " + meal.getIdMeal());
         holder.txtMealName.setText(meal.getStrMeal());
 
-
         Glide.with(context).load(meal.getStrMealThumb())
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.mealCardImage);
@@ -70,8 +69,6 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtMealName;
-
-
 
         public ImageView mealCardImage, countryFlag;
         public ConstraintLayout constraintLayout;

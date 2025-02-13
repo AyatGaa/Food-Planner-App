@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.MealRepository;
 import com.example.foodplanner.Models.meals.MealRepositoryImpl;
@@ -26,8 +29,8 @@ import java.util.List;
 
 public class HomeScreenFragment extends Fragment implements HomeScreenView {
 
-    Button btnLogOut;
-
+    ImageView mealOfTheDayImage;
+    TextView mealOfTheDayTitle, mealOfTheDayInstructions;
     RecyclerView homeRecyclerView;
     HomeScreenPresenter homeScreenPresenter;
 
@@ -35,6 +38,13 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
 
     List<Meal> meals = new ArrayList<>();
 
+
+    void setupUI(View view){
+        mealOfTheDayImage = view.findViewById(R.id.mealOfTheDayImage);
+        mealOfTheDayTitle = view.findViewById(R.id.mealOfTheDayTitle);
+        mealOfTheDayInstructions = view.findViewById(R.id.mealOfTheDayInstructions);
+        homeRecyclerView = view.findViewById(R.id.cozyMealRecyclerView);
+    }
     public HomeScreenFragment() {
         // Required empty public constructor
     }
@@ -50,12 +60,9 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
-        AuthRepositoryImpl authRepository = AuthRepositoryImpl.getInstance();
-    //    btnLogOut = view.findViewById(R.id.btnLogOut);
-        homeRecyclerView = view.findViewById(R.id.cozyMealRecyclerView);
+        setupUI(view);
 
         homeRecyclerView.setHasFixedSize(true);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         homeRecyclerView.setLayoutManager(layoutManager);
@@ -67,7 +74,9 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
         Log.i("TAG", "onCreateView: here"+ meals.size());
         homeRecyclerView.setAdapter(homeScreenAdapter);
 
-   homeScreenPresenter.getMeals();
+         homeScreenPresenter.getMeals();
+        homeScreenPresenter.getRandomMeal();
+
 //        btnLogOut.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -79,13 +88,22 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
         // Inflate the layout for this fragment
         return view;
     }
-
+    @Override
+    public void setRandmoMealCard(Meal meal){
+        Glide.with(getContext()).load(meal.getStrMealThumb())
+                .error(R.drawable.ic_launcher_background)
+                .into(mealOfTheDayImage);
+        mealOfTheDayTitle.setText(meal.getStrMeal());
+        mealOfTheDayInstructions.setText(meal.getStrInstructions());
+    }
     @Override
     public void showMeals(List<Meal> meals) {
         homeScreenAdapter = new HomeScreenAdapter(meals, getContext());
         homeRecyclerView.setAdapter(homeScreenAdapter);
         homeScreenAdapter.setList(meals);
         homeScreenAdapter.notifyDataSetChanged();
+
+
          //   homeScreenPresenter.getMeals();
     }
 }

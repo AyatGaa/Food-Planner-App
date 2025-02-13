@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MealRepository {
   void getAllMeals(NetworkCallback callBack);
+  void getRandomMeal(NetworkCallback callBack);
 }

@@ -6,9 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginTop="12dp"
+    android:background="@color/white"
     app:cardCornerRadius="16dp"
-    app:cardElevation="6dp"
-    android:background="@color/white">
+    app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,25 +16,23 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- Meal Image -->
         <ImageView
             android:id="@+id/mealCardImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/preview1"
+             android:scaleType="centerCrop"
 
-            android:contentDescription="Meal Image"/>
+            android:src="@drawable/preview1" />
 
-        <!-- Meal Info -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal">
 
-            <!-- Meal Name -->
+
             <TextView
                 android:id="@+id/mealName"
                 android:layout_width="0dp"
@@ -42,19 +40,16 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/gluten_regular"
                 android:text="Meal Name"
-android:elevation="10dp"
-                android:textSize="22sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
-            <!-- Country Flag -->
+
             <ImageView
                 android:id="@+id/countryFlag"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/eg"
-
-                android:contentDescription="Country Flag"/>
+                android:src="@drawable/eg" />
         </LinearLayout>
     </LinearLayout>
 

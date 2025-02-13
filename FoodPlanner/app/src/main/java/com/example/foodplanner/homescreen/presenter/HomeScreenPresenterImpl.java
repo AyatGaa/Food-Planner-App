@@ -27,6 +27,11 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter , NetworkCal
     }
 
     @Override
+    public void getRandomMeal() {
+        mealRepository.getRandomMeal(this);
+    }
+
+    @Override
     public void addMealToFavourite(Meal meal) {
 
     }
@@ -50,5 +55,16 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter , NetworkCal
     @Override
     public void onCategoryFailure(String errorMessage) {
 
+    }
+
+    @Override
+    public void onRandomMealSuccess(Meal meal) {
+        homeScreenView.setRandmoMealCard(meal);
+        Log.d("TAG", "onRandomMealSuccess: from presentr == >" + meal.getIdMeal());
+    }
+
+    @Override
+    public void onRandomMealFailure(String errorMessage) {
+    Log.i("TAG", "onFailure: on  in Homescreen presenter" + errorMessage);
     }
 }

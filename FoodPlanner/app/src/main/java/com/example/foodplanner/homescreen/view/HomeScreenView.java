@@ -7,4 +7,5 @@ import java.util.List;
 public interface HomeScreenView {
 
     void showMeals(List<Meal> meals);
+   void setRandmoMealCard(Meal meals);
 }

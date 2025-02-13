@@ -29,7 +29,14 @@ public class MealRepositoryImpl implements MealRepository {
 
     @Override
     public void getAllMeals(NetworkCallback callBack) {
-  remoteDataSource.mealNetworkCall(callBack);
+        remoteDataSource.mealNetworkCall(callBack);
     }
+
+    @Override
+    public void getRandomMeal(NetworkCallback callBack) {
+        remoteDataSource.randomMealNetworkCall(callBack);
+    }
+
+
 }
 

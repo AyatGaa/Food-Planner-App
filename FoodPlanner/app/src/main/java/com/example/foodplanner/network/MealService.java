@@ -12,14 +12,14 @@ import retrofit2.http.Query;
 
 public interface MealService {
     @GET("search.php")
-    Call<Meals> getAllMeals(@Query("s") String letter);
+    Single<Meals> getAllMeals(@Query("s") String letter);
 
     @GET("categories.php") // 14 list of 14 category each one has its details
-    Call<Categories> getAllCategories();
+    Single<Categories> getAllCategories();
 
     @GET("list.php?a=list")
-    Call<Areas> gatAllAreas();
+    Single<Areas> gatAllAreas();
 
     @GET("random.php")
-    Single<Meal> getRandomMeal();
+    Single<Meals> getRandomMeal();
 }

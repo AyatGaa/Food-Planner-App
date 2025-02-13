@@ -14,4 +14,6 @@ public interface NetworkCallback {
     void onCategorySuccess(List<Category> categories);
     void onCategoryFailure(String errorMessage);
 
+    void onRandomMealSuccess(Meal meal);
+    void onRandomMealFailure(String errorMessage);
 }

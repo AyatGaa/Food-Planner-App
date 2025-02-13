@@ -7,6 +7,6 @@ import java.util.List;
 public interface HomeScreenPresenter {
 
     void getMeals();
-
+    void getRandomMeal();
     void addMealToFavourite(Meal meal);
 }

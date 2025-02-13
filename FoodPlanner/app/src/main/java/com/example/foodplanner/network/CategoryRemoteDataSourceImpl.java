@@ -4,10 +4,15 @@ import android.util.Log;
 
 import com.example.foodplanner.Models.category.Categories;
 import com.example.foodplanner.Models.category.Category;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,6 +31,7 @@ public class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(MEAL_PATH)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         categoryService = retrofit.create(MealService.class);
     }
@@ -39,25 +45,21 @@ public class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
 
     @Override
     public void categoryNetworkCall(NetworkCallback callBack) {
-        List<Category> categoryList = new ArrayList<>();
-
-        Call<Categories> categoryCall = categoryService.getAllCategories();
-        categoryCall.enqueue(new Callback<Categories>() {
-            @Override
-            public void onResponse(Call<Categories> call, Response<Categories> response) {
-                categoryList.addAll(response.body().getCategories());
-                callBack.onCategorySuccess(categoryList);
-                Log.i("TAG", "onResponse: Caegory call Done " + categoryList.size());
-                Log.i("TAG", "onResponse: Caegory call Done " + categoryList.get(0).getStrCategory());
-            }
-
-            @Override
-            public void onFailure(Call<Categories> call, Throwable t) {
-                callBack.onCategoryFailure(t.getMessage());
-                Log.i("TAG", "onFailure: category call fail" + t.getMessage());
-            }
-        });
-
+        Single<Categories> categoriesSingle = categoryService.getAllCategories();
+        categoriesSingle
+                .subscribeOn(Schedulers.io())
+                .map(categories -> categories.getCategories())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        catList -> {
+                            callBack.onCategorySuccess(catList);
+                            Log.d("TAG", "categoryNetworkCall: wit retroofit" + catList.size());
+                        },
+                        error -> {
+                            callBack.onCategoryFailure(error.getMessage());
+                            Log.d("TAG", "categoryNetworkCall: in retro fail" + error.getMessage());
+                        }
+                );
 
     }
 }
