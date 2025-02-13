@@ -4,10 +4,51 @@ import android.view.View;
 
 import androidx.navigation.Navigation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class AppFunctions {
 
     public static void navigateTo(View view, int layoutId){
         Navigation.findNavController(view).navigate(layoutId);
     }
+    private static final Map<String, String> countryCodes = new HashMap<>();
 
+    static {
+
+        countryCodes.put("American", "US");
+        countryCodes.put("British", "GB");
+        countryCodes.put("Canadian", "CA");
+        countryCodes.put("Chinese", "CN");
+        countryCodes.put("Croatian", "HR");
+        countryCodes.put("Dutch", "NL");
+        countryCodes.put("Egyptian", "EG");
+        countryCodes.put("Filipino", "PH");
+        countryCodes.put("French", "FR");
+        countryCodes.put("Greek", "GR");
+        countryCodes.put("Indian", "IN");
+        countryCodes.put("Irish", "IE");
+        countryCodes.put("Italian", "IT");
+        countryCodes.put("Jamaican", "JM");
+        countryCodes.put("Japanese", "JP");
+        countryCodes.put("Kenyan", "KE");
+        countryCodes.put("Malaysian", "MY");
+        countryCodes.put("Mexican", "MX");
+        countryCodes.put("Moroccan", "MA");
+        countryCodes.put("Polish", "PL");
+        countryCodes.put("Portuguese", "PT");
+        countryCodes.put("Russian", "RU");
+        countryCodes.put("Spanish", "ES");
+        countryCodes.put("Thai", "TH");
+        countryCodes.put("Tunisian", "TN");
+        countryCodes.put("Turkish", "TR");
+        countryCodes.put("Ukrainian", "UA");
+        countryCodes.put("Uruguayan", "UY");
+        countryCodes.put("Vietnamese", "VN");
+
+    }
+
+    public static String getCountryCode(String countryName) {
+        return countryCodes.getOrDefault(countryName, "");
+    }
 }

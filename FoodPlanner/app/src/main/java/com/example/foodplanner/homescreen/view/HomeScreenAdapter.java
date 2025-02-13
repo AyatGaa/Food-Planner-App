@@ -17,10 +17,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
+import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.List;
+import java.util.Locale;
 
 public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.ViewHolder> {
 
@@ -53,6 +57,11 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.mealCardImage);
 
+        String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
+        Log.i("TAG", "onBindViewHolder: " + countryCode);
+        Glide.with(context).load("https://flagcdn.com/h120/" + countryCode + ".png")
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.countryFlag);
 
         Log.i("TAG", "onBindViewHolder: MEAl clicked");
     }
