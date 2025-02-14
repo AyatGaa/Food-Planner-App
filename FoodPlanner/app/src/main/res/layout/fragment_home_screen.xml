@@ -6,8 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/homeScreenConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/primary"
+    android:layout_height="match_parent"
+    android:background="@color/white"
     android:padding="4dp"
     tools:context=".homescreen.view.HomeScreenFragment">
 
@@ -16,12 +16,12 @@
         android:id="@+id/mealOfDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
 
         android:fontFamily="@font/gluten_medium"
         android:text="@string/meal_of_the_day"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/white"
+        android:textColor="@color/primary"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +31,7 @@
         android:id="@+id/mealCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:layout_constraintTop_toBottomOf="@id/mealOfDay">
@@ -39,8 +39,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="0dp"
             android:orientation="vertical"
+            android:background="@color/primary"
             android:padding="12dp">
 
             <ImageView
@@ -57,6 +58,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/gluten_semi_bold"
                 android:textSize="18sp"
+                android:textColor="@color/white"
                 tools:text="Meal Title" />
 
             <TextView
@@ -67,7 +69,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/gluten_light"
                 android:lines="2"
-                android:textColor="@color/gray"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 tools:text="Delicious meal description here." />
         </LinearLayout>
@@ -77,10 +79,10 @@
         android:id="@+id/cozyMeals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/gluten_medium"
         android:text="@string/meals_for_you"
-        android:textColor="@color/white"
+        android:textColor="@color/primary"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mealCard" />
@@ -90,8 +92,6 @@
         android:id="@+id/cozyMealRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-
          app:layout_constraintTop_toBottomOf="@id/cozyMeals"
         tools:listitem="@layout/meal_card" />
 
