@@ -2,13 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeScreenCardMeal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginTop="12dp"
-    android:background="@color/white"
+    android:backgroundTint="@color/primary"
     app:cardCornerRadius="16dp"
-    app:cardElevation="6dp">
+    app:cardElevation="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,14 +17,16 @@
         android:orientation="vertical"
         android:padding="12dp">
 
+
         <ImageView
             android:id="@+id/mealCardImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-             android:scaleType="centerCrop"
+            android:background="@drawable/rounded_bg_card"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
 
             android:src="@drawable/preview1" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,19 +41,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/gluten_regular"
-                android:text="Meal Name"
-                android:textColor="@color/black"
-                android:textSize="22sp" />
+                android:text="@string/meal_name"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-
-            <ImageView
-                 android:id="@+id/countryFlag"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/countryFlag"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="8dp"
-android:scaleType="fitCenter"
-                android:src="@drawable/eg" />
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/CircleImageView"
+                tools:src="@drawable/eg" />
+
 
         </LinearLayout>
     </LinearLayout>

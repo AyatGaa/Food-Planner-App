@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,9 +33,12 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
     List<Meal> mealList;
     Context context;
 
-    public HomeScreenAdapter(List<Meal> mealList, Context context) {
+    OnMealClickListener onMealClickListener;
+
+    public HomeScreenAdapter(List<Meal> mealList, Context context, OnMealClickListener onMealClickListener) {
         this.mealList = mealList;
         this.context = context;
+        this.onMealClickListener = onMealClickListener;
     }
 
 
@@ -59,9 +64,14 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
 
         String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
         Log.i("TAG", "onBindViewHolder: " + countryCode);
-        Glide.with(context).load("https://flagcdn.com/h120/" + countryCode + ".png")
+        Glide.with(context).load("https://flagcdn.com/w320/" + countryCode + ".png")
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.countryFlag);
+        holder.itemView.setOnClickListener(view -> {
+            onMealClickListener.onMealClick(meal);
+            Log.i("TAG", "onClick: meal clicked");
+        });
+
 
         Log.i("TAG", "onBindViewHolder: MEAl clicked");
     }
@@ -81,6 +91,10 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
 
         public ImageView mealCardImage, countryFlag;
         public ConstraintLayout constraintLayout;
+        public Button btnAddToFavourite;
+        RecyclerView cozyMealRecyclerView;
+        public ProgressBar progressBar;
+        CardView mealCard;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,7 +102,8 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
             txtMealName = itemView.findViewById(R.id.mealName);
             mealCardImage = itemView.findViewById(R.id.mealCardImage);
             countryFlag = itemView.findViewById(R.id.countryFlag);
-
+            cozyMealRecyclerView = itemView.findViewById(R.id.cozyMealRecyclerView);
+            mealCard = itemView.findViewById(R.id.mealDayCard);
         }
     }
 }

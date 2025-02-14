@@ -12,4 +12,10 @@ public interface HomeScreenView {
 
     void showMeals(List<Meal> meals);
    void setRandmoMealCard(Meal meals);
+  void showProgressBar();
+  void onMealClick(Meal meal);
+    void hideProgressBar();
+
+    void onRandomMealClick(Meal meal);
+
 }

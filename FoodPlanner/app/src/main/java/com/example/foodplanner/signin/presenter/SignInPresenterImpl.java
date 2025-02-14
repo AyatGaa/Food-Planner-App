@@ -1,8 +1,8 @@
 package com.example.foodplanner.signin.presenter;
 
-import com.example.foodplanner.Repository.AuthCallback;
-import com.example.foodplanner.Repository.AuthRepository;
-import com.example.foodplanner.Repository.AuthRepositoryImpl;
+import com.example.foodplanner.Repository.authrepository.AuthCallback;
+import com.example.foodplanner.Repository.authrepository.AuthRepository;
+import com.example.foodplanner.Repository.authrepository.AuthRepositoryImpl;
 import com.example.foodplanner.signin.view.SignInView;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;

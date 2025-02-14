@@ -1,14 +1,37 @@
 package com.example.foodplanner.Models.meals;
 
-public class Meal {
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.example.foodplanner.Models.ingredient.Ingredient;
+
+import java.io.Serializable;
+import java.util.List;
+
+@Entity(tableName = "meal")
+public class Meal implements Serializable {
+    @PrimaryKey
+    @NonNull
     public String idMeal;
     public String strMeal; //name
     public String strCategory;//category
     public String strArea; //country
     public String strInstructions; //steps
     public String strMealThumb; //image
-    public String strTags;
     public String strYoutube;//video
+
+
+    public Meal(String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb) {
+        this.idMeal = idMeal;
+        this.strMeal = strMeal;
+        this.strCategory = strCategory;
+        this.strArea = strArea;
+        this.strInstructions = strInstructions;
+        this.strMealThumb = strMealThumb;
+    }
+
+    public String strTags;
     public String strIngredient1;
     public String strIngredient2;
     public String strIngredient3;
