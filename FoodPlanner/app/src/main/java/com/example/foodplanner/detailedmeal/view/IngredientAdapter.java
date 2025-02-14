@@ -44,19 +44,11 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull IngredientAdapter.ViewHolder holder, int position) {
         String ingred = ingredientList.get(position);
-        Log.i("TAG", "onBindViewHolder: hehr " + ingred);
-
-
         holder.ingredientName.setText(ingred);
-
-
-        Log.i("TAG", "ingreddienttss: " + ingred);
 
         Glide.with(context).load("https://www.themealdb.com/images/ingredients/" + ingred + ".png")
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.ingredientImage);
-
-        Log.i("TAG", "onBindViewHolder: MEAl clicked");
     }
 
     @Override

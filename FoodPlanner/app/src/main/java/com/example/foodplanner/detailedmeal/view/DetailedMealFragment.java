@@ -29,7 +29,7 @@ public class DetailedMealFragment extends Fragment {
 
 
     ImageView mealImageDetailed, countryFlagDetailed;
-    TextView mealNameDetailed, instructionsTextDetailed,detailedMealHeader;
+    TextView mealNameDetailed, instructionsTextDetailed,detailedMealHeader,countryFlagName;
     RecyclerView ingredientsRecyclerView;
     IngredientAdapter ingredientsAdapter;
     Button btnAddToFavoritesDetailed, btnAddToPlanMealDetailed;
@@ -44,6 +44,7 @@ public class DetailedMealFragment extends Fragment {
         countryFlagDetailed = view.findViewById(R.id.countryFlagDetailed);
         detailedMealHeader = view.findViewById(R.id.detailedMealHeader);
         btnAddToPlanMealDetailed = view.findViewById(R.id.btnAddToPlanMealDetailed);
+        countryFlagName = view.findViewById(R.id.countryFlagName);
     }
 
     @Nullable
@@ -73,9 +74,9 @@ public class DetailedMealFragment extends Fragment {
 
     }
   void setIngredineUi(Meal meal){
-      detailedMealHeader.setText("All about "+ meal.getStrMeal());
+      detailedMealHeader.setText( meal.getStrMeal());
         mealNameDetailed.setText(meal.getStrMeal());
-
+      countryFlagName.setText(meal.getStrArea());
         String instructions = meal.getStrInstructions();
         instructions = instructions.replaceAll("\r\n|\r|\n", "\n\n");
         instructionsTextDetailed.setText(instructions);

@@ -16,4 +16,6 @@ public interface HomeScreenView {
   void onMealClick(Meal meal);
     void hideProgressBar();
 
+    void onRandomMealClick(Meal meal);
+
 }

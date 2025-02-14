@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
     HomeScreenPresenter homeScreenPresenter;
     ProgressBar progressBarMealOfDay;
     HomeScreenAdapter homeScreenAdapter;
+    LinearLayout mealDayCardLayout;
     ConstraintLayout homeScreenConstraintLayout;
 
     List<Meal> meals = new ArrayList<>();
@@ -53,6 +55,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
         homeScreenConstraintLayout = view.findViewById(R.id.homeScreenConstraintLayout);
         progressBarMealOfDay = view.findViewById(R.id.progressBarMealOfDay);
         cozyMeals = view.findViewById(R.id.cozyMeals);
+        mealDayCardLayout = view.findViewById(R.id.mealDayCardLayout);
     }
     public HomeScreenFragment() {
         // Required empty public constructor
@@ -97,7 +100,13 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
                 .into(mealOfTheDayImage);
         mealOfTheDayTitle.setText(meal.getStrMeal());
         mealOfTheDayInstructions.setText(meal.getStrInstructions());
-    }
+        mealDayCardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRandomMealClick(meal);
+            }
+        });
+     }
 
     @Override
     public void showProgressBar() {
@@ -106,6 +115,14 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
     @Override
     public void hideProgressBar() {
         progressBarMealOfDay.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onRandomMealClick(Meal meal) {
+        Log.i("TAG", "onRandomMealClick: clicked");
+        HomeScreenFragmentDirections.ActionHomeScreenFragmentToDetailedMealFragment action =
+                HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailedMealFragment(meal);
+        Navigation.findNavController(requireView()).navigate(action);
     }
 
     @Override

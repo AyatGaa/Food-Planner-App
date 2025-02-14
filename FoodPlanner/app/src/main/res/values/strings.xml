@@ -43,4 +43,8 @@
     <string name="add_to_plan">Add to Plan</string>
     <string name="instructions">Instructions:</string>
     <string name="ingredients">Ingredients:</string>
+    <string name="country_nmae">Country Nmae</string>
+    <string name="meal_name">Meal Name</string>
+    <string name="meal_name_in_details_screen">Meal Name In Details Screen</string>
+    <string name="lorem_speurn_pla_pla_pla">lorem speurn pla pla pla</string>
 </resources>
