@@ -4,8 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.foodplanner.Models.ingredient.Ingredient;
+
+import java.io.Serializable;
+import java.util.List;
+
 @Entity(tableName = "meal")
-public class Meal {
+public class Meal implements Serializable {
     @PrimaryKey
     @NonNull
     public String idMeal;
@@ -15,6 +20,7 @@ public class Meal {
     public String strInstructions; //steps
     public String strMealThumb; //image
     public String strYoutube;//video
+
 
     public Meal(String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb) {
         this.idMeal = idMeal;

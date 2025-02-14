@@ -9,6 +9,9 @@ import android.view.View;
 
 import androidx.navigation.Navigation;
 
+import com.example.foodplanner.Models.meals.Meal;
+import com.example.foodplanner.R;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,5 +69,11 @@ public abstract class AppFunctions {
             return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         }
         return false;
+    }
+
+    public  static void goToMealDetails(Context context, Meal meal ,View view , int layoutId){
+        navigateTo(view,layoutId);
+
+
     }
 }

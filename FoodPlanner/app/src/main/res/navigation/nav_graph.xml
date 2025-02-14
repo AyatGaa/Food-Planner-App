@@ -63,7 +63,11 @@
         android:id="@+id/homeScreenFragment"
         android:name="com.example.foodplanner.homescreen.view.HomeScreenFragment"
         android:label="fragment_home_screen"
-        tools:layout="@layout/fragment_home_screen" />
+        tools:layout="@layout/fragment_home_screen" >
+        <action
+            android:id="@+id/action_homeScreenFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.example.foodplanner.favortitescreen.view.FavouriteFragment"
@@ -90,5 +94,13 @@
         <action
             android:id="@+id/action_userFragment_to_introScreenFragment"
             app:destination="@id/introScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailedMealFragment"
+        android:name="com.example.foodplanner.detailedmeal.view.DetailedMealFragment"
+        android:label="DetailedMealFragment" >
+        <argument
+            android:name="detailedMeal"
+            app:argType="com.example.foodplanner.Models.meals.Meal" />
     </fragment>
 </navigation>

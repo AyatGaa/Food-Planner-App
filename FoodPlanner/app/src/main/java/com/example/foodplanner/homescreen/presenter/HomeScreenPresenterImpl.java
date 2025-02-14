@@ -4,10 +4,12 @@ import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 
 import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.MealRepository;
+import com.example.foodplanner.R;
 import com.example.foodplanner.homescreen.view.HomeScreenView;
 import com.example.foodplanner.network.NetworkCallback;
 import com.example.foodplanner.utils.AppFunctions;
@@ -42,6 +44,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter , NetworkCal
 
     }
 
+
     @Override
     public void checkInternetConnection() {
 
@@ -54,6 +57,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter , NetworkCal
 
     @Override
     public void onSuccess(List<Meal> meals) {
+
         homeScreenView.showMeals(meals);
         Log.i("TAG", "onSuccess: in Homescreen presenter" + meals.size());
     }

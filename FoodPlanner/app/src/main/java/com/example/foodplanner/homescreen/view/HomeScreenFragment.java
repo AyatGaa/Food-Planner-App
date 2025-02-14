@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -30,13 +32,13 @@ import com.example.foodplanner.utils.BottomSheetFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeScreenFragment extends Fragment implements HomeScreenView {
+public class HomeScreenFragment extends Fragment implements HomeScreenView , OnMealClickListener {
 
     ImageView mealOfTheDayImage;
     TextView mealOfTheDayTitle, mealOfTheDayInstructions ,cozyMeals;
     RecyclerView homeRecyclerView;
     HomeScreenPresenter homeScreenPresenter;
-
+    ProgressBar progressBarMealOfDay;
     HomeScreenAdapter homeScreenAdapter;
     ConstraintLayout homeScreenConstraintLayout;
 
@@ -49,6 +51,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
         mealOfTheDayInstructions = view.findViewById(R.id.mealOfTheDayInstructions);
         homeRecyclerView = view.findViewById(R.id.cozyMealRecyclerView);
         homeScreenConstraintLayout = view.findViewById(R.id.homeScreenConstraintLayout);
+        progressBarMealOfDay = view.findViewById(R.id.progressBarMealOfDay);
         cozyMeals = view.findViewById(R.id.cozyMeals);
     }
     public HomeScreenFragment() {
@@ -76,7 +79,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
         MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance());
 
         homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext());
-        homeScreenAdapter = new HomeScreenAdapter(meals, getContext());
+        homeScreenAdapter = new HomeScreenAdapter(meals, getContext(),this);
         Log.i("TAG", "onCreateView: here"+ meals.size());
         homeRecyclerView.setAdapter(homeScreenAdapter);
 
@@ -94,6 +97,15 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
                 .into(mealOfTheDayImage);
         mealOfTheDayTitle.setText(meal.getStrMeal());
         mealOfTheDayInstructions.setText(meal.getStrInstructions());
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBarMealOfDay.setVisibility(View.VISIBLE);
+    }
+    @Override
+    public void hideProgressBar() {
+        progressBarMealOfDay.setVisibility(View.GONE);
     }
 
     @Override
@@ -159,10 +171,21 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView {
 
     @Override
     public void showMeals(List<Meal> meals) {
-        homeScreenAdapter = new HomeScreenAdapter(meals, getContext());
+        if(meals.size()>0){
+            hideProgressBar();
+        }
+        homeScreenAdapter = new HomeScreenAdapter(meals, getContext() ,this);
         homeRecyclerView.setAdapter(homeScreenAdapter);
         homeScreenAdapter.setList(meals);
         homeScreenAdapter.notifyDataSetChanged();
          //   homeScreenPresenter.getMeals();
+    }
+
+    @Override
+    public void onMealClick(Meal meal) {
+
+        HomeScreenFragmentDirections.ActionHomeScreenFragmentToDetailedMealFragment action =
+                HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailedMealFragment(meal);
+        Navigation.findNavController(requireView()).navigate(action);
     }
 }
