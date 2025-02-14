@@ -20,8 +20,7 @@
             android:id="@+id/mealCardImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-             android:scaleType="centerCrop"
-
+            android:scaleType="centerCrop"
             android:src="@drawable/preview1" />
 
 
@@ -40,17 +39,16 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/gluten_regular"
                 android:text="Meal Name"
-                android:textColor="@color/black"
                 android:textSize="22sp" />
 
 
             <ImageView
-                 android:id="@+id/countryFlag"
+                android:id="@+id/countryFlag"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-android:scaleType="fitCenter"
-                android:src="@drawable/eg" />
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"/>
 
         </LinearLayout>
     </LinearLayout>

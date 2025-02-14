@@ -1,6 +1,5 @@
 package com.example.foodplanner.homescreen.view;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -13,7 +12,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +21,6 @@ import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.MealRepository;
 import com.example.foodplanner.Models.meals.MealRepositoryImpl;
 import com.example.foodplanner.R;
-import com.example.foodplanner.Repository.AuthRepositoryImpl;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenter;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenterImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;

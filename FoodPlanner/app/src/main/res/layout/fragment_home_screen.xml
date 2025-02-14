@@ -7,8 +7,8 @@
     android:id="@+id/homeScreenConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:padding="12dp"
+    android:background="@color/primary"
+    android:padding="4dp"
     tools:context=".homescreen.view.HomeScreenFragment">
 
 
@@ -21,7 +21,7 @@
         android:fontFamily="@font/gluten_medium"
         android:text="@string/meal_of_the_day"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/primary"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -80,7 +80,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/gluten_medium"
         android:text="@string/meals_for_you"
-        android:textColor="@color/primary"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mealCard" />
@@ -91,7 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/cozyMeals"
+
+         app:layout_constraintTop_toBottomOf="@id/cozyMeals"
         tools:listitem="@layout/meal_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

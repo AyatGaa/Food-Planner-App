@@ -2,9 +2,9 @@ package com.example.foodplanner.signup.presenter;
 
 import android.util.Log;
 
-import com.example.foodplanner.Repository.AuthCallback;
-import com.example.foodplanner.Repository.AuthRepository;
-import com.example.foodplanner.Repository.AuthRepositoryImpl;
+import com.example.foodplanner.Repository.authrepository.AuthCallback;
+import com.example.foodplanner.Repository.authrepository.AuthRepository;
+import com.example.foodplanner.Repository.authrepository.AuthRepositoryImpl;
 import com.example.foodplanner.signup.view.SignUpView;
 import com.google.firebase.auth.FirebaseUser;
 

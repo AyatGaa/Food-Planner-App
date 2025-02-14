@@ -66,12 +66,12 @@
         tools:layout="@layout/fragment_home_screen" />
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.example.foodplanner.FavouriteFragment"
+        android:name="com.example.foodplanner.favortitescreen.view.FavouriteFragment"
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" />
     <fragment
         android:id="@+id/planFragment"
-        android:name="com.example.foodplanner.PlanFragment"
+        android:name="com.example.foodplanner.planscreen.view.PlanFragment"
         android:label="fragment_plan"
         tools:layout="@layout/fragment_plan" />
     <fragment

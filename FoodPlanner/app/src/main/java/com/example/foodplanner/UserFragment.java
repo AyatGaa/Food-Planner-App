@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.foodplanner.Repository.AuthRepository;
-import com.example.foodplanner.Repository.AuthRepositoryImpl;
+import com.example.foodplanner.Repository.authrepository.AuthRepository;
+import com.example.foodplanner.Repository.authrepository.AuthRepositoryImpl;
 
 
 public class UserFragment extends Fragment {

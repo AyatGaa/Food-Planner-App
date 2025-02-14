@@ -59,7 +59,7 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
 
         String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
         Log.i("TAG", "onBindViewHolder: " + countryCode);
-        Glide.with(context).load("https://flagcdn.com/h120/" + countryCode + ".png")
+        Glide.with(context).load("https://flagcdn.com/w320/" + countryCode + ".png")
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.countryFlag);
 
