@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.core.Observable;
 
 public interface MealRepository {
 
-    Observable<List<Meal>> getAllFavouriteMeals();
+    Observable<List<Meal>> getAllFavouriteMeals(String userId);
     void insertFavoriteMeal(Meal meal);
     void deleteFavouriteMeal(Meal meal);
 

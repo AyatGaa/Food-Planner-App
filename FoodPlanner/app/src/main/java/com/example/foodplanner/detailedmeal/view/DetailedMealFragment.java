@@ -1,5 +1,6 @@
 package com.example.foodplanner.detailedmeal.view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,22 +22,31 @@ import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.ingredient.Ingredient;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
+import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
+import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
+import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
+import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenter;
+import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenterImpl;
+import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.utils.AppFunctions;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailedMealFragment extends Fragment {
+public class DetailedMealFragment extends Fragment implements DetailedMealView {
 
-
+    DetailedMealPresenter detailedMealPresenter;
     ImageView mealImageDetailed, countryFlagDetailed;
-    TextView mealNameDetailed, instructionsTextDetailed,detailedMealHeader,countryFlagName;
+    TextView mealNameDetailed, instructionsTextDetailed, detailedMealHeader, countryFlagName;
     RecyclerView ingredientsRecyclerView;
     IngredientAdapter ingredientsAdapter;
     Button btnAddToFavoritesDetailed, btnAddToPlanMealDetailed;
     List<String> ingredientList = new ArrayList<>();
 
-    void setupUI(View view){
+    void setupUI(View view) {
         ingredientsRecyclerView = view.findViewById(R.id.ingredientsRecyclerView);
         mealImageDetailed = view.findViewById(R.id.mealImageDetailed);
         mealNameDetailed = view.findViewById(R.id.mealNameDetailed);
@@ -58,6 +69,9 @@ public class DetailedMealFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupUI(view);
+        MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()));
+        detailedMealPresenter = new DetailedMealPresenterImpl(repo, this);
+
         ingredientsRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
@@ -72,24 +86,46 @@ public class DetailedMealFragment extends Fragment {
         ingredientsRecyclerView.setAdapter(ingredientsAdapter);
         ingredientsAdapter.notifyDataSetChanged();
 
+        btnAddToFavoritesDetailed.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Log.d("fav", "onClick: on detaled fragment" + meal.getIdMeal());
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String userId = AppFunctions.getCurrentUserId();
+                if (userId != null) {
+                    meal.setUserId(userId);
+                    detailedMealPresenter.onAddToFavourite(meal);
+                   // Toast.makeText(requireContext(), "meal added to favorites" + meal.getStrMeal(), Toast.LENGTH_SHORT).show();
+                    showAddedSnackBar(meal);
+                } else {
+                    Log.e("fav", " User not authenticated. Cannot add meal to favorites.");
+                }
+
+
+            }
+        });
     }
-  void setIngredineUi(Meal meal){
-      detailedMealHeader.setText( meal.getStrMeal());
+
+    void setIngredineUi(Meal meal) {
+        detailedMealHeader.setText(meal.getStrMeal());
         mealNameDetailed.setText(meal.getStrMeal());
-      countryFlagName.setText(meal.getStrArea());
+        countryFlagName.setText(meal.getStrArea());
         String instructions = meal.getStrInstructions();
         instructions = instructions.replaceAll("\r\n|\r|\n", "\n\n");
         instructionsTextDetailed.setText(instructions);
 
-      String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
+        String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
 
-      Glide.with(requireContext()).load("https://flagcdn.com/w320/" + countryCode + ".png")
-              .error(R.drawable.ic_launcher_background)
-              .into(countryFlagDetailed);
+        Glide.with(requireContext()).load("https://flagcdn.com/w320/" + countryCode + ".png")
+                .error(R.drawable.ic_launcher_background)
+                .into(countryFlagDetailed);
 
-      Glide.with(requireContext()).load(meal.getStrMealThumb())
-              .error(R.drawable.ic_launcher_background)
-              .into(mealImageDetailed);
+        Glide.with(requireContext()).load(meal.getStrMealThumb())
+                .error(R.drawable.ic_launcher_background)
+                .into(mealImageDetailed);
+
+
     }
 
     List<String> getIngredient(Meal meal) {
@@ -109,4 +145,14 @@ public class DetailedMealFragment extends Fragment {
         return ingredientsList;
     }
 
+
+    @Override
+    public void showAddedSnackBar(Meal meal) {
+        View rootView = getActivity().findViewById(R.id.bottomNavigationView);
+        Snackbar snackbar = Snackbar.make(ingredientsRecyclerView, "Meal Added", Snackbar.LENGTH_SHORT);
+        snackbar.setBackgroundTint(Color.parseColor("#3E5879")); // Change background color
+        snackbar.setTextColor(Color.WHITE);
+        snackbar.setAnchorView(rootView);
+        snackbar.show();
+    }
 }

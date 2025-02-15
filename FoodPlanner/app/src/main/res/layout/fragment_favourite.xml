@@ -4,17 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:layout_above="@id/bottomNavigationView"
     tools:context=".favortitescreen.view.FavouriteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Favourite Fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/your_favourite_meals"
+        android:textColor="@color/primary"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
 
+        android:fitsSystemWindows="true"
+        android:paddingBottom="100dp"
+         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:listitem="@layout/favorite_meal_card">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+    <LinearLayout
+        android:id="@+id/signInLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_sign_in"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/signInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

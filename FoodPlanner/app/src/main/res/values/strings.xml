@@ -47,4 +47,7 @@
     <string name="meal_name">Meal Name</string>
     <string name="meal_name_in_details_screen">Meal Name In Details Screen</string>
     <string name="lorem_speurn_pla_pla_pla">lorem speurn pla pla pla</string>
+    <string name="meal_category">meal Category</string>
+    <string name="your_favourite_meals">Your Favourite Meals</string>
+    <string name="please_sign_in">Please Sign In.</string>
 </resources>

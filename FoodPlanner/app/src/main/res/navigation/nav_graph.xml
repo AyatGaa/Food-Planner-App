@@ -72,7 +72,11 @@
         android:id="@+id/favouriteFragment"
         android:name="com.example.foodplanner.favortitescreen.view.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
     <fragment
         android:id="@+id/planFragment"
         android:name="com.example.foodplanner.planscreen.view.PlanFragment"

@@ -29,8 +29,8 @@ public class MealRepositoryImpl implements MealRepository{
 
 
     @Override
-    public Observable<List<Meal>> getAllFavouriteMeals() {
-        return favouriteMealLocalDataSource.getAllFavouriteMeals();
+    public Observable<List<Meal>> getAllFavouriteMeals(String userId) {
+        return favouriteMealLocalDataSource.getAllFavouriteMeals(userId);
     }
 
     @Override

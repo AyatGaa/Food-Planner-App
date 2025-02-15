@@ -16,8 +16,8 @@ import io.reactivex.rxjava3.core.Observable;
 @Dao
 public interface MealDAO { //for meals and favourite meals
 
-    @Query("SELECT * FROM meal")
-    Observable<List<Meal>> getAllFavouriteMeals();
+    @Query("SELECT * FROM meal WHERE userId = :userId")
+    Observable<List<Meal>> getAllFavouriteMeals(String userId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertFavoriteMeal(Meal meal);

@@ -70,8 +70,7 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
                                     checkFirstTime();
                                     Log.i("TAG", "run: herere");
                                     Toast.makeText(getContext(), "end of 3 sec from obs", Toast.LENGTH_SHORT).show();
-                                }
-                        )
+                                })
         );
 
 
@@ -103,8 +102,8 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
         if (!AppFunctions.isConnected(requireContext())) {
 
             Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment);
-         //   showOnNoConnection();
-          //  Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            //   showOnNoConnection();
+            //  Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             return;
         }
         FirebaseUser user = mAuth.getCurrentUser();

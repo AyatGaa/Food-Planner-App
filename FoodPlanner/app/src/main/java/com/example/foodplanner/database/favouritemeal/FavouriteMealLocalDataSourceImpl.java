@@ -9,6 +9,7 @@ import com.example.foodplanner.database.AppDataBase;
 import java.util.Collection;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -27,7 +28,7 @@ public class FavouriteMealLocalDataSourceImpl implements FavouriteMealLocalDataS
        this.context = context;
        AppDataBase db = AppDataBase.getInstance(context);
        mealDAO = db.getMealDAO();
-       savedMeals = mealDAO.getAllFavouriteMeals();
+      // savedMeals = mealDAO.getAllFavouriteMeals(); // take it once !
    }
 
    public static FavouriteMealLocalDataSourceImpl getInstance(Context context) {
@@ -38,23 +39,31 @@ public class FavouriteMealLocalDataSourceImpl implements FavouriteMealLocalDataS
    }
 
     @Override
-    public Observable<List<Meal>> getAllFavouriteMeals() {
-        return savedMeals;
+    public Observable<List<Meal>> getAllFavouriteMeals(String userId) {
+        return mealDAO.getAllFavouriteMeals(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()); // observe here to be uptodate
     }
+
 
     @Override
     public void insertFavoriteMeal(Meal meal) {
+
+        Log.d("fav", "Inserting meal for user: " + meal.getUserId());
         mealDAO.insertFavoriteMeal(meal)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         ()-> Log.i("data", "insertFavoriteMeal: inserted from local da")
-                        ,error -> Log.i("data", "insertFavoriteMeal: error")
+                        ,error -> Log.i("data", "insertFavoriteMeal: error"+ error.getMessage())
                 );
     }
 
     @Override
     public void deleteFavouriteMeal(Meal meal) {
-        mealDAO.deleteFavouriteMeal(meal).subscribeOn(Schedulers.io())
+        mealDAO.deleteFavouriteMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
 
                         ()-> Log.i("data", "deleteFavouriteMeal: deleted from local da")
