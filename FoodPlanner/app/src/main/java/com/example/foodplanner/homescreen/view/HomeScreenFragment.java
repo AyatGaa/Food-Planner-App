@@ -33,10 +33,10 @@ import com.example.foodplanner.utils.BottomSheetFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeScreenFragment extends Fragment implements HomeScreenView , OnMealClickListener {
+public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMealClickListener {
 
     ImageView mealOfTheDayImage;
-    TextView mealOfTheDayTitle, mealOfTheDayInstructions ,cozyMeals;
+    TextView mealOfTheDayTitle, mealOfTheDayInstructions, cozyMeals;
     RecyclerView homeRecyclerView;
     HomeScreenPresenter homeScreenPresenter;
     ProgressBar progressBarMealOfDay;
@@ -47,7 +47,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
     List<Meal> meals = new ArrayList<>();
 
 
-    void setupUI(View view){
+    void setupUI(View view) {
         mealOfTheDayImage = view.findViewById(R.id.mealOfTheDayImage);
         mealOfTheDayTitle = view.findViewById(R.id.mealOfTheDayTitle);
         mealOfTheDayInstructions = view.findViewById(R.id.mealOfTheDayInstructions);
@@ -57,6 +57,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
         cozyMeals = view.findViewById(R.id.cozyMeals);
         mealDayCardLayout = view.findViewById(R.id.mealDayCardLayout);
     }
+
     public HomeScreenFragment() {
         // Required empty public constructor
     }
@@ -73,7 +74,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
         setupUI(view);
-
+        showProgressBar();
         homeRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -82,19 +83,20 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
         MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance());
 
         homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext());
-        homeScreenAdapter = new HomeScreenAdapter(meals, getContext(),this);
-        Log.i("TAG", "onCreateView: here"+ meals.size());
+        homeScreenAdapter = new HomeScreenAdapter(meals, getContext(), this);
+        Log.i("TAG", "onCreateView: here" + meals.size());
         homeRecyclerView.setAdapter(homeScreenAdapter);
 
-         homeScreenPresenter.getMeals();
+        homeScreenPresenter.getMeals();
         homeScreenPresenter.getRandomMeal();
-         homeScreenPresenter.checkInternetConnection();
+        homeScreenPresenter.checkInternetConnection();
 
 
         return view;
     }
+
     @Override
-    public void setRandmoMealCard(Meal meal){
+    public void setRandmoMealCard(Meal meal) {
         Glide.with(getContext()).load(meal.getStrMealThumb())
                 .error(R.drawable.ic_launcher_background)
                 .into(mealOfTheDayImage);
@@ -106,12 +108,13 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
                 onRandomMealClick(meal);
             }
         });
-     }
+    }
 
     @Override
     public void showProgressBar() {
         progressBarMealOfDay.setVisibility(View.VISIBLE);
     }
+
     @Override
     public void hideProgressBar() {
         progressBarMealOfDay.setVisibility(View.GONE);
@@ -183,19 +186,20 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView , OnM
 
     @Override
     public void setBottomNavEnabled(boolean isConnected) {
-    ((MainActivity) requireActivity()).setBottomNavEnabled(isConnected);
+        ((MainActivity) requireActivity()).setBottomNavEnabled(isConnected);
     }
 
     @Override
     public void showMeals(List<Meal> meals) {
-        if(meals.size()>0){
+
+        if (meals.size() > 0) {
             hideProgressBar();
         }
-        homeScreenAdapter = new HomeScreenAdapter(meals, getContext() ,this);
+        homeScreenAdapter = new HomeScreenAdapter(meals, getContext(), this);
         homeRecyclerView.setAdapter(homeScreenAdapter);
         homeScreenAdapter.setList(meals);
         homeScreenAdapter.notifyDataSetChanged();
-         //   homeScreenPresenter.getMeals();
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DetailedMealFragment extends Fragment implements DetailedMealView {
 
@@ -42,6 +45,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
     ImageView mealImageDetailed, countryFlagDetailed;
     TextView mealNameDetailed, instructionsTextDetailed, detailedMealHeader, countryFlagName;
     RecyclerView ingredientsRecyclerView;
+    WebView mealVideo;
     IngredientAdapter ingredientsAdapter;
     Button btnAddToFavoritesDetailed, btnAddToPlanMealDetailed;
     List<String> ingredientList = new ArrayList<>();
@@ -56,6 +60,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
         detailedMealHeader = view.findViewById(R.id.detailedMealHeader);
         btnAddToPlanMealDetailed = view.findViewById(R.id.btnAddToPlanMealDetailed);
         countryFlagName = view.findViewById(R.id.countryFlagName);
+        mealVideo = view.findViewById(R.id.mealVideo);
     }
 
     @Nullable
@@ -81,7 +86,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
         Meal meal = DetailedMealFragmentArgs.fromBundle(getArguments()).getDetailedMeal();
         ingredientList = getIngredient(meal);
         setIngredineUi(meal);
-
+        showVideoPlayer(meal);
         ingredientsAdapter = new IngredientAdapter(ingredientList, requireContext());
         ingredientsRecyclerView.setAdapter(ingredientsAdapter);
         ingredientsAdapter.notifyDataSetChanged();
@@ -96,8 +101,9 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
                 if (userId != null) {
                     meal.setUserId(userId);
                     detailedMealPresenter.onAddToFavourite(meal);
-                   // Toast.makeText(requireContext(), "meal added to favorites" + meal.getStrMeal(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(requireContext(), "meal added to favorites" + meal.getStrMeal(), Toast.LENGTH_SHORT).show();
                     showAddedSnackBar(meal);
+
                 } else {
                     Log.e("fav", " User not authenticated. Cannot add meal to favorites.");
                 }
@@ -155,4 +161,29 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
         snackbar.setAnchorView(rootView);
         snackbar.show();
     }
+
+    @Override
+    public void showVideoPlayer(Meal meal) {
+        mealVideo.getSettings().setJavaScriptEnabled(true);
+        String videoId = extractYoutubeVideoId(meal.getStrYoutube());
+        String embedHtml = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + videoId + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+
+        mealVideo.loadData(embedHtml, "text/html", "utf-8");
+
+    }
+
+    public String extractYoutubeVideoId(String url) {
+
+        String pattern = "^(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/(?:[^\\/]+\\/.*|(?:v|e(?:mbed)?)\\/|.*[?&]v=)|youtu\\.be\\/)([a-zA-Z0-9_-]{11})";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(url);
+
+        if (matcher.find()) {
+            return matcher.group(1); // Extract video ID
+        }
+        return null; // No valid video ID found
+    }
+
 }
+
+

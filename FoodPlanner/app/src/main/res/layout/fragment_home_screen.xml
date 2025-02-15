@@ -12,6 +12,16 @@
     android:padding="4dp"
     tools:context=".homescreen.view.HomeScreenFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBarMealOfDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mealOfDay"
+        app:layout_constraintVertical_bias="0.417" />
 
     <TextView
         android:id="@+id/mealOfDay"
@@ -28,16 +38,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Meal of the Day" />
 
-    <ProgressBar
-        android:id="@+id/progressBarMealOfDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mealOfDay"
-        app:layout_constraintVertical_bias="0.417" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/mealDayCard"
@@ -60,11 +60,11 @@
             android:padding="12dp">
 
             <ImageView
-                android:clipToOutline="true"
-                android:background="@drawable/rounded_bg_card"
                 android:id="@+id/mealOfTheDayImage"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
+                android:background="@drawable/rounded_bg_card"
+                android:clipToOutline="true"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/cutlery" />
 
