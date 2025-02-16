@@ -63,15 +63,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
         Log.i("TAG", "onFailure: on  in Homescreen presenter" + errorMessage);
     }
 
-    @Override
-    public void onCategorySuccess(List<Category> categories) {
 
-    }
-
-    @Override
-    public void onCategoryFailure(String errorMessage) {
-
-    }
 
     @Override
     public void onRandomMealSuccess(Meal meal) {

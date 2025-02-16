@@ -80,7 +80,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         homeRecyclerView.setLayoutManager(layoutManager);
 
-        MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance());
+        MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),requireContext());
 
         homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext());
         homeScreenAdapter = new HomeScreenAdapter(meals, getContext(), this);

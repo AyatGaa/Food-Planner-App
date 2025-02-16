@@ -1,9 +1,11 @@
 package com.example.foodplanner.network;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
+import com.google.gson.Gson;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -75,5 +77,25 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
                             callBack.onRandomMealFailure(error.getMessage());
                             Log.i("TAG", "mealNetwrandomMealNetworkCallorkCall:  fail" + error.getMessage());
                         });
+    }
+
+    @Override
+    public void filterMealByArea(NetworkCallback callBack, String area) {
+
+    }
+
+    @Override
+    public void filterMealByIngredient(NetworkCallback callBack, String ingredient) {
+
+    }
+
+    @Override
+    public void searchMealByName(NetworkCallback callBack, String mealName) {
+
+    }
+
+    @Override
+    public void getAllAreas(NetworkCallback callBack) {
+
     }
 }

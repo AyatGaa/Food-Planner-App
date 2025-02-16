@@ -2,6 +2,7 @@ package com.example.foodplanner.Repository.modelrepoitory;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSource;
+import com.example.foodplanner.network.FilterRemoteDataSource;
 import com.example.foodplanner.network.MealRemoteDataSource;
 import com.example.foodplanner.network.NetworkCallback;
 
@@ -9,20 +10,21 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 
-public class MealRepositoryImpl implements MealRepository{
+public class MealRepositoryImpl implements MealRepository {
     MealRemoteDataSource mealRemoteDataSource;
-    FavouriteMealLocalDataSource  favouriteMealLocalDataSource;
-
+    FavouriteMealLocalDataSource favouriteMealLocalDataSource;
+    FilterRemoteDataSource crds;
     private static MealRepositoryImpl mealRepository = null;
 
-    public MealRepositoryImpl(MealRemoteDataSource mealRemoteDataSource, FavouriteMealLocalDataSource favouriteMealLocalDataSource) {
+    public MealRepositoryImpl(MealRemoteDataSource mealRemoteDataSource, FavouriteMealLocalDataSource favouriteMealLocalDataSource, FilterRemoteDataSource filterRemoteDataSource) {
         this.mealRemoteDataSource = mealRemoteDataSource;
         this.favouriteMealLocalDataSource = favouriteMealLocalDataSource;
+        this.crds = filterRemoteDataSource;
     }
 
-    public static synchronized MealRepositoryImpl getInstance(MealRemoteDataSource mealRemoteDataSource, FavouriteMealLocalDataSource favouriteMealLocalDataSource) {
+    public static synchronized MealRepositoryImpl getInstance(MealRemoteDataSource mealRemoteDataSource, FavouriteMealLocalDataSource favouriteMealLocalDataSource, FilterRemoteDataSource filterRemoteDataSource) {
         if (mealRepository == null) {
-            mealRepository = new MealRepositoryImpl(mealRemoteDataSource, favouriteMealLocalDataSource);
+            mealRepository = new MealRepositoryImpl(mealRemoteDataSource, favouriteMealLocalDataSource, filterRemoteDataSource);
         }
         return mealRepository;
     }
@@ -35,7 +37,7 @@ public class MealRepositoryImpl implements MealRepository{
 
     @Override
     public void insertFavoriteMeal(Meal meal) {
-            favouriteMealLocalDataSource.insertFavoriteMeal(meal);
+        favouriteMealLocalDataSource.insertFavoriteMeal(meal);
     }
 
     @Override
@@ -47,4 +49,20 @@ public class MealRepositoryImpl implements MealRepository{
     public void mealNetworkCall(NetworkCallback callBack) {
         mealRemoteDataSource.mealNetworkCall(callBack);
     }
+
+    @Override
+    public void filterByCategory(NetworkCallback callBack, String category) {
+        crds.filterMealByCategory(callBack, category);
+    }
+
+    @Override
+    public void filterByArea(NetworkCallback callBack, String area) {
+        crds.filterMealByArea(callBack, area);
+    }
+
+    @Override
+    public void filterByIngredient(NetworkCallback callBack, String ingredient) {
+        crds.filterMealByIngredient(callBack, ingredient);
+    }
+
 }

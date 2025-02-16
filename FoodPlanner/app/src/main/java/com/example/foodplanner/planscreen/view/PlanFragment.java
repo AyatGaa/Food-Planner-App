@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.Locale;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +24,7 @@ import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 
+import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.planscreen.presenter.PlanScreenPresenter;
 import com.example.foodplanner.planscreen.presenter.PlanScreenPresenterImpl;
@@ -63,7 +62,7 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PlanRepository repo = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()));
-        MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()));
+        MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()), FilterRemoteDataSourceImpl.getInstance());
         planScreenPresenter = new PlanScreenPresenterImpl(this, repo);
 
     }

@@ -13,5 +13,9 @@ public interface MealRepository {
     void insertFavoriteMeal(Meal meal);
     void deleteFavouriteMeal(Meal meal);
 
+    void filterByCategory(NetworkCallback callBack, String category);
+    void filterByArea(NetworkCallback callBack, String area);
+    void filterByIngredient(NetworkCallback callBack, String ingredient);
+
     void mealNetworkCall(NetworkCallback callBack);
 }
