@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.example.foodplanner.network.MealRemoteDataSource;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.network.RandomMealCallback;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
@@ -49,7 +50,7 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void getRandomMeal(NetworkCallback callBack) {
+    public void getRandomMeal(RandomMealCallback callBack) {
         remoteDataSource.randomMealNetworkCall(callBack);
     }
 

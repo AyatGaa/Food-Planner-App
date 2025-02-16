@@ -6,18 +6,20 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import com.example.foodplanner.Models.area.Area;
 import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.MealRepository;
 import com.example.foodplanner.R;
 import com.example.foodplanner.homescreen.view.HomeScreenView;
 import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.network.RandomMealCallback;
 import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.Collections;
 import java.util.List;
 
-public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCallback {
+public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCallback, RandomMealCallback {
 
     HomeScreenView homeScreenView;
     MealRepository mealRepository;
@@ -63,12 +65,9 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
         Log.i("TAG", "onFailure: on  in Homescreen presenter" + errorMessage);
     }
 
-
-
     @Override
     public void onRandomMealSuccess(Meal meal) {
-        homeScreenView.setRandmoMealCard(meal);
-        Log.d("TAG", "onRandomMealSuccess: from presentr == >" + meal.getIdMeal());
+            homeScreenView.setRandmoMealCard(meal);
     }
 
     @Override

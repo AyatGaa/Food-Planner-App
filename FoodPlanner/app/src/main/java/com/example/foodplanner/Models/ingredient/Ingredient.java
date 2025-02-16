@@ -1,17 +1,13 @@
 package com.example.foodplanner.Models.ingredient;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Ingredient {
-    private String name;
 
+    @SerializedName("strIngredient")
+    private String strIngredient;
 
-    public Ingredient(String name) {
-        this.name = name;
-
+    public String getStrIngredient() {
+        return strIngredient;
     }
-
-    public String getName() {
-        return name;
-    }
-
-
 }

@@ -1,6 +1,9 @@
 package com.example.foodplanner.Repository.modelrepoitory;
 
 import com.example.foodplanner.Models.meals.Meal;
+import com.example.foodplanner.network.AreaCallback;
+import com.example.foodplanner.network.CategoryCallback;
+import com.example.foodplanner.network.IngredientNetworkcall;
 import com.example.foodplanner.network.NetworkCallback;
 
 import java.util.List;
@@ -17,5 +20,9 @@ public interface MealRepository {
     void filterByArea(NetworkCallback callBack, String area);
     void filterByIngredient(NetworkCallback callBack, String ingredient);
 
+
+    void getAllCategories(CategoryCallback callBack);
+    void getAllAreas(AreaCallback callBack);
+    void getAllIngredients(IngredientNetworkcall callBack);
     void mealNetworkCall(NetworkCallback callBack);
 }

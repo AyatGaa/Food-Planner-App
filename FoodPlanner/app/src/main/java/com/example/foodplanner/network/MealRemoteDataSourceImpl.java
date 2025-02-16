@@ -63,15 +63,15 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     }
 
     @Override
-    public void randomMealNetworkCall(NetworkCallback callBack) {
+    public void randomMealNetworkCall(RandomMealCallback callBack) {
         Single<Meals> mealsSingle = mealService.getRandomMeal();
         mealsSingle.subscribeOn(Schedulers.io())
-                .map(meals -> meals.getMeals())
+
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         mealList -> {
-                            callBack.onRandomMealSuccess(mealList.get(0));
-                            Log.i("TAG", "randomMealNetworkCall:  done" + mealList.size());
+                            callBack.onRandomMealSuccess(mealList.getMeals().get(0));
+                            Log.i("TAG", "randomMealNetworkCall:  done" );
                         },
                         error -> {
                             callBack.onRandomMealFailure(error.getMessage());

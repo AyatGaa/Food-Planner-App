@@ -1,9 +1,16 @@
 package com.example.foodplanner.searchscreen.presenter;
 
 import android.util.Log;
+import android.view.View;
 
+import com.example.foodplanner.Models.area.Area;
+import com.example.foodplanner.Models.category.Category;
+import com.example.foodplanner.Models.ingredient.Ingredient;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
+import com.example.foodplanner.network.AreaCallback;
+import com.example.foodplanner.network.CategoryCallback;
+import com.example.foodplanner.network.IngredientNetworkcall;
 import com.example.foodplanner.network.NetworkCallback;
 import com.example.foodplanner.searchscreen.view.SearchScreenView;
 
@@ -11,7 +18,9 @@ import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
-public class SearchScreenPresenterImpl implements SearchScreenPresenter {
+import io.reactivex.rxjava3.disposables.Disposable;
+
+public class SearchScreenPresenterImpl implements SearchScreenPresenter, IngredientNetworkcall, CategoryCallback, AreaCallback{
 
     MealRepository repo;
     SearchScreenView view;
@@ -23,56 +32,35 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter {
 
     @Override
     public void filterByCategory(String selectedCategory) {
-            repo.filterByCategory(new NetworkCallback() {
-                @Override
-                public void onSuccess(List<Meal> meals) {
-                    Log.i("cat", "onSuccess:category  =>" + meals.get(0));
-                    view.showListOfMealByCategorty(meals);
-                }
+        repo.filterByCategory(new NetworkCallback() {
 
-                @Override
-                public void onFailure(String errorMessage) {
-                    Log.d("cat", "onFailure: " +errorMessage);
-                }
+            @Override
+            public void onSuccess(List<Meal> meals) {
 
-                @Override
-                public void onRandomMealSuccess(Meal meal) {
+            }
 
-                }
+            @Override
+            public void onFailure(String errorMessage) {
 
-                @Override
-                public void onRandomMealFailure(String errorMessage) {
-
-                }
-            }, selectedCategory);
+            }
+        }, selectedCategory);
     }
 
     @Override
     public void filterByArea(String area) {
         repo.filterByArea(new NetworkCallback() {
-
-
             @Override
             public void onSuccess(List<Meal> meals) {
-                view.showListOfMealByArea(meals);
-                Log.i("cat", "onSuccess:area  =>" + meals.get(0));
+
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                Log.i("cat", "onFailure: area "+errorMessage);
-            }
-
-            @Override
-            public void onRandomMealSuccess(Meal meal) {
 
             }
 
-            @Override
-            public void onRandomMealFailure(String errorMessage) {
 
-            }
-        },area);
+        }, area);
     }
 
     @Override
@@ -90,17 +78,63 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter {
                 Log.i("cat", "onFailure: ingred");
             }
 
-            @Override
-            public void onRandomMealSuccess(Meal meal) {
-
-            }
-
-            @Override
-            public void onRandomMealFailure(String errorMessage) {
-
-            }
-        } ,ingredient);
+        }, ingredient);
     }
 
+    @Override
+    public void getAllCategories() {
+        repo.getAllCategories(this);
+    }
 
+//    @Override
+//    public void getAllAreas() {
+//        repo.getAllAreas(this);
+//    }
+
+    @Override
+    public void getAllAreas() {
+        Log.d("PRESENTER", "getAllAreas: Calling repository to fetch areas.");
+        repo.getAllAreas(this);
+    }
+
+    @Override
+    public void getAllIngredients() {
+        repo.getAllIngredients(this);
+    }
+
+    @Override
+    public void mealNetworkCall() {
+
+    }
+
+    @Override
+    public void onAreaSuccess(List<Area> areas) {
+        view.showAllAreas(areas);
+    }
+
+    @Override
+    public void onAreaFailure(String errorMessage) {
+        Log.d("TAG", "onAreaFailure: ");
+    }
+
+    @Override
+    public void onCategorySuccess(List<Category> categories) {
+        view.showAllCategories(categories);
+
+    }
+
+    @Override
+    public void onCategoryFailure(String errorMessage) {
+        Log.d("TAG", "onCategoryFailure: ");
+    }
+
+    @Override
+    public void onIngredientSuccess(List<Ingredient> ingredientList) {
+            view.showAllIngredients(ingredientList);
+    }
+
+    @Override
+    public void onIngredientFailure(String errorMsg) {
+        Log.d("TAG", "onIngredientFailure: ");
+    }
 }

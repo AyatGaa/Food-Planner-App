@@ -1,8 +1,13 @@
 package com.example.foodplanner.Repository.modelrepoitory;
 
+import android.util.Log;
+
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSource;
+import com.example.foodplanner.network.AreaCallback;
+import com.example.foodplanner.network.CategoryCallback;
 import com.example.foodplanner.network.FilterRemoteDataSource;
+import com.example.foodplanner.network.IngredientNetworkcall;
 import com.example.foodplanner.network.MealRemoteDataSource;
 import com.example.foodplanner.network.NetworkCallback;
 
@@ -56,13 +61,30 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void filterByArea(NetworkCallback callBack, String area) {
+    public void filterByArea(NetworkCallback callBack, String area){
         crds.filterMealByArea(callBack, area);
     }
 
     @Override
     public void filterByIngredient(NetworkCallback callBack, String ingredient) {
         crds.filterMealByIngredient(callBack, ingredient);
+    }
+
+    @Override
+    public void getAllCategories(CategoryCallback callBack){
+        crds.categoryNetworkCall(callBack);
+    }
+
+    @Override
+    public void getAllAreas(AreaCallback callBack) {
+        Log.d("REPO", "getAllAreas: Calling RemoteDataSource222");
+        crds.areaNetworkCall(callBack);
+
+    }
+
+    @Override
+    public void getAllIngredients(IngredientNetworkcall callBack) {
+        crds.ingredientNetworkCall(callBack);
     }
 
 }

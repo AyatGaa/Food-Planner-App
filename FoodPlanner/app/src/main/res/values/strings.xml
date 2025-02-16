@@ -51,4 +51,8 @@
     <string name="your_favourite_meals">Your Favourite Meals</string>
     <string name="please_sign_in">Please Sign In.</string>
     <string name="your_planner">Your Planner</string>
+    <string name="search_for_meals">Search For Meals</string>
+    <string name="category">Category</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="country">Country</string>
 </resources>

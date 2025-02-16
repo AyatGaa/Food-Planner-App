@@ -13,6 +13,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.foodplanner.Models.area.Area;
+import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.network.FilterRemoteDataSource;
 import com.example.foodplanner.network.MealRemoteDataSource;
@@ -102,14 +104,4 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
     }
 
 
-    @Override
-    public void onRandomMealSuccess(Meal meal) {
-        Log.i("TAG", "onSuccess:RANDOM MEAL MAIN " + meal.getIdMeal());
-        Log.i("TAG", "onSuccess: RANDOM MEAL MAIN in main " + meal.getStrCategory());
-    }
-
-    @Override
-    public void onRandomMealFailure(String errorMessage) {
-        Log.i("TAG", "onRandomMealFailure: somthin wrong main ");
-    }
 }

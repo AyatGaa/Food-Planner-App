@@ -2,6 +2,7 @@ package com.example.foodplanner.network;
 
 import com.example.foodplanner.Models.area.Areas;
 import com.example.foodplanner.Models.category.Categories;
+import com.example.foodplanner.Models.ingredient.Ingredients;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
 
@@ -19,9 +20,13 @@ public interface MealService {
     @GET("filter.php")
     Single<Meals> filterMealByIngredient(@Query("i") String ingredient);
     @GET("list.php?a=list")
-    Single<Areas> gatAllAreas();
+    Single<Areas> getAllAreas();
     @GET("categories.php") // 14 list of 14 category each one has its details
     Single<Categories> getAllCategories();
+
+
+    @GET("list.php?i=list")
+    Single<Ingredients> getAllIngredients();
 
     @GET("search.php")
     Single<Meals> getAllMeals(@Query("s") String mealName);

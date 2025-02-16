@@ -1,14 +1,12 @@
 package com.example.foodplanner.Models.area;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Area {
+    @SerializedName("strArea")
     public String strArea;
 
-    public Area(String strArea) {
-        this.strArea = strArea;
-    }
 
-    public Area() {
-    }
 
     public String getStrArea() {
         return strArea;
