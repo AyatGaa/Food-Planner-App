@@ -1,5 +1,6 @@
 package com.example.foodplanner.favortitescreen.view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -29,11 +30,11 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavouriteFragment extends Fragment implements FavoriteScreenView ,OnDeleteMealClickListener {
-    RecyclerView favoriteRecyclerView;;
+public class FavouriteFragment extends Fragment implements FavoriteScreenView, OnDeleteMealClickListener {
+    RecyclerView favoriteRecyclerView;
     FavoriteAdapter favAdapter;
     LinearLayout signInLayout;
-Button signInButton;
+    Button signInButton;
     FavoriteScreenPresenter favoriteScreenPresenter;
 
     public FavouriteFragment() {
@@ -44,34 +45,23 @@ Button signInButton;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()));
         favoriteScreenPresenter = new FavoriteScreenPresenterImpl(this, repo);
-//        favoriteScreenPresenter.addMealToFavorite(new Meal("id","name","image","qq","55","66"));
-//        favoriteScreenPresenter.addMealToFavorite(new Meal("id1","name2","image2","ww","22","kk"));
-//        favoriteScreenPresenter.addMealToFavorite(new Meal("id2","name3","image3","sss","21","33"));
-//
-
-//        favoriteScreenPresenter.deleteMealFromFavorite(new Meal("id2","name3","image3","sss","21","33"));
-//
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
         signInLayout = view.findViewById(R.id.signInLayout);
         favoriteRecyclerView = view.findViewById(R.id.favoriteRecyclerView);
         signInButton = view.findViewById(R.id.signInButton);
         boolean userStatus = AppFunctions.isAuthenticated();
-        if(!userStatus){//
+        if (!userStatus) {//
 
             signInLayout.setVisibility(View.VISIBLE);
             favoriteRecyclerView.setVisibility(View.GONE);
-        }else {
+        } else {
 
             signInLayout.setVisibility(View.GONE);
             favoriteRecyclerView.setVisibility(View.VISIBLE);
@@ -81,7 +71,7 @@ Button signInButton;
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             favoriteRecyclerView.setLayoutManager(layoutManager);
-            favAdapter = new FavoriteAdapter(getContext(), new ArrayList<>(),this);
+            favAdapter = new FavoriteAdapter(getContext(), new ArrayList<>(), this);
             favoriteRecyclerView.setAdapter(favAdapter);
 
             favoriteScreenPresenter.getFavoriteMeals();
@@ -96,32 +86,26 @@ Button signInButton;
 
     @Override
     public void showFavoriteMeals(List<Meal> meals) {
-        Log.d("fav", "Updating RecyclerView with " + meals.size() + " meals"); // Debugging
         if (favAdapter != null) {
             favAdapter.updateData(meals);
         } else {
-            Log.d("fav", "Adapter is null! Initializing again...");
-            favAdapter = new FavoriteAdapter(getContext(), meals,this);
+            favAdapter = new FavoriteAdapter(getContext(), meals, this);
             favoriteRecyclerView.setAdapter(favAdapter);
         }
 
-//        Log.d("FavoriteDebug", "Updating RecyclerView with " + meals.size() + " meals"); // Debug
-//        favAdapter.updateData(meals);
-//
-//       favAdapter = new FavoriteAdapter(getContext(), meals ,this);
-//        favoriteRecyclerView.setAdapter(favAdapter);
-//        favAdapter.notifyDataSetChanged();
-//        Log.d("TAG", "Favorite meals count: " + meals.size());
     }
 
     @Override
-    public void showSnackBar(Meal meal) {
+    public void showSnackBar(Meal meal, String message) {
         View rootView = getActivity().findViewById(R.id.bottomNavigationView);
-        Snackbar snackbar = Snackbar.make(favoriteRecyclerView, "Meal deleted", Snackbar.LENGTH_LONG);
-            snackbar.setAnchorView(rootView).setAction("UNDO", v -> {
-                favoriteScreenPresenter.addMealToFavorite(meal); // Restore meal
-            });
-            snackbar.show();
+        Snackbar snackbar = Snackbar.make(favoriteRecyclerView, message, Snackbar.LENGTH_SHORT);
+        snackbar.setAnchorView(rootView).setAction("Undo", v -> {
+            favoriteScreenPresenter.addMealToFavorite(meal); // undo
+        });
+        snackbar.setBackgroundTint(Color.parseColor("#3E5879"));
+        snackbar.setTextColor(Color.WHITE);
+
+        snackbar.show();
 
     }
 

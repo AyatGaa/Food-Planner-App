@@ -4,6 +4,9 @@ import com.example.foodplanner.Models.meals.Meal;
 
 public interface DetailedMealView {
 
-void showAddedSnackBar(Meal meal);
-void showVideoPlayer(Meal meal);
+    void showAddedSnackBar(Meal meal, String message);
+
+    void showVideoPlayer(Meal meal);
+
+    void showDatePickers(Meal meal);
 }

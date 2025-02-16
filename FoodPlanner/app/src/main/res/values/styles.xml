@@ -4,11 +4,19 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-
-
+     <!-- circle shape style -->
     <style name="CircleShape">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="CustomDatePickerDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:textColor">#C21010</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColorSecondary">#C21010</item>
+        <item name="colorOnPrimary">#C21010</item>
+    </style>
+
 
 </resources>

@@ -17,16 +17,17 @@ import com.example.foodplanner.utils.AppFunctions;
 import java.util.Collections;
 import java.util.List;
 
-public class HomeScreenPresenterImpl implements HomeScreenPresenter , NetworkCallback {
+public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCallback {
 
     HomeScreenView homeScreenView;
     MealRepository mealRepository;
 
     Context context;
+
     public HomeScreenPresenterImpl(HomeScreenView homeScreenView, MealRepository mealRepository, Context context) {
         this.homeScreenView = homeScreenView;
         this.mealRepository = mealRepository;
-    this.context = context;
+        this.context = context;
     }
 
     @Override
@@ -39,19 +40,14 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter , NetworkCal
         mealRepository.getRandomMeal(this);
     }
 
-    @Override
-    public void addMealToFavourite(Meal meal) {
-
-    }
-
 
     @Override
     public void checkInternetConnection() {
 
         boolean isConnected = AppFunctions.isConnected(context);
-   //     homeScreenView.setBottomNavEnabled(isConnected);
-        if(!isConnected){
-              homeScreenView.showOnNoConnection();
+        //     homeScreenView.setBottomNavEnabled(isConnected);
+        if (!isConnected) {
+            homeScreenView.showOnNoConnection();
         }
     }
 
@@ -85,6 +81,6 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter , NetworkCal
 
     @Override
     public void onRandomMealFailure(String errorMessage) {
-    Log.i("TAG", "onFailure: on  in Homescreen presenter" + errorMessage);
+        Log.i("TAG", "onFailure: on  in Homescreen presenter" + errorMessage);
     }
 }

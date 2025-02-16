@@ -10,9 +10,6 @@ public interface HomeScreenView {
     void clearUI();
 
     void setNoConnectionUI();
-
-    void setBottomNavEnabled(boolean isConnected);
-
     void showMeals(List<Meal> meals);
 
     void setRandmoMealCard(Meal meals);
@@ -24,5 +21,7 @@ public interface HomeScreenView {
     void hideProgressBar();
 
     void onRandomMealClick(Meal meal);
+
+    void setBottomNavEnabled(boolean isConnected);
 
 }

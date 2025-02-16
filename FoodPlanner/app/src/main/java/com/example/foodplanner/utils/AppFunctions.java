@@ -3,14 +3,17 @@ package com.example.foodplanner.utils;
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.View;
 
 import androidx.navigation.Navigation;
 
+import com.example.foodplanner.MainActivity;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
@@ -76,8 +79,8 @@ public abstract class AppFunctions {
     public static void goToMealDetails(Context context, Meal meal, View view, int layoutId) {
         navigateTo(view, layoutId);
 
-
     }
+
 
     public static boolean isAuthenticated() {
         FirebaseAuth auth = FirebaseAuth.getInstance();

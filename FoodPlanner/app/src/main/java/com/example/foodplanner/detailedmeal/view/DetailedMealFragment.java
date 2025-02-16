@@ -1,5 +1,6 @@
 package com.example.foodplanner.detailedmeal.view;
 
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -22,10 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.ingredient.Ingredient;
 import com.example.foodplanner.Models.meals.Meal;
+import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
+import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
+import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
+import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenter;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenterImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
@@ -34,8 +39,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,7 +84,9 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
         super.onViewCreated(view, savedInstanceState);
         setupUI(view);
         MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()));
-        detailedMealPresenter = new DetailedMealPresenterImpl(repo, this);
+        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()));
+
+        detailedMealPresenter = new DetailedMealPresenterImpl(repo, this, planRepository);
 
         ingredientsRecyclerView.setHasFixedSize(true);
 
@@ -84,7 +95,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
         ingredientsRecyclerView.setLayoutManager(layoutManager);
 
         Meal meal = DetailedMealFragmentArgs.fromBundle(getArguments()).getDetailedMeal();
-        ingredientList = getIngredient(meal);
+        ingredientList = detailedMealPresenter.getIngredient(meal);
         setIngredineUi(meal);
         showVideoPlayer(meal);
         ingredientsAdapter = new IngredientAdapter(ingredientList, requireContext());
@@ -92,7 +103,6 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
         ingredientsAdapter.notifyDataSetChanged();
 
         btnAddToFavoritesDetailed.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 Log.d("fav", "onClick: on detaled fragment" + meal.getIdMeal());
@@ -101,14 +111,18 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
                 if (userId != null) {
                     meal.setUserId(userId);
                     detailedMealPresenter.onAddToFavourite(meal);
-                    // Toast.makeText(requireContext(), "meal added to favorites" + meal.getStrMeal(), Toast.LENGTH_SHORT).show();
-                    showAddedSnackBar(meal);
+                    showAddedSnackBar(meal, "Meal added to favorites");
 
                 } else {
                     Log.e("fav", " User not authenticated. Cannot add meal to favorites.");
                 }
+            }
+        });
 
-
+        btnAddToPlanMealDetailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickers(meal);
             }
         });
     }
@@ -130,33 +144,14 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
         Glide.with(requireContext()).load(meal.getStrMealThumb())
                 .error(R.drawable.ic_launcher_background)
                 .into(mealImageDetailed);
-
-
-    }
-
-    List<String> getIngredient(Meal meal) {
-        List<String> ingredientsList = new ArrayList<>();
-
-        for (int i = 1; i <= 20; i++) {
-            try {
-                String ingredient = (String) meal.getClass().getDeclaredField("strIngredient" + i).get(meal);
-                if (ingredient != null && !ingredient.trim().isEmpty()) {
-                    ingredientsList.add(ingredient);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        Log.i("TAG", "Extracted Ingredients: " + ingredientsList);
-        return ingredientsList;
     }
 
 
     @Override
-    public void showAddedSnackBar(Meal meal) {
-        View rootView = getActivity().findViewById(R.id.bottomNavigationView);
-        Snackbar snackbar = Snackbar.make(ingredientsRecyclerView, "Meal Added", Snackbar.LENGTH_SHORT);
-        snackbar.setBackgroundTint(Color.parseColor("#3E5879")); // Change background color
+    public void showAddedSnackBar(Meal meal ,String message) {
+        View rootView = requireActivity().findViewById(R.id.bottomNavigationView);
+        Snackbar snackbar = Snackbar.make(ingredientsRecyclerView, message, Snackbar.LENGTH_SHORT);
+        snackbar.setBackgroundTint(Color.parseColor("#3E5879"));
         snackbar.setTextColor(Color.WHITE);
         snackbar.setAnchorView(rootView);
         snackbar.show();
@@ -165,24 +160,41 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView {
     @Override
     public void showVideoPlayer(Meal meal) {
         mealVideo.getSettings().setJavaScriptEnabled(true);
-        String videoId = extractYoutubeVideoId(meal.getStrYoutube());
+        String videoId = detailedMealPresenter.extractYoutubeVideoId(meal.getStrYoutube());
         String embedHtml = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + videoId + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
 
         mealVideo.loadData(embedHtml, "text/html", "utf-8");
 
     }
 
-    public String extractYoutubeVideoId(String url) {
+    @Override
+    public void showDatePickers(Meal meal) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        String pattern = "^(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/(?:[^\\/]+\\/.*|(?:v|e(?:mbed)?)\\/|.*[?&]v=)|youtu\\.be\\/)([a-zA-Z0-9_-]{11})";
-        Pattern compiledPattern = Pattern.compile(pattern);
-        Matcher matcher = compiledPattern.matcher(url);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), R.style.CustomDatePickerDialog,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String selectedDate = selectedYear + "-" + String.format("%02d", (selectedMonth + 1)) + "-" + String.format("%02d", selectedDay);
+                    String userId = AppFunctions.getCurrentUserId();
 
-        if (matcher.find()) {
-            return matcher.group(1); // Extract video ID
-        }
-        return null; // No valid video ID found
+                        Log.d("date", "onClick: " + selectedDate);
+                        PlannedMeal plannedMeal = new PlannedMeal(userId, meal.getIdMeal(), meal.getStrMeal(), meal.getStrMealThumb(), selectedDate);
+                        if (detailedMealPresenter.isFutureDate(selectedDate)) {
+
+                            detailedMealPresenter.onAddToPlan(plannedMeal);
+                      //       showAddedSnackBar(meal, "Meal Planned Successfully!");
+                        } else {
+                            Toast.makeText(requireContext(), "Cannot add meal to a past date", Toast.LENGTH_SHORT).show();
+                        }
+
+                }, year, month, day);
+
+
+        datePickerDialog.show();
     }
+
 
 }
 

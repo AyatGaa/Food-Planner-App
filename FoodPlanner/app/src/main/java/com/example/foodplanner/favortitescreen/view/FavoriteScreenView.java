@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface FavoriteScreenView {
    void showFavoriteMeals(List<Meal> meals);
-   void showSnackBar(Meal meal);
+   void showSnackBar(Meal meal , String message);
 }

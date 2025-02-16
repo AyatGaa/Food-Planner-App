@@ -1,15 +1,21 @@
 package com.example.foodplanner.database.plannedmeal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.database.AppDataBase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -17,17 +23,17 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
 
     PlanMealDao planMealDao;
     Context context;
-    private Observable<List<PlannedMeal>> savedPlannedMeals;
-    private Observable<List<Meal>> savedMeals;
+    Observable<List<PlannedMeal>> savedPlannedMeals;
+    Observable<List<PlannedMeal>> savedMeals;
 
     private static PlannedMealLocalDataSourceImpl instance;
 
     public PlannedMealLocalDataSourceImpl(Context context) {
-        this.context =context;
+        this.context = context;
         AppDataBase db = AppDataBase.getInstance(context);
         planMealDao = db.getPlannedMealDAO();
-        savedMeals = planMealDao.getAllPlannedMeals();
-        savedPlannedMeals = planMealDao.getMealsForDate("2025-02-14");
+        //  savedMeals = planMealDao.getAllPlannedMeals();
+        //savedPlannedMeals = planMealDao.getMealsForDate("2025-02-14");
     }
 
     public static PlannedMealLocalDataSourceImpl getInstance(Context context) {
@@ -40,36 +46,71 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
 
     @Override
     public Observable<List<PlannedMeal>> getMealsForDate(String selectedDate) {
-        return savedPlannedMeals;
+        return savedPlannedMeals = planMealDao.getMealsForDate(selectedDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()); // observe here to be uptodate;;
     }
 
     @Override
-    public Observable<List<Meal>> getAllPlannedMeals() {
-        return savedMeals;
+    public Observable<List<PlannedMeal>> getPlannedMealsByDate(String userId, String date) {
+        return savedPlannedMeals = planMealDao.getPlannedMealsByDate(userId, date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()); // observe here to be uptodate;
     }
 
 
-
+    @SuppressLint("CheckResult")
     @Override
-    public void insertPlannedMeal(PlannedMeal plannedMeal) {
-        planMealDao.insertPlannedMeal(plannedMeal).subscribeOn(Schedulers.io())
+    public void insertPlannedMeal(PlannedMeal plannedMeal) {// is already exist or not
+        planMealDao.isMealPlanned(plannedMeal.getIdMeal(), plannedMeal.getDate())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        ()-> Log.i("data", "insertPlannedMeal: inserted from local da")
-                        ,error -> Log.i("data", "insertPlannedMeal: error")
-                );
+                        mealsNum -> {
+                            if (mealsNum == 0) {
+                                planMealDao.insertPlannedMeal(plannedMeal)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(
+                                                () -> {
+                                                    Toast.makeText(context, "Meal Added Successfully!", Toast.LENGTH_SHORT).show();
+                                                },
+                                                error -> Log.i("data", "insertFavoriteMeal: error" + error.getMessage())
+                                        );
+                            } else {
+                                Toast.makeText(context, "Meal already exist", Toast.LENGTH_SHORT).show();
+                            }
+                        }, error -> {
+                            Log.e("PlanRepository", "Error checking meal existence", error);
+                        });
+
+
+    }
+
+    @Override
+    public Observable<List<PlannedMeal>> getAllPlannedMeals() {
+        return savedMeals = planMealDao.getAllPlannedMeals()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public void deletePlannedMeal(PlannedMeal plannedMeal) {
-            planMealDao.deletePlannedMeal(plannedMeal).subscribeOn(Schedulers.io())
-                    .subscribe(
-                            ()-> Log.i("data", "deletePlannedMeal: deleted from local da")
-                            ,error -> Log.i("data", "deletePlannedMeal: error")
-                    );
+        planMealDao.deletePlannedMeal(plannedMeal).subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> Log.i("data", "deletePlannedMeal: deleted from local da")
+                        , error -> Log.i("data", "deletePlannedMeal: error")
+                );
     }
 
     @Override
     public void deletePastMeals(String currentDate) {
-
+        planMealDao.deletePastMeals(currentDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
+
+
 }

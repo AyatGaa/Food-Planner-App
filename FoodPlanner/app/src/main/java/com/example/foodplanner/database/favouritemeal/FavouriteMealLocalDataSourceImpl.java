@@ -57,6 +57,7 @@ public class FavouriteMealLocalDataSourceImpl implements FavouriteMealLocalDataS
                         ()-> Log.i("data", "insertFavoriteMeal: inserted from local da")
                         ,error -> Log.i("data", "insertFavoriteMeal: error"+ error.getMessage())
                 );
+
     }
 
     @Override

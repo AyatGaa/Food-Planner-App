@@ -11,7 +11,7 @@ import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.database.favouritemeal.MealDAO;
 import com.example.foodplanner.database.plannedmeal.PlanMealDao;
 
-@Database(entities = {Meal.class,PlannedMeal.class}, version = 3)
+@Database(entities = {Meal.class,PlannedMeal.class}, version = 2)
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase appDataBase = null;
 

@@ -12,6 +12,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface MealDAO { //for meals and favourite meals
@@ -21,6 +22,9 @@ public interface MealDAO { //for meals and favourite meals
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertFavoriteMeal(Meal meal);
+
+    @Query("SELECT * FROM meal WHERE idMeal = :idMeal")
+    Single<Meal> getMealById(String idMeal);
 
     @Delete
     Completable deleteFavouriteMeal(Meal meal);
