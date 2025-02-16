@@ -18,12 +18,17 @@ import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SearchScreenPresenterImpl implements SearchScreenPresenter, IngredientNetworkcall, CategoryCallback, AreaCallback{
+public class SearchScreenPresenterImpl implements SearchScreenPresenter, IngredientNetworkcall, CategoryCallback, AreaCallback , NetworkCallback{
 
     MealRepository repo;
     SearchScreenView view;
+    private CompositeDisposable disposable = new CompositeDisposable();
+
 
     public SearchScreenPresenterImpl(MealRepository repo, SearchScreenView view) {
         this.repo = repo;
@@ -36,12 +41,12 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
 
             @Override
             public void onSuccess(List<Meal> meals) {
-
+                view.showMealList(meals);
             }
 
             @Override
             public void onFailure(String errorMessage) {
-
+                Log.d("TAG", "onFailure: filter by cat");
             }
         }, selectedCategory);
     }
@@ -51,12 +56,13 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
         repo.filterByArea(new NetworkCallback() {
             @Override
             public void onSuccess(List<Meal> meals) {
+                view.showMealList(meals);
 
             }
 
             @Override
             public void onFailure(String errorMessage) {
-
+                Log.d("TAG", "onFailure: filter by area");
             }
 
 
@@ -69,7 +75,9 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
 
             @Override
             public void onSuccess(List<Meal> meals) {
-                view.showListOfMealByIngredient(meals);
+               // view.showListOfMealByIngredient(meals);
+                view.showMealList(meals);
+
                 Log.i("cat", "onSuccess: ingredient");
             }
 
@@ -108,6 +116,20 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
     }
 
     @Override
+    public void getAllMeals(String meal) {
+        disposable.add(repo.searchMealByName(this,meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        mealResponse -> view.showMealList(mealResponse.getMeals()),
+                        error -> Log.d("TAG", "getAllMeals: error in sach  " + error.getMessage())
+                ));;
+
+
+        repo.searchMealByName(this, meal);
+    }
+
+    @Override
     public void onAreaSuccess(List<Area> areas) {
         view.showAllAreas(areas);
     }
@@ -136,5 +158,15 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
     @Override
     public void onIngredientFailure(String errorMsg) {
         Log.d("TAG", "onIngredientFailure: ");
+    }
+
+    @Override
+    public void onSuccess(List<Meal> meals) {
+
+    }
+
+    @Override
+    public void onFailure(String errorMessage) {
+
     }
 }

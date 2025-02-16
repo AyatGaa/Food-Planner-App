@@ -18,4 +18,6 @@ public interface SearchScreenView {
     void showAllCategories(List<Category> categories);
 
     void  showAllIngredients(List<Ingredient> ingredients);
+
+    void showMealList(List<Meal> meals);
 }

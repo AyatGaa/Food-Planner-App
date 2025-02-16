@@ -13,6 +13,7 @@ import retrofit2.http.Query;
 
 public interface MealService {
 
+
     @GET("filter.php")
     Single<Meals> filterMealByCategory(@Query("c") String category);
     @GET("filter.php")

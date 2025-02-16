@@ -3,6 +3,7 @@ package com.example.foodplanner.Repository.modelrepoitory;
 import android.util.Log;
 
 import com.example.foodplanner.Models.meals.Meal;
+import com.example.foodplanner.Models.meals.Meals;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSource;
 import com.example.foodplanner.network.AreaCallback;
 import com.example.foodplanner.network.CategoryCallback;
@@ -14,6 +15,7 @@ import com.example.foodplanner.network.NetworkCallback;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public class MealRepositoryImpl implements MealRepository {
     MealRemoteDataSource mealRemoteDataSource;
@@ -85,6 +87,11 @@ public class MealRepositoryImpl implements MealRepository {
     @Override
     public void getAllIngredients(IngredientNetworkcall callBack) {
         crds.ingredientNetworkCall(callBack);
+    }
+
+    @Override
+    public Single<Meals> searchMealByName(NetworkCallback callBack, String mealName) {
+        return mealRemoteDataSource.getAllMeals(callBack, mealName);
     }
 
 }

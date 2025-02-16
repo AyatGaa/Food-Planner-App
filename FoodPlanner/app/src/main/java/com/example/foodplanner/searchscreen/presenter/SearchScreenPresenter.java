@@ -15,4 +15,5 @@ public interface SearchScreenPresenter {
     void getAllAreas();
     void getAllIngredients();
     void mealNetworkCall();
+    void getAllMeals(String meal);
 }

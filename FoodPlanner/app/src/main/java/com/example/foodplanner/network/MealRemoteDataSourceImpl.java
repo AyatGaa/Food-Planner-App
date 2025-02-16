@@ -85,6 +85,14 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     }
 
     @Override
+    public Single<Meals> getAllMeals(NetworkCallback callBack, String mealName) {
+        return mealService.getAllMeals(mealName);
+//        .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    @Override
     public void filterMealByIngredient(NetworkCallback callBack, String ingredient) {
 
     }

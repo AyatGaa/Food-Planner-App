@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.area.Area;
 import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.ingredient.Ingredient;
+import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.homescreen.view.HomeScreenAdapter;
 import com.example.foodplanner.utils.AppFunctions;
@@ -25,6 +26,7 @@ import java.util.List;
 public class FilterAdapter<T> extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
     Context context;
     List<T> filterList;
+
     public FilterAdapter(List<T> filterList, Context context) {
         this.context = context;
 
@@ -45,6 +47,7 @@ public class FilterAdapter<T> extends RecyclerView.Adapter<FilterAdapter.ViewHol
         this.filterList = newList;
         notifyDataSetChanged();
     }
+
     @Override
     public void onBindViewHolder(@NonNull FilterAdapter.ViewHolder holder, int position) {
         Object c = filterList.get(position);
@@ -60,15 +63,17 @@ public class FilterAdapter<T> extends RecyclerView.Adapter<FilterAdapter.ViewHol
             Log.i("TAG", "onBindViewHolder: " + countryCode);
             Glide.with(context).load("https://flagcdn.com/w320/" + countryCode + ".png").into(holder.filterImage);
 
-        } else if (c instanceof Ingredient ) {
+        } else if (c instanceof Ingredient) {
             holder.filterName.setText(((Ingredient) c).getStrIngredient());
             Ingredient ingredient = (Ingredient) c;
             String imageUrl = "https://www.themealdb.com/images/ingredients/" + ingredient.getStrIngredient() + ".png";
             Glide.with(context)
                     .load(imageUrl)
                     .into(holder.filterImage);
+        } else if (c instanceof Meal) {
 
-
+            holder.filterName.setText(((Meal) c).getStrMeal());
+            Glide.with(context).load(((Meal) c).getStrMealThumb()).into(holder.filterImage);
         }
 
 
