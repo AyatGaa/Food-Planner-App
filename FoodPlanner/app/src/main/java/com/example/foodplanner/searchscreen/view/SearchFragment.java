@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                                     chip.setChipBackgroundColorResource(R.color.white);
                                     filterAdapter.updateList(new ArrayList<>());
                                     mealsAdapter.setList(new ArrayList<>());
-                                    searchView.setQuery("",false);
+                                    searchView.setQuery("", false);
                                 }
                             }
                         });
@@ -170,7 +170,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                                     chip.setChipBackgroundColorResource(R.color.white);
                                     filterAdapter.updateList(new ArrayList<>());
                                     mealsAdapter.setList(new ArrayList<>());
-                                    searchView.setQuery("",false);
+                                    searchView.setQuery("", false);
                                 }
                             }
                         });
@@ -192,7 +192,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                                     chip.setChipBackgroundColorResource(R.color.white);
                                     filterAdapter.updateList(new ArrayList<>());
                                     mealsAdapter.setList(new ArrayList<>());
-                                    searchView.setQuery("",false);
+                                    searchView.setQuery("", false);
                                 }
                             }
                         });
@@ -208,8 +208,6 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                 }
             }
         });
-searchView.setQueryRefinementEnabled(true);
-
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -437,8 +435,6 @@ searchView.setQueryRefinementEnabled(true);
 
         Toast.makeText(requireContext(), meal.getStrMeal(), Toast.LENGTH_SHORT).show();
 
-        Log.d("SearchFragment", "Clicked meal: " + meal.getIdMeal() + " - " + meal.getStrMeal() + " - " + meal.getStrMealThumb());
-        Log.d("SearchFragment", "Clicked meal: " + meal.getStrInstructions() + " - " + meal.getStrCategory());
         SearchFragmentDirections.ActionSearchFragmentToDetailedMealFragment action =
                 SearchFragmentDirections.actionSearchFragmentToDetailedMealFragment(meal);
         Navigation.findNavController(requireView()).navigate(action);

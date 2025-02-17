@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
+import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.List;
 
@@ -46,28 +47,17 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull MealsAdapter.ViewHolder holder, int position) {
         Meal meal = mealList.get(position);
 
-
-
-         holder.txtMealName.setText(meal.getStrMeal());
+        holder.txtMealName.setText(meal.getStrMeal());
 
         Glide.with(context).load(meal.getStrMealThumb())
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.mealCardImage);
 
-//        String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
-//        Log.d("SearchFragment", "onBindViewHolder: "+countryCode );
-//        Glide.with(context).load("https://flagcdn.com/w320/" + countryCode + ".png")
-//                .error(R.drawable.ic_launcher_background)
-//                .into(holder.countryFlag);
-
         holder.itemView.setOnClickListener(view -> {
-
             onMealClickListener.onSearchMealClick(meal);
-
         });
 
 
-        Log.i("TAG", "onBindViewHolder: MEAl clicked");
     }
 
     @Override
@@ -91,10 +81,6 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
             txtMealName = itemView.findViewById(R.id.mealSearchCardName);
             mealCardImage = itemView.findViewById(R.id.mealSearchCardImage);
-
-//            txtMealName = itemView.findViewById(R.id.mealName);
-//            mealCardImage = itemView.findViewById(R.id.mealCardImage);
-
 
         }
     }
