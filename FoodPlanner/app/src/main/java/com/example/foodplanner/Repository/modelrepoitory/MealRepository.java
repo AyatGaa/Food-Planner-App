@@ -5,6 +5,7 @@ import com.example.foodplanner.Models.meals.Meals;
 import com.example.foodplanner.network.AreaCallback;
 import com.example.foodplanner.network.CategoryCallback;
 import com.example.foodplanner.network.IngredientNetworkcall;
+import com.example.foodplanner.network.MealDetailCallback;
 import com.example.foodplanner.network.NetworkCallback;
 
 import java.util.List;
@@ -14,6 +15,8 @@ import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Query;
 
 public interface MealRepository {
+
+    public void fetchMealDetails(String mealId,  MealDetailCallback callback);
 
     Observable<List<Meal>> getAllFavouriteMeals(String userId);
 

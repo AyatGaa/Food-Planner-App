@@ -5,7 +5,7 @@ import com.example.foodplanner.network.CategoryCallback;
 import com.example.foodplanner.network.NetworkCallback;
 
 public interface SearchScreenPresenter {
-
+    public void fetchMealDetails(String mealId);
     void checkInternetConnection();
     void filterByCategory(String category);
     void filterByArea(String area);

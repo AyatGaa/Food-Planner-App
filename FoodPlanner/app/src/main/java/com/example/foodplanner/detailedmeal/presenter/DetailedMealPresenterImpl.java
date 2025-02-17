@@ -11,6 +11,7 @@ import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.view.DetailedMealView;
+import com.example.foodplanner.network.MealDetailCallback;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.network.NetworkCallback;
 import com.example.foodplanner.utils.AppFunctions;
@@ -38,6 +39,22 @@ public class DetailedMealPresenterImpl implements DetailedMealPresenter , Networ
         this.mealRepository = mealRepository;
         this.detailedMealView = detailedMealView;
         this.planRepository = planRepository;
+    }
+
+    @Override
+    public void fetchMealDetails(String mealId) {
+        mealRepository.fetchMealDetails(mealId, new MealDetailCallback() {
+            @Override
+            public void onMealDetailsFetched(Meal meal) {
+
+                detailedMealView.showMealDetails(meal); // Pass data to the View
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Log.w("id", "onFailure: "+message );
+            }
+        });
     }
 
     @Override

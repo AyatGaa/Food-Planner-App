@@ -10,14 +10,18 @@ import com.example.foodplanner.network.AreaCallback;
 import com.example.foodplanner.network.CategoryCallback;
 import com.example.foodplanner.network.FilterRemoteDataSource;
 import com.example.foodplanner.network.IngredientNetworkcall;
+import com.example.foodplanner.network.MealDetailCallback;
 import com.example.foodplanner.network.MealRemoteDataSource;
 import com.example.foodplanner.network.NetworkCallback;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealRepositoryImpl implements MealRepository {
@@ -135,6 +139,37 @@ public class MealRepositoryImpl implements MealRepository {
     public Single<Meals> searchMealByName(NetworkCallback callBack, String mealName) {
         return mealRemoteDataSource.getAllMeals(callBack, mealName);
     }
+    public void fetchMealDetails(String mealId,  MealDetailCallback callback) {
 
+        crds.getMealById(mealId)
+                .subscribeOn(Schedulers.io())   // Perform network request on a background thread
+                .observeOn(AndroidSchedulers.mainThread())  // Switch to the main thread to update the UI
+                .subscribe(new Observer<Meals>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        // You can show a loading indicator here if needed
+                    }
 
+                    @Override
+                    public void onNext(@NonNull Meals meals) {
+                        if (meals != null && meals.getMeals() != null && !meals.getMeals().isEmpty()) {
+                            Meal meal = meals.getMeals().get(0);
+                            callback.onMealDetailsFetched(meal);
+                        } else {
+                            callback.onFailure("Meal not found");
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        callback.onFailure("Error: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        // You can hide the loading indicator here if needed
+                    }
+                });
+    }
 }
+

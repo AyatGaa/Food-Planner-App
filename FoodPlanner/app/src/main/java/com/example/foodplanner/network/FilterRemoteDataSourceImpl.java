@@ -176,5 +176,7 @@ public class FilterRemoteDataSourceImpl implements FilterRemoteDataSource {
                 .observeOn(Schedulers.io());
     }
 
-
+    public Observable<Meals> getMealById(String mealId) {
+        return categoryService.getMealById(mealId);
+    }
 }

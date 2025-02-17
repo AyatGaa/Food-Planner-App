@@ -14,7 +14,7 @@ public interface FilterRemoteDataSource {
     void filterMealByArea(NetworkCallback callBack, String area);
     void filterMealByIngredient(NetworkCallback callBack, String ingredient);
 
-
+    public Observable<Meals> getMealById(String mealId);
    Observable<Meals> getMealsByCategory(NetworkCallback callBack,String category);
     Observable<Meals>  getMealsByArea(NetworkCallback callBack,String area);
     Observable<Meals> getMealsByIngredient(NetworkCallback callBack,String ingredient);

@@ -34,6 +34,7 @@ import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenterImpl;
 import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenter;
 import com.example.foodplanner.utils.AppFunctions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,13 +44,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class DetailedMealFragment extends Fragment implements DetailedMealView , NetworkCallback {
+public class DetailedMealFragment extends Fragment implements DetailedMealView, NetworkCallback {
 
     DetailedMealPresenter detailedMealPresenter;
     ImageView mealImageDetailed, countryFlagDetailed;
     TextView mealNameDetailed, instructionsTextDetailed, detailedMealHeader, countryFlagName;
     RecyclerView ingredientsRecyclerView;
     WebView mealVideo;
+    SearchScreenPresenter searchPresenter;
     IngredientAdapter ingredientsAdapter;
     Button btnAddToFavoritesDetailed, btnAddToPlanMealDetailed;
     List<String> ingredientList = new ArrayList<>();
@@ -77,6 +79,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView ,
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         setupUI(view);
         MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()), FilterRemoteDataSourceImpl.getInstance());
         PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()));
@@ -89,27 +92,26 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView ,
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         ingredientsRecyclerView.setLayoutManager(layoutManager);
 
+        Meal meal = DetailedMealFragmentArgs.fromBundle(getArguments()).getDetailedMeal();
 
-        Meal m2 = DetailedMealFragmentArgs.fromBundle(getArguments()).getDetailedMeal();
 
-        Log.d("safe", "onViewCreated: " +m2.getStrMealThumb());
-        Log.d("safe", "onViewCreated: " +m2.getStrMeal());
-        Log.d("safe", "onViewCreated: " +m2.getStrCategory());
-        Log.d("safe", "onViewCreated: " +m2.getStrArea());
-        Log.d("safe", "onViewCreated: " +m2.getStrInstructions());
-        Log.d("safe", "onViewCreated: " +m2.getStrCategory());
+        if (meal.getStrInstructions() == null) { // not complete mal object
+            detailedMealPresenter.fetchMealDetails(meal.getIdMeal());
+        } else {
+            showMealDetails(meal); // complete meal object
+        }
 
-        showMealDetails(m2);
+
         btnAddToFavoritesDetailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("fav", "onClick: on detaled fragment" + m2.getIdMeal());
+                Log.d("fav", "onClick: on detaled fragment" + meal.getIdMeal());
                 String userId = AppFunctions.getCurrentUserId();
                 if (userId != null) {
-                    m2.setUserId(userId);
-                    detailedMealPresenter.onAddToFavourite(m2);
-                    Log.d("MealDetailFragment", "Meal received: " + m2.getStrMeal());
-                    showAddedSnackBar(m2, "Meal added to favorites");
+                    meal.setUserId(userId);
+                    detailedMealPresenter.onAddToFavourite(meal);
+                    Log.d("MealDetailFragment", "Meal received: " + meal.getStrMeal());
+                    showAddedSnackBar(meal, "Meal added to favorites");
 
                 } else {
                     Log.e("fav", " User not authenticated. Cannot add meal to favorites.");
@@ -120,29 +122,29 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView ,
         btnAddToPlanMealDetailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickers(m2);
+                showDatePickers(meal);
             }
         });
     }
 
-    void setIngredineUi(Meal meal) {
-        detailedMealHeader.setText(meal.getStrMeal());
-        mealNameDetailed.setText(meal.getStrMeal());
-        countryFlagName.setText(meal.getStrArea());
-        String instructions = meal.getStrInstructions();
-        instructions = instructions.replaceAll("\r\n|\r|\n", "\n\n");
-        instructionsTextDetailed.setText(instructions);
-
-        String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
-
-        Glide.with(requireContext()).load("https://flagcdn.com/w320/" + countryCode + ".png")
-                .error(R.drawable.ic_launcher_background)
-                .into(countryFlagDetailed);
-
-        Glide.with(requireContext()).load(meal.getStrMealThumb())
-                .error(R.drawable.ic_launcher_background)
-                .into(mealImageDetailed);
-    }
+//    void setIngredineUi(Meal meal) {
+//        detailedMealHeader.setText(meal.getStrMeal());
+//        mealNameDetailed.setText(meal.getStrMeal());
+//        countryFlagName.setText(meal.getStrArea());
+//        String instructions = meal.getStrInstructions();
+//        instructions = instructions.replaceAll("\r\n|\r|\n", "\n\n");
+//        instructionsTextDetailed.setText(instructions);
+//
+//        String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
+//
+//        Glide.with(requireContext()).load("https://flagcdn.com/w320/" + countryCode + ".png")
+//                .error(R.drawable.ic_launcher_background)
+//                .into(countryFlagDetailed);
+//
+//        Glide.with(requireContext()).load(meal.getStrMealThumb())
+//                .error(R.drawable.ic_launcher_background)
+//                .into(mealImageDetailed);
+//    }
 
 
     @Override
@@ -206,9 +208,9 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView ,
         mealNameDetailed.setText(meal.getStrMeal());
         countryFlagName.setText(meal.getStrArea());
         Log.d("DetailedMealFragment", "Clicked meal: " + meal.getIdMeal() + " - " + meal.getStrMeal() + " - " + meal.getStrMealThumb());
-        Log.d("DetailedMealFragment", "Clicked meal: " + meal.getStrInstructions() + " - " + meal.getStrCategory() );
+        Log.d("DetailedMealFragment", "Clicked meal: " + meal.getStrInstructions() + " - " + meal.getStrCategory());
 
-          instructionsTextDetailed.setText(meal.getStrInstructions().replaceAll("\r\n|\r|\n", "\n\n"));
+        instructionsTextDetailed.setText(meal.getStrInstructions().replaceAll("\r\n|\r|\n", "\n\n"));
 
 
         String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
@@ -231,12 +233,10 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView ,
     }
 
 
-
     @Override
     public void onSuccess(List<Meal> meals) {
 
     }
-
 
 
     @Override

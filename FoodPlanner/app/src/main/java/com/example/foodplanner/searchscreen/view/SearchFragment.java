@@ -346,7 +346,8 @@ ConstraintLayout searchScreenConstraintLayout;
 
     @Override
     public void onSearchMealClick(Meal meal) {
-
+//        String mealId = meal.getIdMeal(); // Get the ID of the selected meal
+//        searchPresenter.fetchMealDetails(mealId);
         Toast.makeText(requireContext(), meal.getStrMeal(), Toast.LENGTH_SHORT).show();
 
         Log.d("SearchFragment", "Clicked meal: " + meal.getIdMeal() + " - " + meal.getStrMeal() + " - " + meal.getStrMealThumb());
@@ -354,6 +355,7 @@ ConstraintLayout searchScreenConstraintLayout;
         SearchFragmentDirections.ActionSearchFragmentToDetailedMealFragment action =
                 SearchFragmentDirections.actionSearchFragmentToDetailedMealFragment(meal);
         Navigation.findNavController(requireView()).navigate(action);
+
 
     }
 }

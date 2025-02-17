@@ -1,6 +1,7 @@
 package com.example.foodplanner.searchscreen.view;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -59,7 +61,9 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 //                .into(holder.countryFlag);
 
         holder.itemView.setOnClickListener(view -> {
+
             onMealClickListener.onSearchMealClick(meal);
+
         });
 
 

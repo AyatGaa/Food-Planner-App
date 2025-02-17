@@ -15,6 +15,7 @@ import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.network.AreaCallback;
 import com.example.foodplanner.network.CategoryCallback;
 import com.example.foodplanner.network.IngredientNetworkcall;
+import com.example.foodplanner.network.MealDetailCallback;
 import com.example.foodplanner.network.NetworkCallback;
 import com.example.foodplanner.searchscreen.view.SearchScreenView;
 import com.example.foodplanner.utils.AppFunctions;
@@ -263,5 +264,22 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
     @Override
     public void onFailure(String errorMessage) {
         Log.d("TAG", "meals: ");
+    }
+
+
+    public void fetchMealDetails(String mealId) {
+        repo.fetchMealDetails(mealId, new MealDetailCallback() {
+            @Override
+            public void onMealDetailsFetched(Meal meal) {
+                List<Meal> mealList = new ArrayList<>();
+                mealList.add(meal);
+                view.showMealList(mealList); // Pass data to the View
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Log.w("id", "onFailure: "+message );
+            }
+        });
     }
 }
