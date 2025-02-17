@@ -44,11 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:chipSpacingHorizontal="16dp"
+        app:chipSpacingHorizontal="12dp"
         app:layout_constraintEnd_toEndOf="parent"
 
-
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView"
         app:singleSelection="true">
@@ -58,24 +56,25 @@
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+
             android:elevation="4dp"
             android:text="@string/category"
-
             android:textSize="16sp"
-
             android:textStyle="bold"
+
             app:checkedIcon="@drawable/check_chip"
             app:checkedIconVisible="true"
+            app:rippleColor="@color/gray_light"
             app:chipStrokeColor="@color/primary"
-            app:rippleColor="@color/gray_light" />
+            />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/ingredientChip"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+
+            app:checkedIconVisible="true"
             android:elevation="4dp"
             android:text="@string/ingredient"
             android:textSize="16sp"
@@ -89,14 +88,17 @@
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+
             android:elevation="4dp"
             android:text="@string/country"
             android:textSize="16sp"
             android:textStyle="bold"
             app:checkedIcon="@drawable/check_chip"
+            app:checkedIconVisible="true"
+
+            app:rippleColor="@color/gray_light"
             app:chipStrokeColor="@color/primary"
-            app:rippleColor="@color/gray_light" />
+            />
 
 
     </com.google.android.material.chip.ChipGroup>

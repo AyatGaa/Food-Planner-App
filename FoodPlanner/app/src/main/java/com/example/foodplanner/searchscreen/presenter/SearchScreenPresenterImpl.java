@@ -167,7 +167,8 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
 
-                        mealResponse -> view.showMealList(mealResponse.getMeals()),
+                        mealResponse -> {view.showMealList(mealResponse.getMeals()); },
+
                         throwable -> Log.e("SearchPresenter", "Error fetching meals by category", throwable)
                 );
     }

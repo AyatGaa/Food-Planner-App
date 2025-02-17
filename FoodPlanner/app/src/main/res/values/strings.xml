@@ -55,4 +55,5 @@
     <string name="category">Category</string>
     <string name="country">Country</string>
     <string name="ingredient">Ingredient</string>
+    <string name="meal">Meals</string>
 </resources>

@@ -2,8 +2,10 @@ package com.example.foodplanner.searchscreen.view;
 
 import static io.reactivex.rxjava3.internal.operators.observable.ObservableBlockingSubscribe.subscribe;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +57,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
     TextView searchTitle;
     FilterAdapter filterAdapter;
     RecyclerView mealsRecyclerView;
-ConstraintLayout searchScreenConstraintLayout;
+    ConstraintLayout searchScreenConstraintLayout;
     MealsAdapter mealsAdapter;
     SearchView searchView;
     String selectedChip = "";
@@ -87,7 +90,10 @@ ConstraintLayout searchScreenConstraintLayout;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+
         setUi(view);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         GridLayoutManager mealGridLayoutManager = new GridLayoutManager(getContext(), 2);
 
@@ -105,18 +111,21 @@ ConstraintLayout searchScreenConstraintLayout;
                 FavouriteMealLocalDataSourceImpl.getInstance(requireContext()),
                 FilterRemoteDataSourceImpl.getInstance()
         ), this, requireContext());
+
         handleChipSelection(view);
         setupSearchObservable();
         searchPresenter.checkInternetConnection();
 
-
         return view;
     }
+
 
     private void handleChipSelection(View view) {
         searchChipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (checkedIds.isEmpty()) {
                 selectedChip = "";
+                searchTitle.setText(getString(R.string.meal));
+                performSearch("");
                 return;
             }
 
@@ -124,22 +133,89 @@ ConstraintLayout searchScreenConstraintLayout;
                 Chip chip = view.findViewById(id);
                 if (chip != null) {
                     if (chip.getId() == R.id.categoryChip) {
-                        selectedChip = getString(R.string.category);
-                        Log.d("SearchFragment", "Category Chip Selected: " + selectedChip);
-                        searchTitle.setText(selectedChip);
-                        searchPresenter.getAllCategories();
+
+                        chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if (isChecked) {
+                                    chip.setChecked(true);
+                                    selectedChip = getString(R.string.category);
+                                    chip.setChipBackgroundColorResource(R.color.gray_light);
+                                    searchTitle.setText(selectedChip);
+                                    searchPresenter.getAllCategories();
+                                } else {
+                                    chip.setChecked(false);
+                                    chip.setChipBackgroundColorResource(R.color.white);
+                                    filterAdapter.updateList(new ArrayList<>());
+                                    mealsAdapter.setList(new ArrayList<>());
+                                    searchView.setQuery("",false);
+                                }
+                            }
+                        });
                     } else if (chip.getId() == R.id.countryChip) {
-                        selectedChip = getString(R.string.country);
-                        Log.d("SearchFragment", "Country Chip Selected: " + selectedChip);
-                        searchTitle.setText(selectedChip);
-                        searchPresenter.getAllAreas();
+
+                        chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if (isChecked) {
+                                    chip.setChecked(true);
+                                    chip.setChipBackgroundColorResource(R.color.gray_light);
+
+                                    selectedChip = getString(R.string.country);
+
+                                    searchTitle.setText(selectedChip);
+                                    searchPresenter.getAllAreas();
+                                } else {
+                                    chip.setChecked(false);
+                                    chip.setChipBackgroundColorResource(R.color.white);
+                                    filterAdapter.updateList(new ArrayList<>());
+                                    mealsAdapter.setList(new ArrayList<>());
+                                    searchView.setQuery("",false);
+                                }
+                            }
+                        });
+
+
                     } else if (chip.getId() == R.id.ingredientChip) {
-                        selectedChip = getString(R.string.ingredient);
-                        Log.d("SearchFragment", "Ingredient Chip Selected: " + selectedChip);
-                        searchTitle.setText(selectedChip);
-                        searchPresenter.getAllIngredients();
+
+                        chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if (isChecked) {
+                                    chip.setChecked(true);
+                                    selectedChip = getString(R.string.ingredient);
+                                    chip.setChipBackgroundColorResource(R.color.gray_light);
+                                    searchTitle.setText(selectedChip);
+                                    searchPresenter.getAllIngredients();
+                                } else {
+                                    chip.setChecked(false);
+                                    chip.setChipBackgroundColorResource(R.color.white);
+                                    filterAdapter.updateList(new ArrayList<>());
+                                    mealsAdapter.setList(new ArrayList<>());
+                                    searchView.setQuery("",false);
+                                }
+                            }
+                        });
+
+
+                    } else {
+
+                        selectedChip = "";
+                        searchTitle.setText(getString(R.string.meal));
+                        searchPresenter.getAllMeals("");
+                        break;
                     }
                 }
+            }
+        });
+searchView.setQueryRefinementEnabled(true);
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mealsAdapter.setList(new ArrayList<>());
+                filterAdapter.updateList(new ArrayList<>());
+                return false;
             }
         });
     }
@@ -149,19 +225,31 @@ ConstraintLayout searchScreenConstraintLayout;
 
         switch (selectedChip) {
             case "Category":
-                searchPresenter.getMealsByCategory(query);
-                Log.d("SearchFragment", "Searching by Category: " + query);
+
+                if (!selectedChip.isEmpty()) {
+                    searchPresenter.getMealsByCategory(query);  // Your existing method call
+                    Log.d("SearchFragment", "Searching by Category: " + query);
+                }
                 break;
             case "Country":
-                searchPresenter.getMealsByArea(query);
+                if (!selectedChip.isEmpty()) {
+                    searchPresenter.getMealsByArea(query);// Your existing method call
+                    Log.d("SearchFragment", "Searching by Category: " + query);
+                }
+
                 Log.d("SearchFragment", "Searching by Country: " + query);
                 break;
             case "Ingredient":
-                searchPresenter.getMealsByIngredient(query);
+                if (!selectedChip.isEmpty()) {
+                    searchPresenter.getMealsByIngredient(query);
+
+                    Log.d("SearchFragment", "Searching by Category: " + query);
+                }
+
                 Log.d("SearchFragment", "Searching by Ingredient: " + query);
                 break;
             default:
-                searchTitle.setText("Meals");
+                searchTitle.setText(getString(R.string.meal));
                 searchPresenter.getAllMeals(query);
                 Log.d("SearchFragment", "Performing general meal search: " + query);
                 break;
@@ -181,6 +269,7 @@ ConstraintLayout searchScreenConstraintLayout;
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
+
                     emitter.onNext(newText);
                     performSearch(newText);
                     return true;
@@ -194,7 +283,6 @@ ConstraintLayout searchScreenConstraintLayout;
                         .distinctUntilChanged()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(query -> performSearch(query)));
-
     }
 
 
@@ -346,8 +434,7 @@ ConstraintLayout searchScreenConstraintLayout;
 
     @Override
     public void onSearchMealClick(Meal meal) {
-//        String mealId = meal.getIdMeal(); // Get the ID of the selected meal
-//        searchPresenter.fetchMealDetails(mealId);
+
         Toast.makeText(requireContext(), meal.getStrMeal(), Toast.LENGTH_SHORT).show();
 
         Log.d("SearchFragment", "Clicked meal: " + meal.getIdMeal() + " - " + meal.getStrMeal() + " - " + meal.getStrMealThumb());
@@ -355,7 +442,7 @@ ConstraintLayout searchScreenConstraintLayout;
         SearchFragmentDirections.ActionSearchFragmentToDetailedMealFragment action =
                 SearchFragmentDirections.actionSearchFragmentToDetailedMealFragment(meal);
         Navigation.findNavController(requireView()).navigate(action);
-
-
     }
+
+
 }
