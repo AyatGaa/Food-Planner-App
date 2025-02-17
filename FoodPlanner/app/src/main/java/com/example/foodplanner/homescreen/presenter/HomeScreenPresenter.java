@@ -8,7 +8,9 @@ public interface HomeScreenPresenter {
 
     void getMeals();
     void getRandomMeal();
-    void addMealToFavourite(Meal meal);
 
    void checkInternetConnection();
+
+
+
 }

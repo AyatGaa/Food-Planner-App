@@ -15,23 +15,28 @@
         android:background="@color/white">
 
         <TextView
+
             android:id="@+id/detailedMealHeader"
-            android:layout_width="match_parent"
+
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="10dp"
+            android:maxLines="3"
             android:text="@string/meal_name_in_details_screen"
-
             android:textColor="@color/primary"
             android:textSize="24sp"
             android:textStyle="bold"
 
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/mealDetailCardView"
+            app:layout_constraintHorizontal_bias="0.005"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_default="wrap" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/mealDetailCardView"
@@ -56,10 +61,12 @@
 
         <TextView
             android:id="@+id/mealNameDetailed"
-            android:layout_width="wrap_content"
+
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-
+            android:layout_marginEnd="4dp"
+            android:maxLines="3"
             android:paddingTop="12dp"
             android:text="@string/meal_name"
             android:textColor="@color/black"
@@ -186,7 +193,17 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
+
         </LinearLayout>
 
+        <WebView
+            android:id="@+id/mealVideo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

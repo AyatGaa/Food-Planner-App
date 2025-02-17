@@ -25,14 +25,10 @@ public class PlanRepositoryImpl implements PlanRepository {
         return planRepository;
     }
 
-    @Override
-    public Observable<List<PlannedMeal>> getMealsForDate(String selectedDate) {
-        return plannedMealLocalDataSource.getMealsForDate(selectedDate);
-    }
 
     @Override
-    public Observable<List<Meal>> getAllPlannedMeals() {
-        return plannedMealLocalDataSource.getAllPlannedMeals();
+    public Observable<List<PlannedMeal>> getPlannedMealsByDate(String userId, String date) {
+        return plannedMealLocalDataSource.getPlannedMealsByDate(userId, date);
     }
 
     @Override
@@ -41,8 +37,19 @@ public class PlanRepositoryImpl implements PlanRepository {
     }
 
     @Override
+    public Observable<List<PlannedMeal>> getAllPlannedMeals() {
+        return plannedMealLocalDataSource.getAllPlannedMeals();
+    }
+
+    @Override
     public void deletePlannedMeal(PlannedMeal plannedMeal) {
         plannedMealLocalDataSource.deletePlannedMeal(plannedMeal);
+    }
+
+    //NOT USED
+    @Override
+    public Observable<List<PlannedMeal>> getMealsForDate(String selectedDate) {
+        return plannedMealLocalDataSource.getMealsForDate(selectedDate);
     }
 
     @Override

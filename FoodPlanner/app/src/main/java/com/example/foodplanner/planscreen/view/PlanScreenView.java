@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PlanScreenView {
     void showPlannedMeals(List<PlannedMeal> meals);
+
+    void showSnackBar(PlannedMeal plannedMeal);
 }

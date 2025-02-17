@@ -1,6 +1,9 @@
 package com.example.foodplanner.Models.meals;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -20,7 +23,11 @@ public class Meal implements Serializable {
     public String strInstructions; //steps
     public String strMealThumb; //image
     public String strYoutube;//video
+    @ColumnInfo(name = "userId")
+    public String userId;
 
+    public Meal() {
+    }
 
     public Meal(String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb) {
         this.idMeal = idMeal;
@@ -30,6 +37,7 @@ public class Meal implements Serializable {
         this.strInstructions = strInstructions;
         this.strMealThumb = strMealThumb;
     }
+
 
     public String strTags;
     public String strIngredient1;
@@ -101,6 +109,13 @@ public class Meal implements Serializable {
         return strArea;
     }
 
+    public void setUserId(String userId) {
+        Log.d("fav", "Setting userId: " + userId);
+        this.userId = userId;
+    }
+    public String getUserId() {
+        return userId;
+    }
     public void setStrArea(String strArea) {
         this.strArea = strArea;
     }

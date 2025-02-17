@@ -9,23 +9,40 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "planned_meals")
 public class PlannedMeal {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    int id;
+
     @NonNull
+    private String userId;
     private String idMeal;
     private String mealName;
     private String mealImage;
-    private String date; // Scheduled date in format YYYY-MM-DD
+    private String date; // YYYY-MM-DD
     private String time;
 
-    public PlannedMeal() {
+    public int getId() {
+        return id;
     }
 
-    public PlannedMeal(String idMeal, String mealName, String mealImage, String date, String time) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @NonNull
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(@NonNull String userId) {
+        this.userId = userId;
+    }
+
+    public PlannedMeal(@NonNull String userId, String idMeal, String mealName, String mealImage, String date) {
+        this.userId = userId;
         this.idMeal = idMeal;
         this.mealName = mealName;
         this.mealImage = mealImage;
         this.date = date;
-        this.time = time;
     }
 
     public String getIdMeal() {
