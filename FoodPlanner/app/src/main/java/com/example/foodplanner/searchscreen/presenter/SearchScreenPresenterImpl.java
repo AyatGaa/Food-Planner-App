@@ -1,5 +1,8 @@
 package com.example.foodplanner.searchscreen.presenter;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
+import android.content.Context;
 import android.telephony.ClosedSubscriberGroupInfo;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,7 @@ import com.example.foodplanner.network.CategoryCallback;
 import com.example.foodplanner.network.IngredientNetworkcall;
 import com.example.foodplanner.network.NetworkCallback;
 import com.example.foodplanner.searchscreen.view.SearchScreenView;
+import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +33,23 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
 
     MealRepository repo;
     SearchScreenView view;
+    Context context;
     private CompositeDisposable disposable = new CompositeDisposable();
 
 
-    public SearchScreenPresenterImpl(MealRepository repo, SearchScreenView view) {
+    public SearchScreenPresenterImpl(MealRepository repo, SearchScreenView view, Context context) {
         this.repo = repo;
         this.view = view;
+        this.context = context;
+    }
+
+    @Override
+    public void checkInternetConnection() {
+        boolean isConnected = AppFunctions.isConnected(context);
+        //     homeScreenView.setBottomNavEnabled(isConnected);
+        if (!isConnected) {
+            view.showOnNoConnectionSearch();
+        }
     }
 
     @Override

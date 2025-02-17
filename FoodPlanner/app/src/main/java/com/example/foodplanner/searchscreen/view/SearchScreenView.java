@@ -8,7 +8,10 @@ import com.example.foodplanner.Models.meals.Meal;
 import java.util.List;
 
 public interface SearchScreenView {
+    void showOnNoConnectionSearch();
+    void clearSearchUI();
 
+    void setNoConnectionSearchUI();
    void showListOfMealByCategorty(List<Meal> meals);
    void showListOfMealByArea(List<Meal> meals);
    void showListOfMealByIngredient(List<Meal> meals);

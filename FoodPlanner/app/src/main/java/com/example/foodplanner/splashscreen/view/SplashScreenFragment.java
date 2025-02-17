@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -87,7 +88,10 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
         if (isFirstTime) {
-            AppFunctions.navigateTo(requireView(), R.id.action_splashScreenFragment_to_introScreenFragment);
+            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_introScreenFragment ,null,
+                    new NavOptions.Builder()
+                            .setPopUpTo(R.id.splashScreenFragment, true)
+                            .build());
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("isFirstTime", false);
             editor.apply();
@@ -108,10 +112,16 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
         }
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment);
+            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment , null,
+                    new NavOptions.Builder()
+                            .setPopUpTo(R.id.splashScreenFragment, true) //handle back btn
+                            .build());
 
         } else {
-            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_signInFragment);
+            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_signInFragment ,null,
+                    new NavOptions.Builder()
+                            .setPopUpTo(R.id.splashScreenFragment, true)
+                            .build());
         }
     }
 

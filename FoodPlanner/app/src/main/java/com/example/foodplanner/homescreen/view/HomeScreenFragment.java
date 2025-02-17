@@ -81,7 +81,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         homeRecyclerView.setLayoutManager(layoutManager);
 
-        MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),requireContext());
+        MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), requireContext());
 
         homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext());
         homeScreenAdapter = new HomeScreenAdapter(meals, getContext(), this);
@@ -90,6 +90,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
 
         homeScreenPresenter.getMeals();
         homeScreenPresenter.getRandomMeal();
+
         homeScreenPresenter.checkInternetConnection();
 
 
@@ -141,6 +142,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
 
     @Override
     public void clearUI() {
+
         homeScreenConstraintLayout.removeAllViews();
     }
 
@@ -208,7 +210,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
         Toast.makeText(requireContext(), meal.getStrMeal(), Toast.LENGTH_SHORT).show();
 
         Log.d("home", "Clicked meal: " + meal.getIdMeal() + " - " + meal.getStrMeal() + " - " + meal.getStrMealThumb());
-        Log.d("home", "Clicked meal: " + meal.getStrInstructions() + " - " + meal.getStrCategory() );
+        Log.d("home", "Clicked meal: " + meal.getStrInstructions() + " - " + meal.getStrCategory());
 
 
         HomeScreenFragmentDirections.ActionHomeScreenFragmentToDetailedMealFragment action =

@@ -5,18 +5,22 @@ import static io.reactivex.rxjava3.internal.operators.observable.ObservableBlock
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.area.Area;
 import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.ingredient.Ingredient;
@@ -29,6 +33,8 @@ import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenter;
 import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenterImpl;
+import com.example.foodplanner.utils.AppFunctions;
+import com.example.foodplanner.utils.BottomSheetFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -48,7 +54,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
     TextView searchTitle;
     FilterAdapter filterAdapter;
     RecyclerView mealsRecyclerView;
-
+ConstraintLayout searchScreenConstraintLayout;
     MealsAdapter mealsAdapter;
     SearchView searchView;
     String selectedChip = "";
@@ -71,6 +77,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         searchChipGroup = v.findViewById(R.id.searchChipGroup);
         searchView = v.findViewById(R.id.searchView);
         searchTitle = v.findViewById(R.id.searchTitle);
+        searchScreenConstraintLayout = v.findViewById(R.id.searchScreenConstraintLayout);
 
         searchRecyclerView.setVisibility(View.VISIBLE);
         mealsRecyclerView.setVisibility(View.GONE);
@@ -82,7 +89,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         setUi(view);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        GridLayoutManager mealGridLayoutManager = new GridLayoutManager(getContext(), 1);
+        GridLayoutManager mealGridLayoutManager = new GridLayoutManager(getContext(), 2);
 
         searchRecyclerView.setLayoutManager(gridLayoutManager);
         mealsRecyclerView.setLayoutManager(mealGridLayoutManager);
@@ -97,9 +104,10 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                 MealRemoteDataSourceImpl.getInstance(),
                 FavouriteMealLocalDataSourceImpl.getInstance(requireContext()),
                 FilterRemoteDataSourceImpl.getInstance()
-        ), this);
+        ), this, requireContext());
         handleChipSelection(view);
         setupSearchObservable();
+        searchPresenter.checkInternetConnection();
 
 
         return view;
@@ -186,6 +194,63 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                         .distinctUntilChanged()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(query -> performSearch(query)));
+
+    }
+
+
+    @Override
+    public void showOnNoConnectionSearch() {
+        if (!AppFunctions.isConnected(requireContext())) {
+            clearSearchUI();
+            setNoConnectionSearchUI();
+            BottomSheetFragment bottomSheet = new BottomSheetFragment();
+            bottomSheet.show(getParentFragmentManager(), "NoConnectionBottomSheet");
+        }
+    }
+
+    @Override
+    public void clearSearchUI() {
+        searchScreenConstraintLayout.removeAllViews();
+    }
+
+    @Override
+    public void setNoConnectionSearchUI() {
+        searchTitle.setText(getString(R.string.no_connection));
+        searchTitle.setGravity(Gravity.CENTER);
+
+        // Layout Params for TextView
+        ConstraintLayout.LayoutParams textParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+        );
+        textParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        textParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        textParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+        textParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+        searchTitle.setLayoutParams(textParams);
+
+        // Create ImageView
+        ImageView noConnectionImage = new ImageView(requireContext());
+        noConnectionImage.setId(View.generateViewId());
+        noConnectionImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+        // Layout Params for ImageView
+        ConstraintLayout.LayoutParams imageParams =
+                new ConstraintLayout.LayoutParams(200, 400);
+
+        imageParams.bottomToTop = searchTitle.getId();
+        imageParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+        imageParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+        imageParams.topMargin = 60;
+        noConnectionImage.setLayoutParams(imageParams);
+
+        Glide.with(requireContext())
+                .load(R.drawable.cutlery_primary_color)
+                .error(R.drawable.ic_launcher_background)
+                .into(noConnectionImage);
+
+        searchScreenConstraintLayout.addView(noConnectionImage);
+        searchScreenConstraintLayout.addView(searchTitle);
 
     }
 

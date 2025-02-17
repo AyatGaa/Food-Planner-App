@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:id="@+id/searchScreenConstraintLayout"
     tools:context=".searchscreen.view.SearchFragment">
 
     <TextView
@@ -106,22 +107,28 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
+        android:paddingBottom="230dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchChipGroup"
-        tools:listitem="@layout/category_card"
-        /><androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/category_card" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mealsRecyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-    android:visibility="gone"
+        android:paddingBottom="230dp"
+            android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchChipGroup"
-        tools:listitem="@layout/meal_card"
-        />
+        tools:listitem="@layout/meal_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

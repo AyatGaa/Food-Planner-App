@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_gravity="center"
     android:background="@drawable/rounded_bg_card"
     android:elevation="6dp"
+    app:cardCornerRadius="16dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_bg_card"
         android:elevation="4dp"
@@ -38,13 +39,13 @@
             android:id="@+id/categoryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/category"
-
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
+
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:text="@string/category"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
