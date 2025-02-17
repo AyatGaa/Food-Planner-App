@@ -9,9 +9,9 @@ import retrofit2.Call;
 public interface MealRemoteDataSource {
     void mealNetworkCall(NetworkCallback callBack);
     void randomMealNetworkCall(RandomMealCallback callBack);
+    Single<Meals> getAllMeals(NetworkCallback callBack, String mealName);
 
     void  filterMealByArea(NetworkCallback callBack, String area);
-    Single<Meals> getAllMeals(NetworkCallback callBack, String mealName);
     void filterMealByIngredient(NetworkCallback callBack, String ingredient);
     void searchMealByName(NetworkCallback callBack, String mealName);
     void getAllAreas(NetworkCallback callBack);

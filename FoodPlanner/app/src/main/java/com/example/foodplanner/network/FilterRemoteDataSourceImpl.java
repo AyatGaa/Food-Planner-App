@@ -162,14 +162,14 @@ public class FilterRemoteDataSourceImpl implements FilterRemoteDataSource {
 
     }
 
-    @Override
     public Observable<Meals> getMealsByArea(NetworkCallback callBack, String area) {
         return categoryService.getMealsByArea(area)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io());
-
-
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(meals -> Log.d("api", "Meals: " + meals))
+                .doOnError(throwable -> Log.e("api", "Error: " + throwable.getMessage()));
     }
+
 
     @Override
     public Observable<Meals> getMealsByIngredient(NetworkCallback callBack, String ingredient) {

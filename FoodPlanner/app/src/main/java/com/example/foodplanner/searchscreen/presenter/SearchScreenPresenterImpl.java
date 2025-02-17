@@ -46,6 +46,11 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
             }
 
             @Override
+            public void onSuccessArea(List<Meal> meals) {
+
+            }
+
+            @Override
             public void onFailure(String errorMessage) {
                 Log.d("TAG", "onFailure: filter by cat");
             }
@@ -61,6 +66,11 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
             public void onSuccess(List<Meal> meals) {
                 view.showMealList(meals);
                 view.showListOfMealByArea(meals);
+
+            }
+
+            @Override
+            public void onSuccessArea(List<Meal> meals) {
 
             }
 
@@ -81,6 +91,11 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
                 view.showListOfMealByIngredient(meals);
                 //  view.showMealList(meals);
                 Log.i("cat", "onSuccess: ingredient");
+            }
+
+            @Override
+            public void onSuccessArea(List<Meal> meals) {
+
             }
 
             @Override
@@ -210,6 +225,15 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
 
     @Override
     public void onSuccess(List<Meal> meals) {
+        if (meals != null && !meals.isEmpty()) {
+            view.showMealList(meals);
+        } else {
+            Log.w("Chip", "No meals found.");
+        }
+    }
+
+    @Override
+    public void onSuccessArea(List<Meal> meals) {
         if (meals != null && !meals.isEmpty()) {
             view.showMealList(meals);
         } else {

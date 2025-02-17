@@ -53,12 +53,25 @@ public class MealRepositoryImpl implements MealRepository {
     @Override
     public Observable<Meals> getMealsByArea(NetworkCallback callBack, String area) {
         return crds.getMealsByArea(callBack, area)
-                .doOnNext(meals -> {
-                    if (meals.getMeals() == null || meals.getMeals().isEmpty()) {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(meals -> {
+                    if (meals == null || meals.getMeals() == null || meals.getMeals().isEmpty()) {
                         Log.w("Chip", "No meals found for area: " + area);
+                        callBack.onFailure("No meals found for area: " + area);
+                        return new Meals();  // Return an empty Meals object to avoid null issues
+                    } else {
+                        Log.d("Chip", "Meals found: " + meals.getMeals().size());
+                        callBack.onSuccessArea(meals.getMeals()); // Notify callback of success
+                        return meals;
                     }
+                })
+                .doOnError(throwable -> {
+                    Log.e("Chip", "Error fetching meals by area: " + throwable.getMessage());
+                    callBack.onFailure(throwable.getMessage());
                 });
     }
+
 
 
     @Override
@@ -66,7 +79,6 @@ public class MealRepositoryImpl implements MealRepository {
         return crds.getMealsByIngredient(callBack, ingredient)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-
     }
 
     @Override

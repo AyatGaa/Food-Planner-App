@@ -99,6 +99,13 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
     }
 
     @Override
+    public void onSuccessArea(List<Meal> meals) {
+        Log.i("Chip", "onSuccess: geot measl in main " + meals.size());
+        Log.i("Chip", "onSuccess: geot measl in main " + meals.get(0).getStrCategory());
+
+    }
+
+    @Override
     public void onFailure(String errorMessage) {
         Log.i("TAG", "onFailure: somthin wrong main");
     }

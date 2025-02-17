@@ -61,6 +61,11 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     }
 
     @Override
+    public void onSuccessArea(List<Meal> meals) {
+        homeScreenView.showMeals(meals);
+    }
+
+    @Override
     public void onFailure(String errorMessage) {
         Log.i("TAG", "onFailure: on  in Homescreen presenter" + errorMessage);
     }
