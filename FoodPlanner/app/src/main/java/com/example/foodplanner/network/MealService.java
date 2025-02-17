@@ -32,6 +32,8 @@ public interface MealService {
     @GET("filter.php")
     Observable<Meals> getMealsByIngredient(@Query("i") String ingredient);
 
+    @GET("lookup.php")
+    Observable<Meal> getMealById(@Query("i") String mealId);
 
 
     @GET("list.php?a=list")

@@ -89,7 +89,7 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
             @Override
             public void onSuccess(List<Meal> meals) {
                 view.showListOfMealByIngredient(meals);
-                //  view.showMealList(meals);
+              view.showMealList(meals);
                 Log.i("cat", "onSuccess: ingredient");
             }
 
@@ -141,9 +141,6 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
                         mealResponse -> view.showMealList(mealResponse.getMeals()),
                         error -> Log.d("TAG", "getAllMeals: error in sach  " + error.getMessage())
                 ));
-        ;
-
-
         repo.searchMealByName(this, meal);
     }
 
@@ -161,13 +158,17 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
 
     @Override
     public void getMealsByArea(String area) {
+        List<Meal> all = new ArrayList<>();
         disposable.add(repo.getMealsByArea(this, area)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         mealResponse -> {
                             if (mealResponse != null && mealResponse.getMeals() != null && !mealResponse.getMeals().isEmpty()) {
-                                view.showMealList(mealResponse.getMeals());
+                                for (Meal m : mealResponse.getMeals()) {
+                                    all.add(m);
+                                }
+                                view.showMealList(all);
                             } else {
                                 Log.w("Presenter", "No meals found for area: " + area);
                             }
@@ -180,6 +181,8 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
 
     @Override
     public void getMealsByIngredient(String ingredient) {
+
+
         repo.getMealsByIngredient(this, ingredient)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -191,6 +194,8 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
 
 
     }
+
+
 
     @Override
     public void onAreaSuccess(List<Area> areas) {
@@ -205,7 +210,6 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
     @Override
     public void onCategorySuccess(List<Category> categories) {
         view.showAllCategories(categories);
-
     }
 
     @Override

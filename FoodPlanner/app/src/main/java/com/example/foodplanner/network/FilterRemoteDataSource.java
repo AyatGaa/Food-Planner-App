@@ -1,10 +1,9 @@
 package com.example.foodplanner.network;
 
+import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
 
 import io.reactivex.rxjava3.core.Observable;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 public interface FilterRemoteDataSource {
 

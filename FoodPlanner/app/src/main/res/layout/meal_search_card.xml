@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/homeScreenCardMeal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@drawable/rounded_bg_card"
-    android:elevation="6dp"
-    app:cardUseCompatPadding="true">
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="12dp"
+    android:backgroundTint="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_bg_card"
-        android:elevation="4dp"
+        android:elevation="8dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <ImageView
-            android:id="@+id/categoryImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-
+            android:id="@+id/mealSearchCardImage"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
@@ -35,18 +37,20 @@
             app:layout_goneMarginTop="8dp" />
 
         <TextView
-            android:id="@+id/categoryName"
+            android:id="@+id/mealSearchCardName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/category"
 
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxLines="3"
+            android:text="@string/meal_name"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 

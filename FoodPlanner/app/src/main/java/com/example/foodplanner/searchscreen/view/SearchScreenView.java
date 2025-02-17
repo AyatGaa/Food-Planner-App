@@ -20,4 +20,5 @@ public interface SearchScreenView {
     void  showAllIngredients(List<Ingredient> ingredients);
 
     void showMealList(List<Meal> meals);
+    void showMealDetailsSearch(Meal meal);
 }

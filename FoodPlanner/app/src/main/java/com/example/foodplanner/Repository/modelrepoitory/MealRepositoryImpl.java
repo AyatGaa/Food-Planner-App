@@ -1,5 +1,6 @@
 package com.example.foodplanner.Repository.modelrepoitory;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.foodplanner.Models.meals.Meal;
@@ -73,13 +74,15 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
 
-
+    @SuppressLint("CheckResult")
     @Override
     public Observable<Meals> getMealsByIngredient(NetworkCallback callBack, String ingredient) {
+
         return crds.getMealsByIngredient(callBack, ingredient)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
 
     @Override
     public void insertFavoriteMeal(Meal meal) {
@@ -132,5 +135,6 @@ public class MealRepositoryImpl implements MealRepository {
     public Single<Meals> searchMealByName(NetworkCallback callBack, String mealName) {
         return mealRemoteDataSource.getAllMeals(callBack, mealName);
     }
+
 
 }

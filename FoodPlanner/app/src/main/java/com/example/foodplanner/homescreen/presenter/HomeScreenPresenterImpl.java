@@ -62,7 +62,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
 
     @Override
     public void onSuccessArea(List<Meal> meals) {
-        homeScreenView.showMeals(meals);
+
     }
 
     @Override

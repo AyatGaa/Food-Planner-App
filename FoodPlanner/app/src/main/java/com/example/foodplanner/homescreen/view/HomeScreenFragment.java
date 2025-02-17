@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.MainActivity;
@@ -204,6 +205,11 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
 
     @Override
     public void onMealClick(Meal meal) {
+        Toast.makeText(requireContext(), meal.getStrMeal(), Toast.LENGTH_SHORT).show();
+
+        Log.d("home", "Clicked meal: " + meal.getIdMeal() + " - " + meal.getStrMeal() + " - " + meal.getStrMealThumb());
+        Log.d("home", "Clicked meal: " + meal.getStrInstructions() + " - " + meal.getStrCategory() );
+
 
         HomeScreenFragmentDirections.ActionHomeScreenFragmentToDetailedMealFragment action =
                 HomeScreenFragmentDirections.actionHomeScreenFragmentToDetailedMealFragment(meal);

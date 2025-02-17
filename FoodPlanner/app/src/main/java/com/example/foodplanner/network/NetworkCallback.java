@@ -9,6 +9,7 @@ import java.util.List;
 public interface NetworkCallback {
 
     void onSuccess(List<Meal> meals);
+
     void onSuccessArea(List<Meal> meals);
     void onFailure(String errorMessage);
 

@@ -21,4 +21,6 @@ public interface SearchScreenPresenter {
     void getMealsByCategory(String category);
     void getMealsByArea(String area);
     void getMealsByIngredient(String ingredient);
+
+
 }

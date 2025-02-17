@@ -2,14 +2,12 @@ package com.example.foodplanner.searchscreen.view;
 
 import static io.reactivex.rxjava3.internal.operators.observable.ObservableBlockingSubscribe.subscribe;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -26,6 +24,7 @@ import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
+import com.example.foodplanner.homescreen.view.OnMealClickListener;
 import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenter;
@@ -41,7 +40,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
-public class SearchFragment extends Fragment implements SearchScreenView , OnMealClickListener {
+public class SearchFragment extends Fragment implements SearchScreenView, OnSearchMealClickListener {
 
     SearchScreenPresenter searchPresenter;
     RecyclerView searchRecyclerView;
@@ -57,16 +56,15 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public SearchFragment() {
-        // Required empty public constructor
     }
+
     void updateMealList(List<Meal> meals) {
-        // Hide filters and show meal list
         searchRecyclerView.setVisibility(View.GONE);
         mealsRecyclerView.setVisibility(View.VISIBLE);
 
-        // Update the meal recycler view
         mealsAdapter.setList(meals);
     }
+
     void setUi(View v) {
         searchRecyclerView = v.findViewById(R.id.searchRecyclerView);
         mealsRecyclerView = v.findViewById(R.id.mealsRecyclerView);
@@ -74,7 +72,6 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
         searchView = v.findViewById(R.id.searchView);
         searchTitle = v.findViewById(R.id.searchTitle);
 
-        // Initially only show filters
         searchRecyclerView.setVisibility(View.VISIBLE);
         mealsRecyclerView.setVisibility(View.GONE);
     }
@@ -91,7 +88,7 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
         mealsRecyclerView.setLayoutManager(mealGridLayoutManager);
 
         filterAdapter = new FilterAdapter(new ArrayList(), requireContext());
-        mealsAdapter = new MealsAdapter(new ArrayList(), requireContext(), this::onMealClick);
+        mealsAdapter = new MealsAdapter(new ArrayList(), requireContext(), this);
 
         searchRecyclerView.setAdapter(filterAdapter);
         mealsRecyclerView.setAdapter(mealsAdapter);
@@ -103,36 +100,7 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
         ), this);
         handleChipSelection(view);
         setupSearchObservable();
-//        searchChipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-//            if (checkedIds.isEmpty()) {
-//                selectedChip = "";
-//            } else {
-//                for (int id : checkedIds) {
-//
-//                    Chip chip = view.findViewById(id);
-//
-//                    if (chip != null) {
-//
-//                        if (chip == view.findViewById(R.id.categoryChip)) {
-//                            selectedChip = getString(R.string.category);
-//                            Log.i("chip", "onCreateView: chip cat clicked" + selectedChip);
-//                            searchPresenter.getAllCategories();
-//                        } else if (chip == view.findViewById(R.id.countryChip)) {
-//                            selectedChip = getString(R.string.country);
-//                            Log.i("chip", "onCreateView: chip cat clicked" + selectedChip);
-//                            searchPresenter.getAllAreas();
-//                        } else if (chip == view.findViewById(R.id.ingredientChip)) {
-//
-//                            selectedChip = getString(R.string.ingredient);
-//                            Log.i("chip", "onCreateView: chip cat clicked" + selectedChip);
-//                            searchPresenter.getAllIngredients();
-//                        }
-//                    }
-//                }
-//            }
-//
-//        });
-//
+
 
         return view;
     }
@@ -140,7 +108,7 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
     private void handleChipSelection(View view) {
         searchChipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (checkedIds.isEmpty()) {
-                selectedChip = ""; // Clear selection if no chip is selected
+                selectedChip = "";
                 return;
             }
 
@@ -169,16 +137,15 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
     }
 
     public void performSearch(String query) {
-        if (query.isEmpty()) return; // No query entered, do nothing
+        if (query.isEmpty()) return;
 
-        // Perform search based on selected chip
         switch (selectedChip) {
             case "Category":
                 searchPresenter.getMealsByCategory(query);
                 Log.d("SearchFragment", "Searching by Category: " + query);
                 break;
             case "Country":
-                searchPresenter.getMealsByArea(query); // Ensure this matches the API method
+                searchPresenter.getMealsByArea(query);
                 Log.d("SearchFragment", "Searching by Country: " + query);
                 break;
             case "Ingredient":
@@ -187,41 +154,12 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
                 break;
             default:
                 searchTitle.setText("Meals");
-                searchPresenter.getAllMeals(query); // Regular search if no filter is selected
+                searchPresenter.getAllMeals(query);
                 Log.d("SearchFragment", "Performing general meal search: " + query);
                 break;
         }
     }
 
-//    private void handleChipSelection(View view) {
-//        searchChipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-//            if (checkedIds.isEmpty()) {
-//                selectedChip = "";
-//
-//            } else {
-//                for (int id : checkedIds) {
-//                    Chip chip = view.findViewById(id);
-//                    if (chip != null) {
-//                        if (chip.getId() == R.id.categoryChip) {
-//                            selectedChip = getString(R.string.category);
-//                            searchTitle.setText(selectedChip);
-//                            searchPresenter.getAllCategories();
-//
-//                        } else if (chip.getId() == R.id.countryChip) {
-//                            selectedChip = getString(R.string.country);
-//                            searchTitle.setText(selectedChip);
-//                            searchPresenter.getAllAreas();
-//
-//                        } else if (chip.getId() == R.id.ingredientChip) {
-//                            selectedChip = getString(R.string.ingredient);
-//                            searchTitle.setText(selectedChip);
-//                            searchPresenter.getAllIngredients();
-//                        }
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     private void setupSearchObservable() {
         Observable<String> searchObservable = Observable.create(emitter -> {
@@ -236,7 +174,7 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     emitter.onNext(newText);
-
+                    performSearch(newText);
                     return true;
                 }
             });
@@ -251,48 +189,22 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
 
     }
 
-//    public void performSearch(String query) {
-//        if (query.isEmpty()) return;
-//
-//        switch (selectedChip) {
-//            case "Category":
-//                searchPresenter.getMealsByCategory(query);
-//                Log.d("ss", "performSearch: " + query);
-//                break;
-//            case "Area":
-//                searchPresenter.getMealsByArea(query);
-//                break;
-//            case "Ingredient":
-//                searchPresenter.getMealsByIngredient(query);
-//                break;
-//            default:
-//                searchPresenter.getAllMeals(query);
-//                searchTitle.setText("Meals");
-//
-//                Log.d("TAG", "performSearch: No chip selected, normal search");
-//                break;
-//        }
-//    }
-
     @Override
     public void showListOfMealByCategorty(List<Meal> meals) {
-            updateMealList(meals);
-        Log.d("cat", "showListOfMealByCategory: =>" + meals.size());
-
+        Log.d("SearchFragment", "showListOfMealByCategory: =>" + meals.size());
+        updateMealList(meals);
     }
 
     @Override
     public void showListOfMealByArea(List<Meal> meals) {
+        Log.d("SearchFragment", "showListOfMealByArea: =>" + meals.size());
         updateMealList(meals);
-
-        Log.d("cat", "showListOfMealByArea: =>" + meals.size());
     }
 
     @Override
     public void showListOfMealByIngredient(List<Meal> meals) {
+        Log.d("SearchFragment", "showListOfMealByIngredient: => " + meals.size());
         updateMealList(meals);
-
-        Log.d("cat", "showListOfMealByIngredient: => " + meals.size());
     }
 
     @Override
@@ -302,11 +214,10 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
             searchRecyclerView.setAdapter(filterAdapter);
             filterAdapter.notifyDataSetChanged();
 
-            // Switch to the meal recycler view
             searchRecyclerView.setVisibility(View.VISIBLE);
             mealsRecyclerView.setVisibility(View.GONE);
         } else {
-            // Show a message if no categories are found
+
             Toast.makeText(requireContext(), "No categories found.", Toast.LENGTH_SHORT).show();
         }
 
@@ -323,11 +234,11 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
             searchRecyclerView.setAdapter(filterAdapter);
             filterAdapter.notifyDataSetChanged();
 
-            // Switch to the meal recycler view
+
             searchRecyclerView.setVisibility(View.VISIBLE);
             mealsRecyclerView.setVisibility(View.GONE);
         } else {
-            // Show a message if no categories are found
+
             Toast.makeText(requireContext(), "No categories found.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -340,11 +251,10 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
             searchRecyclerView.setAdapter(filterAdapter);
             filterAdapter.notifyDataSetChanged();
 
-            // Switch to the meal recycler view
             searchRecyclerView.setVisibility(View.VISIBLE);
             mealsRecyclerView.setVisibility(View.GONE);
         } else {
-            // Show a message if no categories are found
+
             Toast.makeText(requireContext(), "No categories found.", Toast.LENGTH_SHORT).show();
         }
 
@@ -352,23 +262,33 @@ public class SearchFragment extends Fragment implements SearchScreenView , OnMea
 
     @Override
     public void showMealList(List<Meal> meals) {
-        // Ensure meals list is initialized
-        if (meals == null) {
-            meals = new ArrayList<>(); // Initialize to empty list if null
+        if (meals == null || meals.isEmpty()) {
+            Log.d("SearchFragment", "showMealList: No meals found.");
+            return;
         }
-
         mealsAdapter.setList(meals);
-        mealsRecyclerView.setAdapter(mealsAdapter);
         mealsAdapter.notifyDataSetChanged();
 
-        // Show the meal list view
         mealsRecyclerView.setVisibility(View.VISIBLE);
         searchRecyclerView.setVisibility(View.GONE);
     }
 
+    @Override
+    public void showMealDetailsSearch(Meal meal) {
+        searchPresenter.getMealsByArea(meal.getIdMeal());
+    }
+
 
     @Override
-    public void onMealClick(Meal meal) {
+    public void onSearchMealClick(Meal meal) {
+
         Toast.makeText(requireContext(), meal.getStrMeal(), Toast.LENGTH_SHORT).show();
+
+        Log.d("SearchFragment", "Clicked meal: " + meal.getIdMeal() + " - " + meal.getStrMeal() + " - " + meal.getStrMealThumb());
+        Log.d("SearchFragment", "Clicked meal: " + meal.getStrInstructions() + " - " + meal.getStrCategory());
+        SearchFragmentDirections.ActionSearchFragmentToDetailedMealFragment action =
+                SearchFragmentDirections.actionSearchFragmentToDetailedMealFragment(meal);
+        Navigation.findNavController(requireView()).navigate(action);
+
     }
 }

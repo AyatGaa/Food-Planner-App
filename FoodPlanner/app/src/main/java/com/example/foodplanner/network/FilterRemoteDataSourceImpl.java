@@ -2,10 +2,9 @@ package com.example.foodplanner.network;
 
 import android.util.Log;
 
-import com.example.foodplanner.Models.area.Areas;
 import com.example.foodplanner.Models.category.Categories;
+import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
-import com.google.gson.Gson;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -58,7 +57,6 @@ public class FilterRemoteDataSourceImpl implements FilterRemoteDataSource {
                         }
                 );
     }
-
     @Override
     public void areaNetworkCall(AreaCallback callBack) {
         Log.d("REPO", "getAllAreas: Calling RemoteDataSource");

@@ -2,7 +2,7 @@ package com.example.foodplanner.searchscreen.view;
 
 import com.example.foodplanner.Models.meals.Meal;
 
-public interface OnMealClickListener {
+public interface OnSearchMealClickListener {
 
-    void onMealClick(Meal meal);
+    void onSearchMealClick(Meal meal);
 }

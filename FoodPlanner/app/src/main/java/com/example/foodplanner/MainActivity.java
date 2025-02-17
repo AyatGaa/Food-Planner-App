@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
 
     }
 
+
+
     @Override
     public void onSuccessArea(List<Meal> meals) {
         Log.i("Chip", "onSuccess: geot measl in main " + meals.size());

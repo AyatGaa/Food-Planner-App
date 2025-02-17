@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import retrofit2.http.Query;
 
 public interface MealRepository {
 
@@ -34,6 +35,7 @@ public interface MealRepository {
     void getAllIngredients(IngredientNetworkcall callBack);
 
     Single<Meals> searchMealByName(NetworkCallback callBack, String mealName);
+
 
     void mealNetworkCall(NetworkCallback callBack);
 }
