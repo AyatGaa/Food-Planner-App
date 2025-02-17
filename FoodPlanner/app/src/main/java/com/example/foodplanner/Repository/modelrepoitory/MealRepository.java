@@ -15,6 +15,12 @@ import io.reactivex.rxjava3.core.Single;
 public interface MealRepository {
 
     Observable<List<Meal>> getAllFavouriteMeals(String userId);
+
+
+    Observable<Meals> getMealsByCategory( NetworkCallback callBack,String category);
+    Observable<Meals> getMealsByArea(NetworkCallback callBack,String area);
+    Observable<Meals> getMealsByIngredient(NetworkCallback callBack,String ingredient);
+
     void insertFavoriteMeal(Meal meal);
     void deleteFavouriteMeal(Meal meal);
 

@@ -14,8 +14,10 @@ import com.example.foodplanner.network.NetworkCallback;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealRepositoryImpl implements MealRepository {
     MealRemoteDataSource mealRemoteDataSource;
@@ -43,6 +45,31 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
+    public Observable<Meals> getMealsByCategory(NetworkCallback callBack, String category) {
+        return crds.getMealsByCategory(callBack, category);
+
+    }
+
+    @Override
+    public Observable<Meals> getMealsByArea(NetworkCallback callBack, String area) {
+        return crds.getMealsByArea(callBack, area)
+                .doOnNext(meals -> {
+                    if (meals.getMeals() == null || meals.getMeals().isEmpty()) {
+                        Log.w("Chip", "No meals found for area: " + area);
+                    }
+                });
+    }
+
+
+    @Override
+    public Observable<Meals> getMealsByIngredient(NetworkCallback callBack, String ingredient) {
+        return crds.getMealsByIngredient(callBack, ingredient)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    @Override
     public void insertFavoriteMeal(Meal meal) {
         favouriteMealLocalDataSource.insertFavoriteMeal(meal);
     }
@@ -63,7 +90,7 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void filterByArea(NetworkCallback callBack, String area){
+    public void filterByArea(NetworkCallback callBack, String area) {
         crds.filterMealByArea(callBack, area);
     }
 
@@ -73,7 +100,7 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void getAllCategories(CategoryCallback callBack){
+    public void getAllCategories(CategoryCallback callBack) {
         crds.categoryNetworkCall(callBack);
     }
 

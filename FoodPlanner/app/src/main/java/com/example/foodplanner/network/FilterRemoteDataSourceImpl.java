@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.example.foodplanner.Models.area.Areas;
 import com.example.foodplanner.Models.category.Categories;
+import com.example.foodplanner.Models.meals.Meals;
 import com.google.gson.Gson;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Retrofit;
@@ -60,24 +62,20 @@ public class FilterRemoteDataSourceImpl implements FilterRemoteDataSource {
     @Override
     public void areaNetworkCall(AreaCallback callBack) {
         Log.d("REPO", "getAllAreas: Calling RemoteDataSource");
-
         categoryService.getAllAreas()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(response -> Log.d("API_RESPONSE", "Raw Response: " + new Gson().toJson(response))) // Debugging
-                .map(Areas::getAreas)
+                .map(a -> a.getAreas())
+                .map(catList -> catList)
                 .subscribe(
                         areaList -> {
-                            if (areaList == null) {
-                                Log.e("TAG", "Error: getAreas() returned null!");
-                            } else {
-                                callBack.onAreaSuccess(areaList);
-                                Log.d("TAG", "onAreaSuccess: " + areaList.size());
-                            }
+                            callBack.onAreaSuccess(areaList);
+                            Log.d("REPO", "onAreaSuccess: " + areaList.size());
+
                         },
                         error -> {
                             callBack.onAreaFailure(error.getMessage());
-                            Log.e("TAG", "Error: " + error.getMessage());
+                            Log.e("REPO", "Error: " + error.getMessage());
                         }
                 );
     }
@@ -140,21 +138,45 @@ public class FilterRemoteDataSourceImpl implements FilterRemoteDataSource {
 
     @Override
     public void filterMealByIngredient(NetworkCallback callBack, String ingredient) {
-            categoryService.filterMealByIngredient(ingredient)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map(ingredients -> ingredients.getMeals())
-                    .subscribe(
-                            mealList -> {
+        categoryService.filterMealByIngredient(ingredient)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(ingredients -> ingredients.getMeals())
+                .subscribe(
+                        mealList -> {
 
-                                callBack.onSuccess(mealList);
-                                Log.d("cat", "filterMealByIngredient: " + mealList.size());
-                            },
-                            error -> {
-                                callBack.onFailure(error.getMessage());
-                                Log.i("cat", "filterMealByIngredient: " + error.getMessage());
-                            }
+                            callBack.onSuccess(mealList);
+                            Log.d("cat", "filterMealByIngredient: " + mealList.size());
+                        },
+                        error -> {
+                            callBack.onFailure(error.getMessage());
+                            Log.i("cat", "filterMealByIngredient: " + error.getMessage());
+                        }
 
-                    );
+                );
     }
+
+    @Override
+    public Observable<Meals> getMealsByCategory(NetworkCallback callBack, String category) {
+        return categoryService.getMealsByCategory(category);
+
+    }
+
+    @Override
+    public Observable<Meals> getMealsByArea(NetworkCallback callBack, String area) {
+        return categoryService.getMealsByArea(area)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io());
+
+
+    }
+
+    @Override
+    public Observable<Meals> getMealsByIngredient(NetworkCallback callBack, String ingredient) {
+        return categoryService.getMealsByIngredient(ingredient)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io());
+    }
+
+
 }

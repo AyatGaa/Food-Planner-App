@@ -66,7 +66,6 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     public void randomMealNetworkCall(RandomMealCallback callBack) {
         Single<Meals> mealsSingle = mealService.getRandomMeal();
         mealsSingle.subscribeOn(Schedulers.io())
-
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         mealList -> {
@@ -81,7 +80,19 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
 
     @Override
     public void filterMealByArea(NetworkCallback callBack, String area) {
+            mealService.filterMealByArea(area).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(a ->a.getMeals())
+                    .subscribe(
 
+                            mealList -> {
+                                Log.d("REPO", "filterMealByArea: hhhh" + mealList.size());
+                                callBack.onSuccess(mealList);
+                            },
+                            error -> {
+                                Log.d("REPO", "filterMealByArea: ");
+                            }
+                    );
     }
 
     @Override

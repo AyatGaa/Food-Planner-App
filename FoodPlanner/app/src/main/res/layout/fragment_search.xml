@@ -10,7 +10,7 @@
     tools:context=".searchscreen.view.SearchFragment">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/searchTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -111,6 +111,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchChipGroup"
         tools:listitem="@layout/category_card"
-
+        /><androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mealsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+    android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchChipGroup"
+        tools:listitem="@layout/meal_card"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
