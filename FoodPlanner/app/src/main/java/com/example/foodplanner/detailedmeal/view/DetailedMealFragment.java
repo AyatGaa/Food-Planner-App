@@ -27,6 +27,7 @@ import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
+import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenter;
@@ -81,7 +82,11 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         super.onViewCreated(view, savedInstanceState);
 
         setupUI(view);
-        MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()), FilterRemoteDataSourceImpl.getInstance());
+        MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),
+                FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
+                FilterRemoteDataSourceImpl.getInstance(),
+                FavoriteMealFirebaseImpl.getInstance()
+        );
         PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()));
 
         detailedMealPresenter = new DetailedMealPresenterImpl(repo, this, planRepository);

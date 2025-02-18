@@ -12,9 +12,13 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
-import retrofit2.http.Query;
 
 public interface MealRepository {
+
+    //firbase fun
+    void addMealToFirebase(Meal meal, String userId);
+    Observable<List<Meal>> getFavouriteMealsFromFirebase(String userId);
+    void deleteMealFromFirebase(Meal meal, String userId);
 
     public void fetchMealDetails(String mealId,  MealDetailCallback callback);
 

@@ -7,4 +7,5 @@ public interface FavoriteScreenPresenter {
     void getFavoriteMeals();
     void addMealToFavorite(Meal meal);
     void deleteMealFromFavorite(Meal meal);
+    void getFavouriteMealsFromFirebase(String userId);
 }

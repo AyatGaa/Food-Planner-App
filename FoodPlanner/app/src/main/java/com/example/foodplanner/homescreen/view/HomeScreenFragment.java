@@ -22,11 +22,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.MainActivity;
 import com.example.foodplanner.Models.meals.Meal;
-import com.example.foodplanner.Models.meals.MealRepository;
-import com.example.foodplanner.Models.meals.MealRepositoryImpl;
+import com.example.foodplanner.Models.meals.MealOnlyRepository;
+import com.example.foodplanner.Models.meals.MealOnlyRepositoryImpl;
 import com.example.foodplanner.R;
+import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
+import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
+import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenter;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenterImpl;
+import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.utils.AppFunctions;
 import com.example.foodplanner.utils.BottomSheetFragment;
@@ -81,9 +86,12 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         homeRecyclerView.setLayoutManager(layoutManager);
 
-        MealRepository mealRepo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), requireContext());
-
-        homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext());
+        MealOnlyRepository mealRepo = MealOnlyRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), requireContext());
+        MealRepository mealRepository = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),
+                FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
+                FilterRemoteDataSourceImpl.getInstance(),
+                FavoriteMealFirebaseImpl.getInstance());
+        homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext(),mealRepository );
         homeScreenAdapter = new HomeScreenAdapter(meals, getContext(), this);
         Log.i("TAG", "onCreateView: here" + meals.size());
         homeRecyclerView.setAdapter(homeScreenAdapter);
@@ -93,6 +101,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
 
         homeScreenPresenter.checkInternetConnection();
 
+        homeScreenPresenter.getFavoriteMealsFirebase();
 
         return view;
     }

@@ -21,6 +21,7 @@ import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
+import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 
@@ -39,13 +40,8 @@ import java.util.List;
 
 public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePlanMealListener {
 
-    PlanScreenPresenter planScreenPresenter;
-    PlanAdapter planAdapter;
-    CalendarView calendarView;
-    String selectedDate;
-    RecyclerView planRecyclerView;
-    LinearLayout signInLayoutPlan;
-    Button signInButtonPlan;
+    PlanScreenPresenter planScreenPresenter; PlanAdapter planAdapter; CalendarView calendarView;
+    String selectedDate; RecyclerView planRecyclerView;  LinearLayout signInLayoutPlan; Button signInButtonPlan;
 
     public PlanFragment() {
         // Required empty public constructor
@@ -62,7 +58,11 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PlanRepository repo = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()));
-        MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()), FilterRemoteDataSourceImpl.getInstance());
+        MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),
+                FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
+                FilterRemoteDataSourceImpl.getInstance(),
+                FavoriteMealFirebaseImpl.getInstance()
+                );
         planScreenPresenter = new PlanScreenPresenterImpl(this, repo);
 
     }

@@ -52,8 +52,8 @@ public class FavoriteScreenPresenterImpl implements FavoriteScreenPresenter {
 
             meal.setUserId(user);//must be set before inserting
             mealRepository.insertFavoriteMeal(meal);
-
-            mealRepository.insertFavoriteMeal(meal);
+            mealRepository.addMealToFirebase(meal, user);
+          //  mealRepository.insertFavoriteMeal(meal);
         } else {
             Log.d("fav", "User not authenticated. Cannot add meal to favorites.");
         }
@@ -62,6 +62,14 @@ public class FavoriteScreenPresenterImpl implements FavoriteScreenPresenter {
     @Override
     public void deleteMealFromFavorite(Meal meal) {
         mealRepository.deleteFavouriteMeal(meal);
+        mealRepository.deleteMealFromFirebase(meal, meal.getUserId());
         favoriteScreenView.showSnackBar(meal, "Meal deleted");
+    }
+
+    @Override
+    public void getFavouriteMealsFromFirebase(String userId) {
+
+            mealRepository.getFavouriteMealsFromFirebase(userId);
+
     }
 }

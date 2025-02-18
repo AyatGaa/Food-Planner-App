@@ -18,6 +18,7 @@ import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
+import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenter;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenterImpl;
@@ -44,7 +45,12 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()), FilterRemoteDataSourceImpl.getInstance());
+        MealRepository repo = MealRepositoryImpl.getInstance(
+                MealRemoteDataSourceImpl.getInstance(),
+                FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
+                FilterRemoteDataSourceImpl.getInstance(),
+                FavoriteMealFirebaseImpl.getInstance()
+        );
         favoriteScreenPresenter = new FavoriteScreenPresenterImpl(this, repo);
     }
 
