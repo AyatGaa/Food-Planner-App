@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.foodplanner.R;
 import com.example.foodplanner.signin.presenter.SignInPresenter;
 import com.example.foodplanner.signin.presenter.SignInPresenterImpl;
@@ -47,11 +48,11 @@ public class SignInFragment extends Fragment implements SignInView {
     private FirebaseAuth mAuth;
     EditText edtEmailSignIn, editPasswordSignIn;
     TextView txtSignUpIn;
-    Button btnSignIn, btnGoogleSignIn;
+    Button btnSignIn, btnGoogleSignIn,btnSkipSignIn;
     private ProgressBar progressBarSignIn;
+    LottieAnimationView loadingViewSignIn;
 
     SignInPresenter signInPresenter;
-
 
 
     public SignInFragment() {
@@ -64,7 +65,8 @@ public class SignInFragment extends Fragment implements SignInView {
         btnSignIn = view.findViewById(R.id.btnSignIn);
         txtSignUpIn = view.findViewById(R.id.txtSignUpIn);
         btnGoogleSignIn = view.findViewById(R.id.btnSignInWithGoogle);
-        progressBarSignIn = view.findViewById(R.id.progressBarSignIn);
+        loadingViewSignIn = view.findViewById(R.id.loadingViewSignIn);
+        btnSkipSignIn = view.findViewById(R.id.btnSkipSignIn);
     }
 
     @Override
@@ -104,6 +106,13 @@ public class SignInFragment extends Fragment implements SignInView {
                 signInWithGoogle();
             }
         });
+
+        btnSkipSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeScreenFragment);
+            }
+        });
         return view;
     }
 
@@ -127,12 +136,12 @@ public class SignInFragment extends Fragment implements SignInView {
 
     @Override
     public void showLoading() {
-        progressBarSignIn.setVisibility(View.VISIBLE);
+        loadingViewSignIn.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        progressBarSignIn.setVisibility(View.VISIBLE);
+        loadingViewSignIn.setVisibility(View.VISIBLE);
     }
 
     private void signInWithGoogle() {
@@ -154,69 +163,5 @@ public class SignInFragment extends Fragment implements SignInView {
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            firebaseAuthWithGoogle(account);
-        } catch (ApiException e) {
-            Toast.makeText(getContext(), "Sign-in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(requireActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(getContext(), "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-                        // Navigate to another fragment or activity
-                        Navigation.findNavController(getView()).navigate(R.id.action_signInFragment_to_homeScreenFragment);
-                    } else {
-                        Toast.makeText(getContext(), "Authentication failed!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 }
-
-//
-//    private void signInGoogle() {
-//        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//        startActivityForResult(signInIntent, RC_SIGN_IN);
-//    }
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RC_SIGN_IN) {
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//            try {
-//                Log.i(TAG, "onActivityResult: get data" + data);
-//                GoogleSignInAccount account = task.getResult(ApiException.class);
-//                signWithGoogle(account.getIdToken());
-//
-//            } catch (ApiException e) {
-//                Log.d(TAG, "onActivityResult: " + e.getMessage());
-//            }
-//
-//        }
-//    }
-//
-//    void signWithGoogle(String idToken) {
-//
-//        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-//        mAuth.signInWithCredential(credential).addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//
-//                if (task.isSuccessful()) {
-//                    Log.d("TAG", "signInWithCredential:success");
-//                    //   FirebaseUser user = mAuth.getCurrentUser();
-//                } else {
-//                    // If sign in fails, display a message to the user.
-//                    Log.w("TAG", "signInWithCredential:failure", task.getException());
-//
-//                }
-//            }
-//        });
-//    }

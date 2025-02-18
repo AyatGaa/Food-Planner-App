@@ -61,7 +61,9 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     @SuppressLint("CheckResult")
     @Override
     public void getFavoriteMealsFirebase() {
+        if(AppFunctions.isAuthenticated() ){
         String userId = AppFunctions.getCurrentUserId();
+
         mealRepository.getFavouriteMealsFromFirebase(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -75,26 +77,33 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
                             Log.e("fb", "Error fetching favorite meals: " + error.getMessage());
                         }
                 );
+        }else{
+            Toast.makeText(context, "User is not authenticated", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
     @SuppressLint("CheckResult")
     @Override
     public void getPlannedMealsFirebase(String plannedDate) {
-        String userId = AppFunctions.getCurrentUserId();
-        planRepository.getPlannedMealsFromFirebase(userId, plannedDate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        meals -> {
-                            for (PlannedMeal meal : meals) {// to add meals from firebase to room
-                                planRepository.insertPlannedMeal(meal);
+        if(AppFunctions.isAuthenticated() ) {
+            String userId = AppFunctions.getCurrentUserId();
+            planRepository.getPlannedMealsFromFirebase(userId, plannedDate)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            meals -> {
+                                for (PlannedMeal meal : meals) {// to add meals from firebase to room
+                                    planRepository.insertPlannedMeal(meal);
+                                }
+                            },
+                            error -> {
+                                Log.e("fb", "Error fetching PLanned meals: " + error.getMessage());
                             }
-                        },
-                        error -> {
-                            Log.e("fb", "Error fetching PLanned meals: " + error.getMessage());
-                        }
-                );
+                    );
+        }else{
+            Toast.makeText(context, "User is not authenticated", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

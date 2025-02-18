@@ -53,7 +53,13 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public String getCurrentUserName() {
-        String userName = mAuth.getCurrentUser().getDisplayName();
+        String userName;
+        if (mAuth.getCurrentUser() == null) {
+            return "Guest";
+        } else {
+
+            userName = mAuth.getCurrentUser().getDisplayName();
+        }
         return userName;
     }
 

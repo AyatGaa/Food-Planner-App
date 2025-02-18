@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallback {
             navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-            // Hide bottom navigation on Splash Screen
+            // Hide bottom navigation bar on Splash Screen
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 if (destination.getId() == R.id.splashScreenFragment || destination.getId() == R.id.signInFragment
                         || destination.getId() == R.id.introScreenFragment || destination.getId() == R.id.signUpFragment) {

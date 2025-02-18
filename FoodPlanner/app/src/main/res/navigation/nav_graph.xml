@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/introScreenFragment"
-        android:name="com.example.foodplanner.IntroScreenFragment"
+        android:name="com.example.foodplanner.introscreen.IntroScreenFragment"
         android:label="fragment_intro_screen"
         tools:layout="@layout/fragment_intro_screen" >
         <action
@@ -66,7 +66,8 @@
         tools:layout="@layout/fragment_home_screen" >
         <action
             android:id="@+id/action_homeScreenFragment_to_detailedMealFragment"
-            app:destination="@id/detailedMealFragment" />
+            app:destination="@id/detailedMealFragment"
+            app:popUpTo="@id/homeScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
@@ -93,11 +94,12 @@
         tools:layout="@layout/fragment_search" >
         <action
             android:id="@+id/action_searchFragment_to_detailedMealFragment"
-            app:destination="@id/detailedMealFragment" />
+            app:destination="@id/detailedMealFragment"
+            app:popUpTo="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.foodplanner.UserFragment"
+        android:name="com.example.foodplanner.userscreen.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" >
         <action
@@ -106,6 +108,9 @@
         <action
             android:id="@+id/action_userFragment_to_introScreenFragment"
             app:destination="@id/introScreenFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailedMealFragment"

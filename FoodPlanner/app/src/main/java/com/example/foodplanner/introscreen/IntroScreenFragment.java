@@ -1,4 +1,4 @@
-package com.example.foodplanner;
+package com.example.foodplanner.introscreen;
 
 import android.os.Bundle;
 
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.foodplanner.R;
 
 public class IntroScreenFragment extends Fragment {
 
@@ -33,7 +35,7 @@ public class IntroScreenFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_intro_screen, container, false);
         btnSignup = view.findViewById(R.id.btnSignUpIntro);
         btnGetStarted = view.findViewById(R.id.btnGetStarted);
-         txtSignIn = view.findViewById(R.id.txtLoginIntro);
+        txtSignIn = view.findViewById(R.id.txtLoginIntro);
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override

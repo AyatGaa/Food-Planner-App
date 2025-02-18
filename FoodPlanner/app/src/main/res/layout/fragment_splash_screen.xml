@@ -30,7 +30,7 @@
         android:layout_marginTop="391dp"
         android:layout_marginEnd="-4dp"
         android:fontFamily="@font/gluten_regular"
-        android:text="@string/plan_your_meals"
+        android:text="@string/app_solgan"
         android:textAlignment="center"
         android:textColor="@color/primary"
         android:textSize="32sp" />
