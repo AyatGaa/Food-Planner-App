@@ -62,36 +62,6 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     }
 
 
-//    @Override
-//    public void getFavoriteMealsFirebase() {
-//        String userId = AppFunctions.getCurrentUserId();
-//        Log.d("fb", "Fetching meals for user: " + userId); // Log userId for debugging
-//
-//        mealRepository.getFavouriteMealsFromFirebase(userId)
-//                .subscribeOn(Schedulers.io()) // Run in background thread
-//                .observeOn(AndroidSchedulers.mainThread()) // Run in UI thread
-//                .subscribe(
-//                        meals -> {
-//                            Toast.makeText(context, "Adding meals to Firebase and Room", Toast.LENGTH_SHORT).show();
-//
-//                            for (Meal meal : meals) {
-//                                // Check if the meal is already in the local Room DB to avoid duplicate insertions
-//                                planRepository.getPlannedMealById(meal.getIdMeal())
-//                                        .subscribe(existingMeal -> {
-//                                            if (existingMeal == null) { // Only insert if not already in DB
-//                                                mealRepository.insertFavoriteMeal(meal);
-//                                            }
-//                                        });
-//                            }
-//                        },
-//                        error -> {
-//                            Log.e("fb", "Error fetching favorite meals: " + error.getMessage());
-//                            Toast.makeText(context, "Error fetching favorite meals", Toast.LENGTH_SHORT).show(); // Notify user
-//                        }
-//                );
-//    }
-
-
     @Override
     public void getFavoriteMealsFirebase() {
         String userId = AppFunctions.getCurrentUserId();
