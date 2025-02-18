@@ -1,5 +1,6 @@
 package com.example.foodplanner.detailedmeal.view;
 
+
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
-import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenter;
@@ -38,8 +39,6 @@ import com.example.foodplanner.network.NetworkCallback;
 import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenter;
 import com.example.foodplanner.utils.AppFunctions;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,8 +53,10 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
     WebView mealVideo;
     SearchScreenPresenter searchPresenter;
     IngredientAdapter ingredientsAdapter;
+
     Button btnAddToFavoritesDetailed, btnAddToPlanMealDetailed;
     List<String> ingredientList = new ArrayList<>();
+
 
     void setupUI(View view) {
         ingredientsRecyclerView = view.findViewById(R.id.ingredientsRecyclerView);
@@ -87,7 +88,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                 FilterRemoteDataSourceImpl.getInstance(),
                 FavoriteMealFirebaseImpl.getInstance()
         );
-        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()));
+        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()),FavoriteMealFirebaseImpl.getInstance());
 
         detailedMealPresenter = new DetailedMealPresenterImpl(repo, this, planRepository);
 
@@ -127,29 +128,12 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         btnAddToPlanMealDetailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showDatePickers(meal);
             }
         });
     }
 
-//    void setIngredineUi(Meal meal) {
-//        detailedMealHeader.setText(meal.getStrMeal());
-//        mealNameDetailed.setText(meal.getStrMeal());
-//        countryFlagName.setText(meal.getStrArea());
-//        String instructions = meal.getStrInstructions();
-//        instructions = instructions.replaceAll("\r\n|\r|\n", "\n\n");
-//        instructionsTextDetailed.setText(instructions);
-//
-//        String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
-//
-//        Glide.with(requireContext()).load("https://flagcdn.com/w320/" + countryCode + ".png")
-//                .error(R.drawable.ic_launcher_background)
-//                .into(countryFlagDetailed);
-//
-//        Glide.with(requireContext()).load(meal.getStrMealThumb())
-//                .error(R.drawable.ic_launcher_background)
-//                .into(mealImageDetailed);
-//    }
 
 
     @Override
@@ -187,7 +171,6 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                     Log.d("date", "onClick: " + selectedDate);
                     PlannedMeal plannedMeal = new PlannedMeal(userId, meal.getIdMeal(), meal.getStrMeal(), meal.getStrMealThumb(), selectedDate);
                     if (detailedMealPresenter.isFutureDate(selectedDate)) {
-
                         detailedMealPresenter.onAddToPlan(plannedMeal);
                         //       showAddedSnackBar(meal, "Meal Planned Successfully!");
                     } else {

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Locale;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
-import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 
@@ -40,8 +41,13 @@ import java.util.List;
 
 public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePlanMealListener {
 
-    PlanScreenPresenter planScreenPresenter; PlanAdapter planAdapter; CalendarView calendarView;
-    String selectedDate; RecyclerView planRecyclerView;  LinearLayout signInLayoutPlan; Button signInButtonPlan;
+    PlanScreenPresenter planScreenPresenter;
+    PlanAdapter planAdapter;
+    CalendarView calendarView;
+    String selectedDate;
+    RecyclerView planRecyclerView;
+    LinearLayout signInLayoutPlan;
+    Button signInButtonPlan;
 
     public PlanFragment() {
         // Required empty public constructor
@@ -57,12 +63,12 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PlanRepository repo = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()));
+        PlanRepository repo = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()), FavoriteMealFirebaseImpl.getInstance());
         MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),
                 FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
                 FilterRemoteDataSourceImpl.getInstance(),
                 FavoriteMealFirebaseImpl.getInstance()
-                );
+        );
         planScreenPresenter = new PlanScreenPresenterImpl(this, repo);
 
     }
@@ -88,11 +94,14 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
             planRecyclerView.setAdapter(planAdapter);
 
             selectedDate = getTodayDate();
-             planScreenPresenter.getMealsForDate(selectedDate); // to show already existed meal
+            planScreenPresenter.getMealsForDate(selectedDate); // to show already existed meal
+            //planScreenPresenter.getPlannedMealsFirebase(selectedDate);
 
             calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
                 selectedDate = String.format(Locale.getDefault(), "%d-%02d-%02d", year, (month + 1), dayOfMonth);
                 planScreenPresenter.getMealsForDate(selectedDate);
+                planScreenPresenter.getPlannedMealsFirebase(selectedDate);
+
             });
 
 

@@ -27,8 +27,11 @@ import com.example.foodplanner.Models.meals.MealOnlyRepositoryImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
-import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
+import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
+import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
+import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenter;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenterImpl;
 import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
@@ -37,13 +40,16 @@ import com.example.foodplanner.utils.AppFunctions;
 import com.example.foodplanner.utils.BottomSheetFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMealClickListener {
 
     ImageView mealOfTheDayImage;
     TextView mealOfTheDayTitle, mealOfTheDayInstructions, cozyMeals;
     RecyclerView homeRecyclerView;
+    String selectedDate;
     HomeScreenPresenter homeScreenPresenter;
     ProgressBar progressBarMealOfDay;
     HomeScreenAdapter homeScreenAdapter;
@@ -91,7 +97,8 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
                 FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
                 FilterRemoteDataSourceImpl.getInstance(),
                 FavoriteMealFirebaseImpl.getInstance());
-        homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext(),mealRepository );
+        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()), FavoriteMealFirebaseImpl.getInstance());
+        homeScreenPresenter = new HomeScreenPresenterImpl(this, mealRepo, requireContext(),mealRepository , planRepository);
         homeScreenAdapter = new HomeScreenAdapter(meals, getContext(), this);
         Log.i("TAG", "onCreateView: here" + meals.size());
         homeRecyclerView.setAdapter(homeScreenAdapter);
@@ -101,11 +108,28 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
 
         homeScreenPresenter.checkInternetConnection();
 
-        homeScreenPresenter.getFavoriteMealsFirebase();
+
+
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        homeScreenPresenter.getFavoriteMealsFirebase();
+        selectedDate = getTodayDate();
+        homeScreenPresenter.getPlannedMealsFirebase(selectedDate);
+    }
+
+    private String getTodayDate() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        return String.format(Locale.getDefault(), "%d-%02d-%02d", year, (month + 1), day);
+
+    }
     @Override
     public void setRandmoMealCard(Meal meal) {
         Glide.with(getContext()).load(meal.getStrMealThumb())
@@ -151,7 +175,6 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
 
     @Override
     public void clearUI() {
-
         homeScreenConstraintLayout.removeAllViews();
     }
 

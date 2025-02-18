@@ -67,6 +67,8 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
         Glide.with(context).load("https://flagcdn.com/w320/" + countryCode + ".png")
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.countryFlag);
+
+
         holder.itemView.setOnClickListener(view -> {
             onMealClickListener.onMealClick(meal);
             Log.i("TAG", "onClick: meal clicked");

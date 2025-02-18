@@ -13,4 +13,6 @@ public interface HomeScreenPresenter {
     void checkInternetConnection();
 
     void getFavoriteMealsFirebase();
+
+    public void getPlannedMealsFirebase( String plannedDate);
 }

@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
-import com.example.foodplanner.backup.FavoriteMealFirebase;
+import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebase;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSource;
 import com.example.foodplanner.network.AreaCallback;
 import com.example.foodplanner.network.CategoryCallback;
@@ -14,11 +14,7 @@ import com.example.foodplanner.network.IngredientNetworkcall;
 import com.example.foodplanner.network.MealDetailCallback;
 import com.example.foodplanner.network.MealRemoteDataSource;
 import com.example.foodplanner.network.NetworkCallback;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;

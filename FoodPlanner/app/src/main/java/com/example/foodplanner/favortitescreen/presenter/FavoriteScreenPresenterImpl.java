@@ -1,13 +1,12 @@
 package com.example.foodplanner.favortitescreen.presenter;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.favortitescreen.view.FavoriteScreenView;
 import com.example.foodplanner.utils.AppFunctions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -52,7 +51,7 @@ public class FavoriteScreenPresenterImpl implements FavoriteScreenPresenter {
 
             meal.setUserId(user);//must be set before inserting
             mealRepository.insertFavoriteMeal(meal);
-            mealRepository.addMealToFirebase(meal, user);
+           // mealRepository.addMealToFirebase(meal, user);
           //  mealRepository.insertFavoriteMeal(meal);
         } else {
             Log.d("fav", "User not authenticated. Cannot add meal to favorites.");
@@ -62,14 +61,23 @@ public class FavoriteScreenPresenterImpl implements FavoriteScreenPresenter {
     @Override
     public void deleteMealFromFavorite(Meal meal) {
         mealRepository.deleteFavouriteMeal(meal);
-        mealRepository.deleteMealFromFirebase(meal, meal.getUserId());
+      //  mealRepository.deleteMealFromFirebase(meal, meal.getUserId());
         favoriteScreenView.showSnackBar(meal, "Meal deleted");
     }
 
     @Override
     public void getFavouriteMealsFromFirebase(String userId) {
-
             mealRepository.getFavouriteMealsFromFirebase(userId);
 
+    }
+
+    @Override
+    public void checkInternetConnection(Context context) {
+
+        boolean isConnected = AppFunctions.isConnected(context);
+        //     homeScreenView.setBottomNavEnabled(isConnected);
+        if (!isConnected) {
+           getFavoriteMeals();
+        }
     }
 }

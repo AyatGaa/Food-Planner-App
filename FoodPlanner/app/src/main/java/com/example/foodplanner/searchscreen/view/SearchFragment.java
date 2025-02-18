@@ -2,10 +2,8 @@ package com.example.foodplanner.searchscreen.view;
 
 import static io.reactivex.rxjava3.internal.operators.observable.ObservableBlockingSubscribe.subscribe;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -30,9 +28,8 @@ import com.example.foodplanner.Models.ingredient.Ingredient;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
-import com.example.foodplanner.backup.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
-import com.example.foodplanner.homescreen.view.OnMealClickListener;
 import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenter;

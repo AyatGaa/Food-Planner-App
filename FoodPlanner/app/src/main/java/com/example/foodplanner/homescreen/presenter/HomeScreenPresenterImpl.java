@@ -6,7 +6,9 @@ import android.widget.Toast;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.MealOnlyRepository;
+import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
+import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.favortitescreen.view.FavoriteScreenView;
 import com.example.foodplanner.homescreen.view.HomeScreenView;
 import com.example.foodplanner.network.NetworkCallback;
@@ -24,13 +26,18 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     MealOnlyRepository mealOnlyRepository;
     MealRepository mealRepository;
 
+    PlanRepository planRepository;
     Context context;
 
-    public HomeScreenPresenterImpl(HomeScreenView homeScreenView, MealOnlyRepository mealOnlyRepository, Context context ,  MealRepository mrepo) {
+    public HomeScreenPresenterImpl(HomeScreenView homeScreenView, MealOnlyRepository mealOnlyRepository,
+                                   Context context, MealRepository mrepo,
+                                   PlanRepository planRepository
+    ) {
         this.homeScreenView = homeScreenView;
         this.mealOnlyRepository = mealOnlyRepository;
         this.context = context;
         this.mealRepository = mrepo;
+        this.planRepository = planRepository;
     }
 
     @Override
@@ -54,6 +61,37 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
         }
     }
 
+
+//    @Override
+//    public void getFavoriteMealsFirebase() {
+//        String userId = AppFunctions.getCurrentUserId();
+//        Log.d("fb", "Fetching meals for user: " + userId); // Log userId for debugging
+//
+//        mealRepository.getFavouriteMealsFromFirebase(userId)
+//                .subscribeOn(Schedulers.io()) // Run in background thread
+//                .observeOn(AndroidSchedulers.mainThread()) // Run in UI thread
+//                .subscribe(
+//                        meals -> {
+//                            Toast.makeText(context, "Adding meals to Firebase and Room", Toast.LENGTH_SHORT).show();
+//
+//                            for (Meal meal : meals) {
+//                                // Check if the meal is already in the local Room DB to avoid duplicate insertions
+//                                planRepository.getPlannedMealById(meal.getIdMeal())
+//                                        .subscribe(existingMeal -> {
+//                                            if (existingMeal == null) { // Only insert if not already in DB
+//                                                mealRepository.insertFavoriteMeal(meal);
+//                                            }
+//                                        });
+//                            }
+//                        },
+//                        error -> {
+//                            Log.e("fb", "Error fetching favorite meals: " + error.getMessage());
+//                            Toast.makeText(context, "Error fetching favorite meals", Toast.LENGTH_SHORT).show(); // Notify user
+//                        }
+//                );
+//    }
+
+
     @Override
     public void getFavoriteMealsFirebase() {
         String userId = AppFunctions.getCurrentUserId();
@@ -63,13 +101,15 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
                 .subscribeOn(Schedulers.io()) // ✅ Perform operation on background thread
                 .observeOn(AndroidSchedulers.mainThread()) // ✅ Observe results on UI thread
                 .subscribe(
-                        meals -> {Toast.makeText(context, "add to fir base and room", Toast.LENGTH_SHORT).show();
+                        meals -> {
+                            Toast.makeText(context, "add to fir base and room", Toast.LENGTH_SHORT).show();
 
-                           for (Meal meal : meals) {
+                            for (Meal meal : meals) {
 
-                            mealRepository.insertFavoriteMeal(meal);
-                           }
-                            }, // ✅ Success: Update UI
+                                mealRepository.insertFavoriteMeal(meal);
+                            }
+                               // homeScreenView.showMeals(meals);
+                        },
                         error -> {
                             Log.e("fb", "Error fetching favorite meals: " + error.getMessage()); // ✅ Handle errors
 
@@ -78,10 +118,33 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     }
 
 
+    @Override
+    public void getPlannedMealsFirebase(String plannedDate) {
+        String userId = AppFunctions.getCurrentUserId();
+        Log.d("fb", "Fetching meals for user: " + userId); // Log userId for debugging
+
+        planRepository.getPlannedMealsFromFirebase(userId, plannedDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> {
+                            Toast.makeText(context, "get planned to fir base and room", Toast.LENGTH_SHORT).show();
+
+                            for (PlannedMeal meal : meals) {
+                                planRepository.insertPlannedMeal(meal);
+
+                            }
+                        },
+                        error -> {
+                            Log.e("fb", "Error fetching PLanned meals: " + error.getMessage());
+
+                        }
+                );
+    }
+
 
     @Override
     public void onSuccess(List<Meal> meals) {
-
         homeScreenView.showMeals(meals);
         Log.i("TAG", "onSuccess: in Homescreen presenter" + meals.size());
     }
@@ -98,7 +161,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
 
     @Override
     public void onRandomMealSuccess(Meal meal) {
-            homeScreenView.setRandmoMealCard(meal);
+        homeScreenView.setRandmoMealCard(meal);
     }
 
     @Override

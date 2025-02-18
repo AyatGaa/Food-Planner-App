@@ -20,6 +20,8 @@ import io.reactivex.rxjava3.core.Single;
 public interface PlanMealDao {
 
 
+    @Query("SELECT * FROM planned_meals WHERE idMeal = :mealId LIMIT 1")
+    Observable<PlannedMeal> getPlannedMealById(String mealId);
     @Query("SELECT * FROM planned_meals WHERE date = :selectedDate")
     Observable<List<PlannedMeal>> getMealsForDate(String selectedDate);
     @Query("SELECT * FROM planned_meals WHERE userId = :userId AND date = :date")

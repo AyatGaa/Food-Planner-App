@@ -1,6 +1,7 @@
 package com.example.foodplanner.planscreen.presenter;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -47,6 +48,29 @@ public class PlanScreenPresenterImpl implements PlanScreenPresenter {
     public void deleteMealFromPlan(PlannedMeal meal) {
         planRepository.deletePlannedMeal(meal);
         planScreenView.showSnackBar(meal);
+    }
+
+    @Override
+    public void getPlannedMealsFirebase(String plannedDate) {
+        String userId = AppFunctions.getCurrentUserId();
+        Log.d("fb", "Fetching meals for user: " + userId); // Log userId for debugging
+
+        planRepository.getPlannedMealsFromFirebase(userId, plannedDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meals -> {
+
+                            for (PlannedMeal meal : meals) {
+
+                                planRepository.insertPlannedMeal(meal);
+                            }
+                        },
+                        error -> {
+                            Log.e("fb", "Error fetching PLanned meals: " + error.getMessage());
+
+                        }
+                );
     }
 
 

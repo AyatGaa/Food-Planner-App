@@ -5,14 +5,9 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.database.AppDataBase;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -110,6 +105,11 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
         planMealDao.deletePastMeals(currentDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<PlannedMeal> getPlannedMealById(String mealId) {
+        return planMealDao.getPlannedMealById(mealId);
     }
 
 
