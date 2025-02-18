@@ -7,10 +7,12 @@ import java.util.List;
 public interface HomeScreenPresenter {
 
     void getMeals();
+
     void getRandomMeal();
 
-   void checkInternetConnection();
+    void checkInternetConnection();
 
+    void getFavoriteMealsFirebase();
 
-
+    public void getPlannedMealsFirebase( String plannedDate);
 }

@@ -62,7 +62,8 @@ dependencies {
    //RxJava for Room
     implementation "androidx.room:room-rxjava3:2.6.1"
 
-
+    //realtime-database
+    implementation("com.google.firebase:firebase-database")
 
     implementation libs.appcompat
     implementation libs.material

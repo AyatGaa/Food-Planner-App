@@ -1,5 +1,6 @@
 package com.example.foodplanner.favortitescreen.view;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
+import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenter;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenterImpl;
@@ -34,6 +36,7 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
     FavoriteAdapter favAdapter;
     LinearLayout signInLayout;
     Button signInButton;
+    Context context;
     FavoriteScreenPresenter favoriteScreenPresenter;
 
     public FavouriteFragment() {
@@ -44,7 +47,12 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), FavouriteMealLocalDataSourceImpl.getInstance(getContext()), FilterRemoteDataSourceImpl.getInstance());
+        MealRepository repo = MealRepositoryImpl.getInstance(
+                MealRemoteDataSourceImpl.getInstance(),
+                FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
+                FilterRemoteDataSourceImpl.getInstance(),
+                FavoriteMealFirebaseImpl.getInstance()
+        );
         favoriteScreenPresenter = new FavoriteScreenPresenterImpl(this, repo);
     }
 
@@ -73,7 +81,10 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
             favAdapter = new FavoriteAdapter(getContext(), new ArrayList<>(), this);
             favoriteRecyclerView.setAdapter(favAdapter);
 
-            favoriteScreenPresenter.getFavoriteMeals();
+            favoriteScreenPresenter.checkInternetConnection(requireContext());
+
+           favoriteScreenPresenter.getFavoriteMeals();
+         favoriteScreenPresenter.getFavouriteMealsFromFirebase(AppFunctions.getCurrentUserId());
         }
 
         signInButton.setOnClickListener(v -> {
@@ -85,7 +96,7 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
 
     @Override
     public void showFavoriteMeals(List<Meal> meals) {
-        if (favAdapter != null) {
+        if (favAdapter != null ) {
             favAdapter.updateData(meals);
         } else {
             favAdapter = new FavoriteAdapter(getContext(), meals, this);
@@ -100,6 +111,7 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
         Snackbar snackbar = Snackbar.make(favoriteRecyclerView, message, Snackbar.LENGTH_SHORT);
         snackbar.setAnchorView(rootView).setAction("Undo", v -> {
             favoriteScreenPresenter.addMealToFavorite(meal); // undo
+            favAdapter.notifyDataSetChanged();
         });
         snackbar.setBackgroundTint(Color.parseColor("#3E5879"));
         snackbar.setTextColor(Color.WHITE);

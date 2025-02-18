@@ -9,6 +9,7 @@ public interface PlanScreenPresenter {
     void getMealsForDate(String selectedDate);
     void deleteMealFromPlan(PlannedMeal meal);
 
+    public void getPlannedMealsFirebase( String plannedDate);
 
     void getAllPlannedMeals();
 

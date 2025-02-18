@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
+import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebase;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSource;
 import com.example.foodplanner.network.AreaCallback;
 import com.example.foodplanner.network.CategoryCallback;
@@ -28,17 +29,25 @@ public class MealRepositoryImpl implements MealRepository {
     MealRemoteDataSource mealRemoteDataSource;
     FavouriteMealLocalDataSource favouriteMealLocalDataSource;
     FilterRemoteDataSource crds;
+    FavoriteMealFirebase favFireBase;
     private static MealRepositoryImpl mealRepository = null;
 
-    public MealRepositoryImpl(MealRemoteDataSource mealRemoteDataSource, FavouriteMealLocalDataSource favouriteMealLocalDataSource, FilterRemoteDataSource filterRemoteDataSource) {
+    public MealRepositoryImpl(MealRemoteDataSource mealRemoteDataSource,
+                              FavouriteMealLocalDataSource favouriteMealLocalDataSource,
+                              FilterRemoteDataSource filterRemoteDataSource,
+                              FavoriteMealFirebase favoriteMealFirebase) {
         this.mealRemoteDataSource = mealRemoteDataSource;
         this.favouriteMealLocalDataSource = favouriteMealLocalDataSource;
         this.crds = filterRemoteDataSource;
+        this.favFireBase = favoriteMealFirebase;
     }
 
-    public static synchronized MealRepositoryImpl getInstance(MealRemoteDataSource mealRemoteDataSource, FavouriteMealLocalDataSource favouriteMealLocalDataSource, FilterRemoteDataSource filterRemoteDataSource) {
+    public static synchronized MealRepositoryImpl getInstance(MealRemoteDataSource mealRemoteDataSource,
+                                                              FavouriteMealLocalDataSource favouriteMealLocalDataSource,
+                                                              FilterRemoteDataSource filterRemoteDataSource
+            , FavoriteMealFirebase favoriteMealFirebase) {
         if (mealRepository == null) {
-            mealRepository = new MealRepositoryImpl(mealRemoteDataSource, favouriteMealLocalDataSource, filterRemoteDataSource);
+            mealRepository = new MealRepositoryImpl(mealRemoteDataSource, favouriteMealLocalDataSource, filterRemoteDataSource, favoriteMealFirebase);
         }
         return mealRepository;
     }
@@ -91,11 +100,14 @@ public class MealRepositoryImpl implements MealRepository {
     @Override
     public void insertFavoriteMeal(Meal meal) {
         favouriteMealLocalDataSource.insertFavoriteMeal(meal);
+        //firbase also
+        favFireBase.addMealToFirebase(meal, meal.getUserId());
     }
 
     @Override
     public void deleteFavouriteMeal(Meal meal) {
         favouriteMealLocalDataSource.deleteFavouriteMeal(meal);
+        favFireBase.deleteMealFromFirebase(meal, meal.getUserId());
     }
 
     @Override
@@ -139,7 +151,25 @@ public class MealRepositoryImpl implements MealRepository {
     public Single<Meals> searchMealByName(NetworkCallback callBack, String mealName) {
         return mealRemoteDataSource.getAllMeals(callBack, mealName);
     }
-    public void fetchMealDetails(String mealId,  MealDetailCallback callback) {
+
+    @Override
+    public void addMealToFirebase(Meal meal, String userId) {
+        favFireBase.addMealToFirebase(meal, userId);
+    }
+
+    @Override
+    public Observable<List<Meal>> getFavouriteMealsFromFirebase(String userId) {
+        return favFireBase.getFavouriteMealsFromFirebase(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public void deleteMealFromFirebase(Meal meal, String userId) {
+        favFireBase.deleteMealFromFirebase(meal, userId);
+    }
+
+    public void fetchMealDetails(String mealId, MealDetailCallback callback) {
 
         crds.getMealById(mealId)
                 .subscribeOn(Schedulers.io())   // Perform network request on a background thread

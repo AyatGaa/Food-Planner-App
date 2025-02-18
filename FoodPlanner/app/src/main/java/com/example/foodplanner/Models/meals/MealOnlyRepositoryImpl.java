@@ -4,16 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.foodplanner.network.MealRemoteDataSource;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.network.NetworkCallback;
 import com.example.foodplanner.network.RandomMealCallback;
 import com.google.gson.Gson;
 
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-
-public class MealRepositoryImpl implements MealRepository {
+public class MealOnlyRepositoryImpl implements MealOnlyRepository {
 
     MealRemoteDataSource remoteDataSource;
 
@@ -25,19 +20,19 @@ public class MealRepositoryImpl implements MealRepository {
 
     private final Gson gson;
 
-    private static MealRepositoryImpl mealRepository = null;
+    private static MealOnlyRepositoryImpl mealRepository = null;
 
-    public MealRepositoryImpl(MealRemoteDataSource remoteDataSource , Context context ) {
+    public MealOnlyRepositoryImpl(MealRemoteDataSource remoteDataSource , Context context ) {
         this.remoteDataSource = remoteDataSource;
         this.sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
         this.gson = new Gson();
     }
 
-    public static MealRepositoryImpl getInstance(MealRemoteDataSource remoteDataSource, Context context) {
+    public static MealOnlyRepositoryImpl getInstance(MealRemoteDataSource remoteDataSource, Context context) {
 
         if (mealRepository == null) {
-            mealRepository = new MealRepositoryImpl(remoteDataSource , context);
+            mealRepository = new MealOnlyRepositoryImpl(remoteDataSource , context);
 
         }
         return mealRepository;

@@ -4,13 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
-
-
 @Entity(tableName = "planned_meals")
 public class PlannedMeal {
     @PrimaryKey(autoGenerate = true)
     int id;
+
+    public PlannedMeal() {
+    }
 
     @NonNull
     private String userId;
