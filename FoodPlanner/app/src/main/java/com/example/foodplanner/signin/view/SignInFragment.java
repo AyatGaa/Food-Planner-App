@@ -45,18 +45,14 @@ public class SignInFragment extends Fragment implements SignInView {
     private static final String TAG = "TAG";
     private static final int RC_SIGN_IN = 100;
     private GoogleSignInClient mGoogleSignInClient;
-    private FirebaseAuth mAuth;
     EditText edtEmailSignIn, editPasswordSignIn;
     TextView txtSignUpIn;
-    Button btnSignIn, btnGoogleSignIn,btnSkipSignIn;
-    private ProgressBar progressBarSignIn;
+    Button btnSignIn, btnGoogleSignIn, btnSkipSignIn;
     LottieAnimationView loadingViewSignIn;
-
     SignInPresenter signInPresenter;
 
 
     public SignInFragment() {
-        Log.d(TAG, "SignInFragment: dasdas");
     }
 
     void setupUI(View view) {
@@ -82,7 +78,6 @@ public class SignInFragment extends Fragment implements SignInView {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
-
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +136,7 @@ public class SignInFragment extends Fragment implements SignInView {
 
     @Override
     public void hideLoading() {
-        loadingViewSignIn.setVisibility(View.VISIBLE);
+        loadingViewSignIn.setVisibility(View.GONE);
     }
 
     private void signInWithGoogle() {

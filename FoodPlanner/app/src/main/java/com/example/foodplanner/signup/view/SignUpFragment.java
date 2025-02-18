@@ -20,7 +20,7 @@ import com.example.foodplanner.signup.presenter.SignUpPresenterImpl;
 
 public class SignUpFragment extends Fragment implements SignUpView {
 
-    EditText edtEmailSignUp, edtPasswordSignUp, edtUsernameSignUp;
+    EditText edtEmailSignUp, edtPasswordSignUp;
     Button btnSignUp;
     SignUpPresenter signUpPresenter;
     TextView txtSignin;
@@ -45,7 +45,6 @@ public class SignUpFragment extends Fragment implements SignUpView {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("TAG", "onClick: in fragment");
                 signUpPresenter.signUpClicked(
                         edtEmailSignUp.getText().toString(),
                         edtPasswordSignUp.getText().toString());
@@ -64,7 +63,6 @@ public class SignUpFragment extends Fragment implements SignUpView {
 
 
     void setSignUpUi(View view) {
-        edtUsernameSignUp = view.findViewById(R.id.edtUsernameSignUp);
         edtEmailSignUp = view.findViewById(R.id.edtEmailSignUp);
         edtPasswordSignUp = view.findViewById(R.id.edtPasswordSignUp);
         txtSignin = view.findViewById(R.id.txtSignIn);
@@ -79,7 +77,6 @@ public class SignUpFragment extends Fragment implements SignUpView {
 
     @Override
     public void showErrorSignUp(String errMessage) {
-
-        Toast.makeText(this.getContext(), "signed up Went Wrong ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(), errMessage, Toast.LENGTH_SHORT).show();
     }
 }

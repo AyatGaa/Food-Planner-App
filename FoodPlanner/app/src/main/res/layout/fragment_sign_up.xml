@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
@@ -20,34 +20,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edtUsernameSignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/edittext_background"
-        android:drawableStart="@drawable/user"
-        android:drawablePadding="16dp"
-        android:elevation="10dp"
-        android:ems="10"
-        android:fontFamily="@font/gluten_light"
-        android:hint="@string/name_hint"
-        android:importantForAutofill="yes"
-        android:inputType="textPersonName"
-        android:padding="8dp"
-        android:textColorHint="@color/primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/edtEmailSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="136dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/edittext_background"
         android:drawableStart="@drawable/mail"
@@ -61,8 +40,9 @@
         android:padding="8dp"
         android:textColorHint="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtUsernameSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/edtPasswordSignUp"
@@ -121,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="64dp"
         android:background="@drawable/custom_button"
         android:elevation="10dp"
@@ -140,7 +120,7 @@
         android:id="@+id/txtSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/gluten_light"
         android:text="@string/signup_prompt"
         android:textAlignment="center"
@@ -149,9 +129,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

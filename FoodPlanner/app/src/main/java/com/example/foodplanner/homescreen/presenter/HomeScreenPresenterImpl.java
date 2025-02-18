@@ -48,7 +48,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     public void getRandomMeal() {
         mealOnlyRepository.getRandomMeal(this);
     }
-    
+
     @Override
     public void checkInternetConnection() {
         boolean isConnected = AppFunctions.isConnected(context);
@@ -61,24 +61,23 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     @SuppressLint("CheckResult")
     @Override
     public void getFavoriteMealsFirebase() {
-        if(AppFunctions.isAuthenticated() ){
-        String userId = AppFunctions.getCurrentUserId();
+        if (AppFunctions.isAuthenticated()) {
+            String userId = AppFunctions.getCurrentUserId();
 
-        mealRepository.getFavouriteMealsFromFirebase(userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        meals -> {
-                            for (Meal meal : meals) {// to add meals from firebase to room
-                                mealRepository.insertFavoriteMeal(meal);
+            mealRepository.getFavouriteMealsFromFirebase(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            meals -> {
+                                for (Meal meal : meals) {// to add meals from firebase to room
+                                    mealRepository.insertFavoriteMeal(meal);
+                                }
+                            },
+                            error -> {
                             }
-                        },
-                        error -> {
-                            Log.e("fb", "Error fetching favorite meals: " + error.getMessage());
-                        }
-                );
-        }else{
-            Toast.makeText(context, "User is not authenticated", Toast.LENGTH_SHORT).show();
+                    );
+        } else {
+            Toast.makeText(context, "Please sign up for more features", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -86,7 +85,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     @SuppressLint("CheckResult")
     @Override
     public void getPlannedMealsFirebase(String plannedDate) {
-        if(AppFunctions.isAuthenticated() ) {
+        if (AppFunctions.isAuthenticated()) {
             String userId = AppFunctions.getCurrentUserId();
             planRepository.getPlannedMealsFromFirebase(userId, plannedDate)
                     .subscribeOn(Schedulers.io())
@@ -101,8 +100,6 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
                                 Log.e("fb", "Error fetching PLanned meals: " + error.getMessage());
                             }
                     );
-        }else{
-            Toast.makeText(context, "User is not authenticated", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -111,6 +108,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
     public void onSuccess(List<Meal> meals) { //call of MealOnlyRepo -_-
         homeScreenView.showMeals(meals);
     }
+
     @Override
     public void onRandomMealSuccess(Meal meal) {
         homeScreenView.setRandmoMealCard(meal);
@@ -127,7 +125,7 @@ public class HomeScreenPresenterImpl implements HomeScreenPresenter, NetworkCall
 
     @Override
     public void onFailure(String errorMessage) {
-        Log.e(TAG, "onFailure: "+errorMessage  );
+        Log.e(TAG, "onFailure: " + errorMessage);
     }
-    
+
 }

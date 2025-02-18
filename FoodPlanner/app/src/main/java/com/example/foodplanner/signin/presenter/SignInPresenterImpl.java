@@ -8,7 +8,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignInPresenterImpl implements SignInPresenter {
-
     AuthRepository authRepository;
     SignInView signInView;
 
@@ -39,7 +38,7 @@ public class SignInPresenterImpl implements SignInPresenter {
     @Override
     public void signInWithGoogle(GoogleSignInAccount account) {
         signInView.showLoading();
-        authRepository.signInWithGoogle(account, new  AuthCallback() {
+        authRepository.signInWithGoogle(account, new AuthCallback() {
             @Override
             public void onSuccess(FirebaseUser user) {
                 signInView.hideLoading();
