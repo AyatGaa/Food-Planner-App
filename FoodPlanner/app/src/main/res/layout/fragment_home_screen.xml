@@ -10,6 +10,20 @@
     android:padding="4dp"
     tools:context=".homescreen.view.HomeScreenFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading"
+        tools:ignore="MissingConstraints" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContentLayout"
         android:layout_width="match_parent"
@@ -58,6 +72,7 @@
                     android:background="@drawable/rounded_bg_card"
                     android:clipToOutline="true"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/notfound"
                     tools:src="@drawable/cutlery" />
 
                 <TextView
@@ -68,7 +83,7 @@
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    tools:text="Meal Title" />
+                    tools:text="@string/meal_name" />
 
                 <TextView
                     android:id="@+id/mealOfTheDayInstructions"
@@ -76,11 +91,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
-
                     android:lines="2"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    tools:text="Delicious meal description here." />
+                    tools:text="@string/meal_description_randomcard" />
 
 
             </LinearLayout>
@@ -113,19 +127,6 @@
             app:layout_constraintTop_toBottomOf="@id/cozyMeals"
             tools:listitem="@layout/meal_card" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loadingView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading"
-            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

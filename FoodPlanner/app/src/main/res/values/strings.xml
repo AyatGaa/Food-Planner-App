@@ -56,4 +56,5 @@
     <string name="country">Country</string>
     <string name="ingredient">Ingredient</string>
     <string name="meal">Meals</string>
+    <string name="meal_description_randomcard">Meal description....</string>
 </resources>
