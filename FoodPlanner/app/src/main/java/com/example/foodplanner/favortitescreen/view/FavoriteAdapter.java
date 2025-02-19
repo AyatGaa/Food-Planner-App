@@ -57,7 +57,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         holder.mealFavoriteName.setText(meal.getStrMeal());
 
         Glide.with(context).load(meal.getStrMealThumb())
-                .error(R.drawable.cutlery_primary_color)
+                .error(R.drawable.notfound)
                 .into(holder.mealFavoriteImage);
         holder.mealFavoriteCategory.setText(meal.getStrCategory());
 

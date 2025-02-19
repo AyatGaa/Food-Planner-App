@@ -45,15 +45,12 @@ import java.util.Calendar;
 import java.util.List;
 
 public class DetailedMealFragment extends Fragment implements DetailedMealView, NetworkCallback {
-
     DetailedMealPresenter detailedMealPresenter;
     ImageView mealImageDetailed, countryFlagDetailed;
     TextView mealNameDetailed, instructionsTextDetailed, detailedMealHeader, countryFlagName;
     RecyclerView ingredientsRecyclerView;
     WebView mealVideo;
-    SearchScreenPresenter searchPresenter;
     IngredientAdapter ingredientsAdapter;
-
     Button btnAddToFavoritesDetailed, btnAddToPlanMealDetailed;
     List<String> ingredientList = new ArrayList<>();
 
@@ -88,7 +85,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                 FilterRemoteDataSourceImpl.getInstance(),
                 FavoriteMealFirebaseImpl.getInstance()
         );
-        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()),FavoriteMealFirebaseImpl.getInstance());
+        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()), FavoriteMealFirebaseImpl.getInstance());
 
         detailedMealPresenter = new DetailedMealPresenterImpl(repo, this, planRepository);
 
@@ -113,14 +110,15 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
             public void onClick(View view) {
                 Log.d("fav", "onClick: on detaled fragment" + meal.getIdMeal());
                 String userId = AppFunctions.getCurrentUserId();
-                if (userId != null) {
+                boolean isAuthenticated = AppFunctions.isAuthenticated();
+                if (isAuthenticated && userId != null) {
                     meal.setUserId(userId);
                     detailedMealPresenter.onAddToFavourite(meal);
                     Log.d("MealDetailFragment", "Meal received: " + meal.getStrMeal());
-                    showAddedSnackBar(meal, "Meal added to favorites");
+                    showAddedSnackBar(meal, "Added To Favorite");
 
                 } else {
-                    Log.e("fav", " User not authenticated. Cannot add meal to favorites.");
+                    Toast.makeText(requireContext(), "Please Sign In", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -128,12 +126,16 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         btnAddToPlanMealDetailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                showDatePickers(meal);
+                boolean isAuthenticated = AppFunctions.isAuthenticated();
+                String userId = AppFunctions.getCurrentUserId();
+                if (isAuthenticated && userId != null) {
+                    showDatePickers(meal);
+                } else {
+                    Toast.makeText(requireContext(), "Please Sign In", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
 
 
     @Override
@@ -172,7 +174,6 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                     PlannedMeal plannedMeal = new PlannedMeal(userId, meal.getIdMeal(), meal.getStrMeal(), meal.getStrMealThumb(), selectedDate);
                     if (detailedMealPresenter.isFutureDate(selectedDate)) {
                         detailedMealPresenter.onAddToPlan(plannedMeal);
-                        //       showAddedSnackBar(meal, "Meal Planned Successfully!");
                     } else {
                         Toast.makeText(requireContext(), "Cannot add meal to a past date", Toast.LENGTH_SHORT).show();
                     }
@@ -185,8 +186,6 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
 
     @Override
     public void showMealList(List<Meal> meals) {
-
-
     }
 
     @Override
@@ -203,14 +202,13 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
 
         String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
         Glide.with(requireContext()).load("https://flagcdn.com/w320/" + countryCode + ".png")
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.notfound)
                 .into(countryFlagDetailed);
 
 
         Glide.with(requireContext()).load(meal.getStrMealThumb())
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.notfound)
                 .into(mealImageDetailed);
-
 
         ingredientList = detailedMealPresenter.getIngredient(meal);
         ingredientsAdapter = new IngredientAdapter(ingredientList, requireContext());
@@ -218,18 +216,15 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         ingredientsAdapter.notifyDataSetChanged();
 
         showVideoPlayer(meal);
-    }
 
+    }
 
     @Override
     public void onSuccess(List<Meal> meals) {
-
     }
-
 
     @Override
     public void onSuccessArea(List<Meal> meals) {
-
     }
 
     @Override

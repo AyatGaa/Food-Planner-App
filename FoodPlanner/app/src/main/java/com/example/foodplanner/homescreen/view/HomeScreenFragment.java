@@ -77,6 +77,7 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_screen, container, false);
         setupUI(view);
+
         showLoadingView();
 
         homeRecyclerView.setHasFixedSize(true);
@@ -187,7 +188,12 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
         textParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
         textParams.topMargin = 80;
         cozyMeals.setLayoutParams(textParams);
-
+        if (loadingView.getParent() != null) {
+            ((ViewGroup) loadingView.getParent()).removeView(loadingView);
+        }
+        if (cozyMeals.getParent() != null) {
+            ((ViewGroup) cozyMeals.getParent()).removeView(cozyMeals);
+        }
         homeScreenConstraintLayout.addView(loadingView);
         homeScreenConstraintLayout.addView(cozyMeals);
     }

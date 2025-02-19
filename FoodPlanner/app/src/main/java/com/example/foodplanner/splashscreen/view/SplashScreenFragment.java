@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.foodplanner.R;
 import com.example.foodplanner.utils.AppFunctions;
-import com.example.foodplanner.utils.BottomSheetFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -83,7 +80,7 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
 
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
-
+        checkUserStatus();
         if (isFirstTime) {
             Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_introScreenFragment, null,
                     new NavOptions.Builder()
@@ -92,9 +89,8 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("isFirstTime", false);
             editor.apply();
-        } else {
-            checkUserStatus();
         }
+
     }
 
     private void checkUserStatus() {

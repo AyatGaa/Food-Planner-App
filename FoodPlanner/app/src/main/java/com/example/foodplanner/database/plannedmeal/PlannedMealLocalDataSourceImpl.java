@@ -72,8 +72,6 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
                                                 },
                                                 error -> Log.i("data", "insertFavoriteMeal: error" + error.getMessage())
                                         );
-                            } else {
-                                Toast.makeText(context, "Meal already exist", Toast.LENGTH_SHORT).show();
                             }
                         }, error -> {
                             Log.e("PlanRepository", "Error checking meal existence", error);

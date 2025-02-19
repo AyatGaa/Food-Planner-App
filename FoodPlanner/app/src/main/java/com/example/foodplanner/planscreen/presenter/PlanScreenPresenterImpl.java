@@ -1,18 +1,12 @@
 package com.example.foodplanner.planscreen.presenter;
 
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
-import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.planscreen.view.PlanScreenView;
 import com.example.foodplanner.utils.AppFunctions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;

@@ -28,14 +28,12 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class DetailedMealPresenterImpl implements DetailedMealPresenter , NetworkCallback {
+public class DetailedMealPresenterImpl implements DetailedMealPresenter, NetworkCallback {
 
     MealRepository mealRepository;
     PlanRepository planRepository;
     DetailedMealView detailedMealView;
-    private CompositeDisposable disposable = new CompositeDisposable();
-
-    public DetailedMealPresenterImpl(MealRepository mealRepository, DetailedMealView detailedMealView , PlanRepository planRepository) {
+    public DetailedMealPresenterImpl(MealRepository mealRepository, DetailedMealView detailedMealView, PlanRepository planRepository) {
         this.mealRepository = mealRepository;
         this.detailedMealView = detailedMealView;
         this.planRepository = planRepository;
@@ -52,14 +50,14 @@ public class DetailedMealPresenterImpl implements DetailedMealPresenter , Networ
 
             @Override
             public void onFailure(String message) {
-                Log.w("id", "onFailure: "+message );
+                Log.w("id", "onFailure: " + message);
             }
         });
     }
 
     @Override
     public void onAddToFavourite(Meal meal) {
-            mealRepository.insertFavoriteMeal(meal);
+        mealRepository.insertFavoriteMeal(meal);
     }
 
     @Override
@@ -80,6 +78,7 @@ public class DetailedMealPresenterImpl implements DetailedMealPresenter , Networ
             return false;
         }
     }
+
     @Override
     public String extractYoutubeVideoId(String url) {
         String pattern = "^(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/(?:[^\\/]+\\/.*|(?:v|e(?:mbed)?)\\/|.*[?&]v=)|youtu\\.be\\/)([a-zA-Z0-9_-]{11})";
@@ -106,14 +105,13 @@ public class DetailedMealPresenterImpl implements DetailedMealPresenter , Networ
                 e.printStackTrace();
             }
         }
-        Log.i("TAG", "Extracted Ingredients: " + ingredientsList);
         return ingredientsList;
     }
 
 
     @Override
     public void onSuccess(List<Meal> meals) {
-            detailedMealView.showMealList(meals);
+        detailedMealView.showMealList(meals);
     }
 
 

@@ -9,19 +9,28 @@ import java.util.List;
 
 public interface SearchScreenView {
     void showOnNoConnectionSearch();
+
     void clearSearchUI();
 
     void setNoConnectionSearchUI();
-   void showListOfMealByCategorty(List<Meal> meals);
-   void showListOfMealByArea(List<Meal> meals);
-   void showListOfMealByIngredient(List<Meal> meals);
+
+    //area
+    void showListOfMealByArea(List<Meal> meals);
 
     void showAllAreas(List<Area> areas);
 
+    //ingredient
+    void showListOfMealByIngredient(List<Meal> meals);
+
+    void showAllIngredients(List<Ingredient> ingredients);
+
+    //category
     void showAllCategories(List<Category> categories);
 
-    void  showAllIngredients(List<Ingredient> ingredients);
-
     void showMealList(List<Meal> meals);
+
+
+    void showListOfMealByCategorty(List<Meal> meals);
+
     void showMealDetailsSearch(Meal meal);
 }

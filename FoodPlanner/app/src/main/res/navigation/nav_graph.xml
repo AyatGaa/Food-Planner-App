@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_homeScreenFragment2"
+            app:destination="@id/homeScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/introScreenFragment"

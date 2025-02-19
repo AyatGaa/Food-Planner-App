@@ -1,32 +1,21 @@
 package com.example.foodplanner.homescreen.view;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.List;
-import java.util.Locale;
 
 public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.ViewHolder> {
     List<Meal> mealList;

@@ -49,15 +49,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class SearchFragment extends Fragment implements SearchScreenView, OnSearchMealClickListener {
 
-    SearchScreenPresenter searchPresenter;
-    RecyclerView searchRecyclerView;
+    ConstraintLayout searchScreenConstraintLayout;
+    RecyclerView searchRecyclerView, mealsRecyclerView;
+    SearchView searchView;
     ChipGroup searchChipGroup;
     TextView searchTitle;
     FilterAdapter filterAdapter;
-    RecyclerView mealsRecyclerView;
-    ConstraintLayout searchScreenConstraintLayout;
     MealsAdapter mealsAdapter;
-    SearchView searchView;
+    SearchScreenPresenter searchPresenter;
     String selectedChip = "";
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -65,7 +64,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
     public SearchFragment() {
     }
 
-    void updateMealList(List<Meal> meals) {
+    void updateMealList(List<Meal> meals) { //search recycler view
         searchRecyclerView.setVisibility(View.GONE);
         mealsRecyclerView.setVisibility(View.VISIBLE);
 
@@ -89,11 +88,10 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-
         setUi(view);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
-        GridLayoutManager mealGridLayoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);//categories
+        GridLayoutManager mealGridLayoutManager = new GridLayoutManager(getContext(), 2); //meals
 
         searchRecyclerView.setLayoutManager(gridLayoutManager);
         mealsRecyclerView.setLayoutManager(mealGridLayoutManager);
@@ -195,10 +193,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                                 }
                             }
                         });
-
-
                     } else {
-
                         selectedChip = "";
                         searchTitle.setText(getString(R.string.meal));
                         searchPresenter.getAllMeals("");
@@ -207,6 +202,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                 }
             }
         });
+
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -223,39 +219,31 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         switch (selectedChip) {
             case "Category":
 
-                if (!selectedChip.isEmpty()) {
-                    searchPresenter.getMealsByCategory(query);  // Your existing method call
-                    Log.d("SearchFragment", "Searching by Category: " + query);
-                }
+                searchPresenter.getMealsByCategory(query);
+                Log.d("search", "Searching by Category: " + query);
                 break;
+
             case "Country":
-                if (!selectedChip.isEmpty()) {
-                    searchPresenter.getMealsByArea(query);// Your existing method call
-                    Log.d("SearchFragment", "Searching by Category: " + query);
-                }
-
-                Log.d("SearchFragment", "Searching by Country: " + query);
+                searchPresenter.getMealsByArea(query);
+                Log.d("search", "Searching by area: " + query);
                 break;
+
             case "Ingredient":
-                if (!selectedChip.isEmpty()) {
-                    searchPresenter.getMealsByIngredient(query);
-
-                    Log.d("SearchFragment", "Searching by Category: " + query);
-                }
-
-                Log.d("SearchFragment", "Searching by Ingredient: " + query);
+                searchPresenter.getMealsByIngredient(query);
                 break;
+
             default:
                 searchTitle.setText(getString(R.string.meal));
                 searchPresenter.getAllMeals(query);
-                Log.d("SearchFragment", "Performing general meal search: " + query);
+                Log.d("search", "search overall " + query);
                 break;
         }
     }
 
 
-    private void setupSearchObservable() {
+    private void setupSearchObservable() { // live search
         Observable<String> searchObservable = Observable.create(emitter -> {
+
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
@@ -266,7 +254,6 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-
                     emitter.onNext(newText);
                     performSearch(newText);
                     return true;
@@ -303,7 +290,6 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         searchTitle.setText(getString(R.string.no_connection));
         searchTitle.setGravity(Gravity.CENTER);
 
-        // Layout Params for TextView
         ConstraintLayout.LayoutParams textParams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
@@ -314,12 +300,11 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         textParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
         searchTitle.setLayoutParams(textParams);
 
-        // Create ImageView
         ImageView noConnectionImage = new ImageView(requireContext());
         noConnectionImage.setId(View.generateViewId());
         noConnectionImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-        // Layout Params for ImageView
+
         ConstraintLayout.LayoutParams imageParams =
                 new ConstraintLayout.LayoutParams(200, 400);
 
@@ -331,7 +316,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
 
         Glide.with(requireContext())
                 .load(R.drawable.cutlery_primary_color)
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.notfound)
                 .into(noConnectionImage);
 
         searchScreenConstraintLayout.addView(noConnectionImage);
@@ -339,11 +324,6 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
 
     }
 
-    @Override
-    public void showListOfMealByCategorty(List<Meal> meals) {
-        Log.d("SearchFragment", "showListOfMealByCategory: =>" + meals.size());
-        updateMealList(meals);
-    }
 
     @Override
     public void showListOfMealByArea(List<Meal> meals) {
@@ -367,18 +347,13 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
             searchRecyclerView.setVisibility(View.VISIBLE);
             mealsRecyclerView.setVisibility(View.GONE);
         } else {
-
-            Toast.makeText(requireContext(), "No categories found.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "No areas found", Toast.LENGTH_SHORT).show();
         }
-
-        Log.d("area", "showAllAreas:  = > " + areas.size());
-
 
     }
 
     @Override
     public void showAllCategories(List<Category> categories) {
-        // Check if the categories list is null or empty before updating the UI
         if (categories != null && !categories.isEmpty()) {
             filterAdapter.updateList(categories);
             searchRecyclerView.setAdapter(filterAdapter);
@@ -388,8 +363,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
             searchRecyclerView.setVisibility(View.VISIBLE);
             mealsRecyclerView.setVisibility(View.GONE);
         } else {
-
-            Toast.makeText(requireContext(), "No categories found.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "No categories found", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -405,15 +379,22 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
             mealsRecyclerView.setVisibility(View.GONE);
         } else {
 
-            Toast.makeText(requireContext(), "No categories found.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "No ingredient found.", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     @Override
+    public void onSearchMealClick(Meal meal) {
+
+        SearchFragmentDirections.ActionSearchFragmentToDetailedMealFragment action =
+                SearchFragmentDirections.actionSearchFragmentToDetailedMealFragment(meal);
+        Navigation.findNavController(requireView()).navigate(action);
+    }
+
+    @Override
     public void showMealList(List<Meal> meals) {
         if (meals == null || meals.isEmpty()) {
-            Log.d("SearchFragment", "showMealList: No meals found.");
             return;
         }
         mealsAdapter.setList(meals);
@@ -428,16 +409,9 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         searchPresenter.getMealsByArea(meal.getIdMeal());
     }
 
-
     @Override
-    public void onSearchMealClick(Meal meal) {
-
-        Toast.makeText(requireContext(), meal.getStrMeal(), Toast.LENGTH_SHORT).show();
-
-        SearchFragmentDirections.ActionSearchFragmentToDetailedMealFragment action =
-                SearchFragmentDirections.actionSearchFragmentToDetailedMealFragment(meal);
-        Navigation.findNavController(requireView()).navigate(action);
+    public void showListOfMealByCategorty(List<Meal> meals) {
+        Log.d("SearchFragment", "showListOfMealByCategory: =>" + meals.size());
+        updateMealList(meals);
     }
-
-
 }
