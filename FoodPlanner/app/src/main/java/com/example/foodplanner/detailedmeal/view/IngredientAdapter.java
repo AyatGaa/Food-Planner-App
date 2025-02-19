@@ -47,7 +47,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         holder.ingredientName.setText(ingred);
 
         Glide.with(context).load("https://www.themealdb.com/images/ingredients/" + ingred + ".png")
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.notfound)
                 .into(holder.ingredientImage);
     }
 

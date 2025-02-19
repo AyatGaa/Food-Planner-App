@@ -5,22 +5,22 @@
     android:id="@+id/homeScreenCardMeal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:layout_marginStart="20dp"
     android:layout_marginTop="12dp"
     android:layout_marginEnd="20dp"
     android:layout_marginBottom="12dp"
     android:backgroundTint="@color/white"
-    app:cardCornerRadius="12dp"
-    android:layout_gravity="center"
     android:fitsSystemWindows="true"
+    app:cardCornerRadius="12dp"
     app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:fitsSystemWindows="true"
-        android:padding="12dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
 
         <ImageView
@@ -32,10 +32,8 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/circular_button"
             android:clipToOutline="true"
-            android:outlineSpotShadowColor="@color/primary"
-            android:outlineAmbientShadowColor="@color/primary"
             android:scaleType="centerCrop"
-            android:src="@drawable/preview1"
+            android:src="@drawable/notfound"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.04"
             app:layout_constraintStart_toStartOf="parent"

@@ -56,4 +56,9 @@
     <string name="country">Country</string>
     <string name="ingredient">Ingredient</string>
     <string name="meal">Meals</string>
+    <string name="meal_description_randomcard">Meal description....</string>
+    <string name="skip">Skip</string>
+    <string name="username">userName</string>
+    <string name="foodi_user">Foodi User</string>
+    <string name="app_solgan">Foodi,\n\t Plan Your Meals</string>
 </resources>

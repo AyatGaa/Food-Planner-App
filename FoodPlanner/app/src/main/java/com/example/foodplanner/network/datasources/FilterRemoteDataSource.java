@@ -1,7 +1,10 @@
-package com.example.foodplanner.network;
+package com.example.foodplanner.network.datasources;
 
-import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
+import com.example.foodplanner.network.callbacks.AreaCallback;
+import com.example.foodplanner.network.callbacks.CategoryCallback;
+import com.example.foodplanner.network.callbacks.IngredientNetworkcall;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 
 import io.reactivex.rxjava3.core.Observable;
 

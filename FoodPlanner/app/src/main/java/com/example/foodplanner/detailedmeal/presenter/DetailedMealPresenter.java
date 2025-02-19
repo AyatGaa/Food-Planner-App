@@ -6,13 +6,16 @@ import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import java.util.List;
 
 public interface DetailedMealPresenter {
-      void fetchMealDetails(String mealId);
+    void fetchMealDetails(String mealId);
+
     void onAddToFavourite(Meal meal);
 
     void onAddToPlan(PlannedMeal planedMeal);
-   boolean isFutureDate(String selectedDate);
-    String extractYoutubeVideoId(String url);
+
+    boolean isFutureDate(String selectedDate);
+
     List<String> getIngredient(Meal meal);
+    String extractYoutubeVideoId(String url);
 
 
 

@@ -6,22 +6,13 @@ import java.util.List;
 
 public interface HomeScreenView {
     void showOnNoConnection();
-
     void clearUI();
-
     void setNoConnectionUI();
     void showMeals(List<Meal> meals);
-
     void setRandmoMealCard(Meal meals);
-
-    void showProgressBar();
-
-    void onMealClick(Meal meal);
-
-    void hideProgressBar();
-
     void onRandomMealClick(Meal meal);
+    void showLoadingView();
+    void hideLoadingView();
 
-    void setBottomNavEnabled(boolean isConnected);
 
 }

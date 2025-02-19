@@ -1,8 +1,7 @@
 package com.example.foodplanner.Repository.modelrepoitory;
 
-import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
-import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebase;
+import com.example.foodplanner.backup.BackupMealFirebase;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSource;
 
 import java.util.List;
@@ -16,15 +15,15 @@ public class PlanRepositoryImpl implements PlanRepository {
     PlannedMealLocalDataSource plannedMealLocalDataSource;
 
     private static PlanRepositoryImpl planRepository = null;
-    FavoriteMealFirebase planFireBase;
+    BackupMealFirebase planFireBase;
 
     public PlanRepositoryImpl(PlannedMealLocalDataSource plannedMealLocalDataSource,
-                              FavoriteMealFirebase planMealFirebase) {
+                              BackupMealFirebase planMealFirebase) {
         this.planFireBase = planMealFirebase;
         this.plannedMealLocalDataSource = plannedMealLocalDataSource;
     }
 
-    public static synchronized PlanRepositoryImpl getInstance(PlannedMealLocalDataSource plannedMealLocalDataSource, FavoriteMealFirebase planMealFirebase) {
+    public static synchronized PlanRepositoryImpl getInstance(PlannedMealLocalDataSource plannedMealLocalDataSource, BackupMealFirebase planMealFirebase) {
         if (planRepository == null) {
             planRepository = new PlanRepositoryImpl(plannedMealLocalDataSource, planMealFirebase);
         }

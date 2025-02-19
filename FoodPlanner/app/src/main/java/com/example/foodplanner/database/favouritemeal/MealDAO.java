@@ -22,10 +22,10 @@ public interface MealDAO { //for meals and favourite meals
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertFavoriteMeal(Meal meal);
+    @Delete
+    Completable deleteFavouriteMeal(Meal meal);
 
     @Query("SELECT * FROM meal WHERE idMeal = :idMeal")
     Single<Meal> getMealById(String idMeal);
 
-    @Delete
-    Completable deleteFavouriteMeal(Meal meal);
 }

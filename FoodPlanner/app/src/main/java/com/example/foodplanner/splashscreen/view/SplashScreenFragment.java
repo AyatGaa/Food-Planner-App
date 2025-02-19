@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.foodplanner.R;
 import com.example.foodplanner.utils.AppFunctions;
-import com.example.foodplanner.utils.BottomSheetFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -34,15 +31,13 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 
 public class SplashScreenFragment extends Fragment implements SplashScreenView {
-
     ImageView logo;
     TextView planYourMeals;
     Animation logoAnimation, texAnimation;
     private FirebaseAuth mAuth;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public SplashScreenFragment() {
-
     }
 
 
@@ -53,8 +48,10 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
 
         logo = view.findViewById(R.id.logo_intro);
         planYourMeals = view.findViewById(R.id.text_intro);
+        //animation
         logoAnimation = AnimationUtils.loadAnimation(this.getContext(), R.anim.logo_intro);
         texAnimation = AnimationUtils.loadAnimation(this.getContext(), R.anim.text_intro);
+
         logo.startAnimation(logoAnimation);
         planYourMeals.startAnimation(texAnimation);
         return view;
@@ -69,11 +66,7 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
                         .subscribe(
                                 () -> {
                                     checkFirstTime();
-                                    Log.i("TAG", "run: herere");
-                                    Toast.makeText(getContext(), "end of 3 sec from obs", Toast.LENGTH_SHORT).show();
-                                })
-        );
-
+                                }));
 
     }
 
@@ -87,8 +80,9 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
 
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
+
         if (isFirstTime) {
-            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_introScreenFragment ,null,
+            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_introScreenFragment, null,
                     new NavOptions.Builder()
                             .setPopUpTo(R.id.splashScreenFragment, true)
                             .build());
@@ -98,6 +92,7 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
         } else {
             checkUserStatus();
         }
+
     }
 
     private void checkUserStatus() {
@@ -106,31 +101,21 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
         if (!AppFunctions.isConnected(requireContext())) {
 
             Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment);
-            //   showOnNoConnection();
-            //  Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             return;
         }
+
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment , null,
+            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_homeScreenFragment, null,
                     new NavOptions.Builder()
                             .setPopUpTo(R.id.splashScreenFragment, true) //handle back btn
                             .build());
 
         } else {
-            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_signInFragment ,null,
+            Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_signInFragment, null,
                     new NavOptions.Builder()
                             .setPopUpTo(R.id.splashScreenFragment, true)
                             .build());
-        }
-    }
-
-
-    @Override
-    public void showOnNoConnection() {
-        if (!AppFunctions.isConnected(requireContext())) {
-            BottomSheetFragment bottomSheet = new BottomSheetFragment();
-            bottomSheet.show(getParentFragmentManager(), "NoConnectionBottomSheet");
         }
     }
 }

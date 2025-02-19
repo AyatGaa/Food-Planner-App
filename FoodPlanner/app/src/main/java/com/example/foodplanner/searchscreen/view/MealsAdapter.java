@@ -50,7 +50,7 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         holder.txtMealName.setText(meal.getStrMeal());
 
         Glide.with(context).load(meal.getStrMealThumb())
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.notfound)
                 .into(holder.mealCardImage);
 
         holder.itemView.setOnClickListener(view -> {

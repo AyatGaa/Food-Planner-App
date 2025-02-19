@@ -14,5 +14,5 @@ public interface HomeScreenPresenter {
 
     void getFavoriteMealsFirebase();
 
-    public void getPlannedMealsFirebase( String plannedDate);
+    void getPlannedMealsFirebase(String plannedDate);
 }

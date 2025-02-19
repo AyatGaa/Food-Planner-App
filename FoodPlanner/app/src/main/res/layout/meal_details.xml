@@ -15,12 +15,10 @@
         android:background="@color/white">
 
         <TextView
-
             android:id="@+id/detailedMealHeader"
-
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="10dp"
@@ -53,6 +51,7 @@
                 android:id="@+id/mealImageDetailed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:src="@drawable/notfound"
                 android:scaleType="centerCrop" />
 
 
@@ -193,8 +192,6 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-
-
         </LinearLayout>
 
         <WebView
@@ -206,4 +203,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

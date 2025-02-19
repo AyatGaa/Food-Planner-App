@@ -28,15 +28,14 @@ import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
-import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.BackupMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenter;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenterImpl;
-import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
-import com.example.foodplanner.network.NetworkCallback;
-import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenter;
+import com.example.foodplanner.network.datasources.FilterRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.MealRemoteDataSourceImpl;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 import com.example.foodplanner.utils.AppFunctions;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -45,15 +44,12 @@ import java.util.Calendar;
 import java.util.List;
 
 public class DetailedMealFragment extends Fragment implements DetailedMealView, NetworkCallback {
-
     DetailedMealPresenter detailedMealPresenter;
     ImageView mealImageDetailed, countryFlagDetailed;
     TextView mealNameDetailed, instructionsTextDetailed, detailedMealHeader, countryFlagName;
     RecyclerView ingredientsRecyclerView;
     WebView mealVideo;
-    SearchScreenPresenter searchPresenter;
     IngredientAdapter ingredientsAdapter;
-
     Button btnAddToFavoritesDetailed, btnAddToPlanMealDetailed;
     List<String> ingredientList = new ArrayList<>();
 
@@ -81,14 +77,16 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setupUI(view);
+
         MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),
                 FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
                 FilterRemoteDataSourceImpl.getInstance(),
-                FavoriteMealFirebaseImpl.getInstance()
+                BackupMealFirebaseImpl.getInstance()
         );
-        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()),FavoriteMealFirebaseImpl.getInstance());
+        PlanRepository planRepository = PlanRepositoryImpl.getInstance(
+                PlannedMealLocalDataSourceImpl.getInstance(requireContext()),
+                BackupMealFirebaseImpl.getInstance());
 
         detailedMealPresenter = new DetailedMealPresenterImpl(repo, this, planRepository);
 
@@ -97,11 +95,11 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         ingredientsRecyclerView.setLayoutManager(layoutManager);
-
+//get meal detail by args
         Meal meal = DetailedMealFragmentArgs.fromBundle(getArguments()).getDetailedMeal();
 
 
-        if (meal.getStrInstructions() == null) { // not complete mal object
+        if (meal.getStrInstructions() == null || meal.getStrCategory() == null) { // not complete mal object
             detailedMealPresenter.fetchMealDetails(meal.getIdMeal());
         } else {
             showMealDetails(meal); // complete meal object
@@ -111,16 +109,16 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         btnAddToFavoritesDetailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("fav", "onClick: on detaled fragment" + meal.getIdMeal());
                 String userId = AppFunctions.getCurrentUserId();
-                if (userId != null) {
+                boolean isAuthenticated = AppFunctions.isAuthenticated();
+                if (isAuthenticated && userId != null) {
                     meal.setUserId(userId);
                     detailedMealPresenter.onAddToFavourite(meal);
                     Log.d("MealDetailFragment", "Meal received: " + meal.getStrMeal());
-                    showAddedSnackBar(meal, "Meal added to favorites");
+                    showAddedSnackBar(meal, "Added To Favorite");
 
                 } else {
-                    Log.e("fav", " User not authenticated. Cannot add meal to favorites.");
+                    Toast.makeText(requireContext(), "Please Sign In", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -128,12 +126,16 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         btnAddToPlanMealDetailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                showDatePickers(meal);
+                boolean isAuthenticated = AppFunctions.isAuthenticated();
+                String userId = AppFunctions.getCurrentUserId();
+                if (isAuthenticated && userId != null) {
+                    showDatePickers(meal);
+                } else {
+                    Toast.makeText(requireContext(), "Please Sign In", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
 
 
     @Override
@@ -168,26 +170,17 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                     String selectedDate = selectedYear + "-" + String.format("%02d", (selectedMonth + 1)) + "-" + String.format("%02d", selectedDay);
                     String userId = AppFunctions.getCurrentUserId();
 
-                    Log.d("date", "onClick: " + selectedDate);
                     PlannedMeal plannedMeal = new PlannedMeal(userId, meal.getIdMeal(), meal.getStrMeal(), meal.getStrMealThumb(), selectedDate);
                     if (detailedMealPresenter.isFutureDate(selectedDate)) {
                         detailedMealPresenter.onAddToPlan(plannedMeal);
-                        //       showAddedSnackBar(meal, "Meal Planned Successfully!");
                     } else {
                         Toast.makeText(requireContext(), "Cannot add meal to a past date", Toast.LENGTH_SHORT).show();
                     }
 
                 }, year, month, day);
-
-
         datePickerDialog.show();
     }
 
-    @Override
-    public void showMealList(List<Meal> meals) {
-
-
-    }
 
     @Override
     public void showMealDetails(Meal meal) {
@@ -203,14 +196,13 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
 
         String countryCode = AppFunctions.getCountryCode(meal.getStrArea()).toLowerCase();
         Glide.with(requireContext()).load("https://flagcdn.com/w320/" + countryCode + ".png")
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.notfound)
                 .into(countryFlagDetailed);
 
 
         Glide.with(requireContext()).load(meal.getStrMealThumb())
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.notfound)
                 .into(mealImageDetailed);
-
 
         ingredientList = detailedMealPresenter.getIngredient(meal);
         ingredientsAdapter = new IngredientAdapter(ingredientList, requireContext());
@@ -218,18 +210,18 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         ingredientsAdapter.notifyDataSetChanged();
 
         showVideoPlayer(meal);
-    }
 
+    }
+    @Override
+    public void showMealList(List<Meal> meals) {
+    }
 
     @Override
     public void onSuccess(List<Meal> meals) {
-
     }
-
 
     @Override
     public void onSuccessArea(List<Meal> meals) {
-
     }
 
     @Override

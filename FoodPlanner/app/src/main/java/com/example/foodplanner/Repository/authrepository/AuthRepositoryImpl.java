@@ -51,11 +51,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                 });
     }
 
-    @Override
-    public String getCurrentUserName() {
-        String userName = mAuth.getCurrentUser().getDisplayName();
-        return userName;
-    }
+
 
     @Override
     public void signUp(String email, String password, AuthCallback authCallback) {

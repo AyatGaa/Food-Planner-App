@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
     android:background="@color/white"
     android:orientation="vertical"
@@ -13,10 +12,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="fitCenter"
-        app:strokeWidth="2dp"
-        app:strokeColor="@color/gray"
-        android:background="@drawable/circular_shape_ingred"
-          />
+        android:src="@drawable/notfound"
+        android:background="@drawable/circular_shape_ingred"/>
 
     <TextView
         android:id="@+id/ingredientName"
@@ -24,9 +21,6 @@
         android:layout_height="wrap_content"
         android:text="Tomato"
         android:textSize="14sp"
-
-        android:gravity="center"
         android:textColor="@color/black"
         android:layout_marginTop="4dp"/>
-
 </LinearLayout>

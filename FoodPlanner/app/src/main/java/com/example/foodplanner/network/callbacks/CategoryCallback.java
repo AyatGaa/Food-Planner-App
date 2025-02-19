@@ -1,4 +1,4 @@
-package com.example.foodplanner.network;
+package com.example.foodplanner.network.callbacks;
 
 import com.example.foodplanner.Models.category.Category;
 

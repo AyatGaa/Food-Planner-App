@@ -22,12 +22,12 @@ import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
-import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.BackupMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 
-import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.FilterRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.MealRemoteDataSourceImpl;
 import com.example.foodplanner.planscreen.presenter.PlanScreenPresenter;
 import com.example.foodplanner.planscreen.presenter.PlanScreenPresenterImpl;
 import com.example.foodplanner.utils.AppFunctions;
@@ -63,11 +63,11 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PlanRepository repo = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()), FavoriteMealFirebaseImpl.getInstance());
+        PlanRepository repo = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()), BackupMealFirebaseImpl.getInstance());
         MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),
                 FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
                 FilterRemoteDataSourceImpl.getInstance(),
-                FavoriteMealFirebaseImpl.getInstance()
+                BackupMealFirebaseImpl.getInstance()
         );
         planScreenPresenter = new PlanScreenPresenterImpl(this, repo);
 

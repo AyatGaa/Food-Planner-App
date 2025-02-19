@@ -64,25 +64,19 @@ public class FilterAdapter<T> extends RecyclerView.Adapter<FilterAdapter.ViewHol
             Glide.with(context).load("https://flagcdn.com/w320/" + countryCode + ".png").into(holder.filterImage);
 
         } else if (c instanceof Ingredient) {
+
             holder.filterName.setText(((Ingredient) c).getStrIngredient());
             Ingredient ingredient = (Ingredient) c;
             String imageUrl = "https://www.themealdb.com/images/ingredients/" + ingredient.getStrIngredient() + ".png";
             Glide.with(context)
                     .load(imageUrl)
                     .into(holder.filterImage);
+
         } else if (c instanceof Meal) {
 
             holder.filterName.setText(((Meal) c).getStrMeal());
             Glide.with(context).load(((Meal) c).getStrMealThumb()).into(holder.filterImage);
         }
-
-
-//
-//        holder.itemView.setOnClickListener(v -> {
-//            if (listener != null) {
-//                listener.onItemClick(names.get(position));
-//            }
-//        });
 
     }
 

@@ -1,10 +1,14 @@
-package com.example.foodplanner.network;
+package com.example.foodplanner.network.datasources;
 
 import android.util.Log;
 
 import com.example.foodplanner.Models.category.Categories;
-import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
+import com.example.foodplanner.network.MealService;
+import com.example.foodplanner.network.callbacks.AreaCallback;
+import com.example.foodplanner.network.callbacks.CategoryCallback;
+import com.example.foodplanner.network.callbacks.IngredientNetworkcall;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;

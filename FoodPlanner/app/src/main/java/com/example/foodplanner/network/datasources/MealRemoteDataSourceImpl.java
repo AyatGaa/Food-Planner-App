@@ -1,23 +1,16 @@
-package com.example.foodplanner.network;
+package com.example.foodplanner.network.datasources;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
-import com.google.gson.Gson;
-
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.foodplanner.network.MealService;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
+import com.example.foodplanner.network.callbacks.RandomMealCallback;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

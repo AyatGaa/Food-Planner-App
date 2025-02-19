@@ -7,18 +7,16 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Observable;
 
 public interface PlannedMealLocalDataSource {
-    Observable<List<PlannedMeal>> getMealsForDate(String selectedDate);
+    void insertPlannedMeal(PlannedMeal plannedMeal);
+    void deletePlannedMeal(PlannedMeal plannedMeal);
+    Observable<PlannedMeal> getPlannedMealById(String mealId);
 
     Observable<List<PlannedMeal>> getPlannedMealsByDate(String userId, String date);
-
-    void insertPlannedMeal(PlannedMeal plannedMeal);
 
     Observable<List<PlannedMeal>> getAllPlannedMeals();
 
 
-
-    void deletePlannedMeal(PlannedMeal plannedMeal);
     void deletePastMeals(String currentDate);
+    Observable<List<PlannedMeal>> getMealsForDate(String selectedDate);
 
-    Observable<PlannedMeal> getPlannedMealById(String mealId);
 }

@@ -1,4 +1,4 @@
-package com.example.foodplanner.backup.favouritmeals;
+package com.example.foodplanner.backup;
 
 import android.util.Log;
 
@@ -17,14 +17,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
+public class BackupMealFirebaseImpl implements BackupMealFirebase {
     FirebaseDatabase database;
     DatabaseReference dbRef;
-    private static FavoriteMealFirebaseImpl instance = null;
+final static String USER_DATA = "user_data";
+final static String PLAN_MEAL = "plan_meal";
+final static String FAVORITE_MEAL = "favorite_meal";
+    private static BackupMealFirebaseImpl instance = null;
     /*
      * favorite meal =>
      *                   user_id=>
@@ -35,15 +36,15 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
      *                                                           meal_id
      * */
 
-    public FavoriteMealFirebaseImpl() {
+    public BackupMealFirebaseImpl() {
 
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("user_data");
+        dbRef = database.getReference(USER_DATA);
     }
 
-    public static FavoriteMealFirebaseImpl getInstance() {
+    public static BackupMealFirebaseImpl getInstance() {
         if (instance == null) {
-            instance = new FavoriteMealFirebaseImpl();
+            instance = new BackupMealFirebaseImpl();
 
         }
         return instance;
@@ -51,7 +52,7 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
 
     @Override
     public void addMealToFirebase(Meal meal, String userId) { //
-        dbRef.child(userId).child("favorite_meal").child(meal.getIdMeal()).setValue(meal)
+        dbRef.child(userId).child(FAVORITE_MEAL).child(meal.getIdMeal()).setValue(meal)
                 .addOnSuccessListener(success -> Log.e("fb", "onSuccess: added " + meal.getIdMeal()))
                 .addOnFailureListener(e -> Log.e("fb", "onFailure: " + e.getMessage()));
     }
@@ -60,7 +61,7 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
     @Override
     public Observable<List<Meal>> getFavouriteMealsFromFirebase(String userId) {
         return Observable.create(emitter -> {
-            dbRef.child(userId).child("favorite_meal")
+            dbRef.child(userId).child(FAVORITE_MEAL)
                     .addListenerForSingleValueEvent(new ValueEventListener() { //userid-> fav_meals (list of meals)
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -89,7 +90,7 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
 
     @Override
     public void deleteMealFromFirebase(Meal meal, String userId) {
-        dbRef.child(userId).child("favorite_meal").child(meal.getIdMeal())  // Adjust path if needed
+        dbRef.child(userId).child(FAVORITE_MEAL).child(meal.getIdMeal())  // Adjust path if needed
                 .removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -112,7 +113,7 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
         //String userId, String idMeal, String mealName, String mealImage, String date
       //  PlannedMeal plannedMeal = new PlannedMeal(meal.getUserId(), meal.getIdMeal(), meal.getStrMeal(), meal.getStrMealThumb(), plannedDate);
 
-        dbRef.child(userId).child("plan_meal").child(plannedDate).child(plannedMeal.getIdMeal()).setValue(plannedMeal)
+        dbRef.child(userId).child(PLAN_MEAL).child(plannedDate).child(plannedMeal.getIdMeal()).setValue(plannedMeal)
                 .addOnSuccessListener(success -> Log.e("fb", "onSuccess: PLAN added " + plannedMeal.getIdMeal()))
                 .addOnFailureListener(e -> Log.e("fb", "onFailure: PLAN add" + e.getMessage()));
     }
@@ -120,7 +121,7 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
     @Override
     public Observable<List<PlannedMeal>> getPlannedMealsFromFirebase(String userId, String plannedDate) {
         return Observable.create(emitter -> {
-            dbRef.child(userId).child("plan_meal").child(plannedDate)
+            dbRef.child(userId).child(PLAN_MEAL).child(plannedDate)
                     .addValueEventListener(new ValueEventListener() { //userid-> plan_meal ->date-> meal (list of meals)
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -149,7 +150,7 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
 
     @Override
     public void deletePlannedMealToFirebase(PlannedMeal plannedMeal, String userId, String plannedDate) {
-        dbRef.child(userId).child("plan_meal").child(plannedDate).child(plannedMeal.getIdMeal())  // Adjust path if needed
+        dbRef.child(userId).child(PLAN_MEAL).child(plannedDate).child(plannedMeal.getIdMeal())  // Adjust path if needed
                 .removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -169,7 +170,7 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
     @Override
     public Observable<List<PlannedMeal>> getPlannedMealsFromFirebaseByDate(String userId, String plannedDate) {
         return Observable.create(emitter -> {
-            dbRef.child(userId).child("plan_meal").child(plannedDate)
+            dbRef.child(userId).child(PLAN_MEAL).child(plannedDate)
                     .addListenerForSingleValueEvent(new ValueEventListener() { //userid-> plan_meal ->date-> meal (list of meals)
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

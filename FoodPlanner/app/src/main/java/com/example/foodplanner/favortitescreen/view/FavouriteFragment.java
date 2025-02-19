@@ -1,6 +1,5 @@
 package com.example.foodplanner.favortitescreen.view;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -19,12 +18,12 @@ import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
-import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.BackupMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenter;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenterImpl;
-import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.FilterRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.MealRemoteDataSourceImpl;
 import com.example.foodplanner.utils.AppFunctions;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -36,7 +35,6 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
     FavoriteAdapter favAdapter;
     LinearLayout signInLayout;
     Button signInButton;
-    Context context;
     FavoriteScreenPresenter favoriteScreenPresenter;
 
     public FavouriteFragment() {
@@ -51,7 +49,7 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
                 MealRemoteDataSourceImpl.getInstance(),
                 FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
                 FilterRemoteDataSourceImpl.getInstance(),
-                FavoriteMealFirebaseImpl.getInstance()
+                BackupMealFirebaseImpl.getInstance()
         );
         favoriteScreenPresenter = new FavoriteScreenPresenterImpl(this, repo);
     }
@@ -63,28 +61,27 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
         signInLayout = view.findViewById(R.id.signInLayout);
         favoriteRecyclerView = view.findViewById(R.id.favoriteRecyclerView);
         signInButton = view.findViewById(R.id.signInButton);
+
         boolean userStatus = AppFunctions.isAuthenticated();
-        if (!userStatus) {//
+        if (!userStatus) {
 
             signInLayout.setVisibility(View.VISIBLE);
             favoriteRecyclerView.setVisibility(View.GONE);
         } else {
-
             signInLayout.setVisibility(View.GONE);
+
             favoriteRecyclerView.setVisibility(View.VISIBLE);
-
-
             favoriteRecyclerView.setHasFixedSize(true);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             favoriteRecyclerView.setLayoutManager(layoutManager);
+
             favAdapter = new FavoriteAdapter(getContext(), new ArrayList<>(), this);
             favoriteRecyclerView.setAdapter(favAdapter);
 
             favoriteScreenPresenter.checkInternetConnection(requireContext());
-
-           favoriteScreenPresenter.getFavoriteMeals();
-         favoriteScreenPresenter.getFavouriteMealsFromFirebase(AppFunctions.getCurrentUserId());
+            favoriteScreenPresenter.getFavoriteMeals();
+            favoriteScreenPresenter.getFavouriteMealsFromFirebase(AppFunctions.getCurrentUserId());
         }
 
         signInButton.setOnClickListener(v -> {
@@ -96,7 +93,7 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
 
     @Override
     public void showFavoriteMeals(List<Meal> meals) {
-        if (favAdapter != null ) {
+        if (favAdapter != null) {
             favAdapter.updateData(meals);
         } else {
             favAdapter = new FavoriteAdapter(getContext(), meals, this);
