@@ -1,7 +1,5 @@
-package com.example.foodplanner.network;
+package com.example.foodplanner.network.callbacks;
 
-import com.example.foodplanner.Models.area.Area;
-import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.meals.Meal;
 
 import java.util.List;

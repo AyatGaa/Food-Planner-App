@@ -13,12 +13,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.foodplanner.Models.area.Area;
-import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.meals.Meal;
-import com.example.foodplanner.network.FilterRemoteDataSource;
-import com.example.foodplanner.network.MealRemoteDataSource;
-import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;

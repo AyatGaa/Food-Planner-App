@@ -2,11 +2,11 @@ package com.example.foodplanner.Repository.modelrepoitory;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
-import com.example.foodplanner.network.AreaCallback;
-import com.example.foodplanner.network.CategoryCallback;
-import com.example.foodplanner.network.IngredientNetworkcall;
-import com.example.foodplanner.network.MealDetailCallback;
-import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.network.callbacks.AreaCallback;
+import com.example.foodplanner.network.callbacks.CategoryCallback;
+import com.example.foodplanner.network.callbacks.IngredientNetworkcall;
+import com.example.foodplanner.network.callbacks.MealDetailCallback;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 
 import java.util.List;
 

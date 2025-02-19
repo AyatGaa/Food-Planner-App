@@ -1,6 +1,5 @@
 package com.example.foodplanner.favortitescreen.view;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -23,8 +22,8 @@ import com.example.foodplanner.backup.BackupMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenter;
 import com.example.foodplanner.favortitescreen.presenter.FavoriteScreenPresenterImpl;
-import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.FilterRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.MealRemoteDataSourceImpl;
 import com.example.foodplanner.utils.AppFunctions;
 import com.google.android.material.snackbar.Snackbar;
 

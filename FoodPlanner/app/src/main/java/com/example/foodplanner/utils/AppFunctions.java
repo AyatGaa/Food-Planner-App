@@ -82,7 +82,7 @@ public abstract class AppFunctions {
         if (auth.getCurrentUser() != null) {
             return auth.getCurrentUser().getUid();
         } else {
-            return null; // Or return a default value like an empty string ""
+            return null;
         }
     }
 

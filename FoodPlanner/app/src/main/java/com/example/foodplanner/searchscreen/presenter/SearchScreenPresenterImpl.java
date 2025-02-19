@@ -1,33 +1,26 @@
 package com.example.foodplanner.searchscreen.presenter;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.content.Context;
-import android.telephony.ClosedSubscriberGroupInfo;
 import android.util.Log;
-import android.view.View;
 
 import com.example.foodplanner.Models.area.Area;
 import com.example.foodplanner.Models.category.Category;
 import com.example.foodplanner.Models.ingredient.Ingredient;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
-import com.example.foodplanner.network.AreaCallback;
-import com.example.foodplanner.network.CategoryCallback;
-import com.example.foodplanner.network.IngredientNetworkcall;
-import com.example.foodplanner.network.MealDetailCallback;
-import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.network.callbacks.AreaCallback;
+import com.example.foodplanner.network.callbacks.CategoryCallback;
+import com.example.foodplanner.network.callbacks.IngredientNetworkcall;
+import com.example.foodplanner.network.callbacks.MealDetailCallback;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 import com.example.foodplanner.searchscreen.view.SearchScreenView;
 import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SearchScreenPresenterImpl implements SearchScreenPresenter, IngredientNetworkcall, CategoryCallback, AreaCallback, NetworkCallback {

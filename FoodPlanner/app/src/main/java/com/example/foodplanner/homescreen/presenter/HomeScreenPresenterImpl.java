@@ -10,10 +10,9 @@ import com.example.foodplanner.Models.meals.MealOnlyRepository;
 import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
-import com.example.foodplanner.favortitescreen.view.FavoriteScreenView;
 import com.example.foodplanner.homescreen.view.HomeScreenView;
-import com.example.foodplanner.network.NetworkCallback;
-import com.example.foodplanner.network.RandomMealCallback;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
+import com.example.foodplanner.network.callbacks.RandomMealCallback;
 import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.List;

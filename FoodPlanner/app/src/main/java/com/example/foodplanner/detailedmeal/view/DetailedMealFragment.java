@@ -33,9 +33,9 @@ import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSour
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenter;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenterImpl;
-import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
-import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.network.datasources.FilterRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.MealRemoteDataSourceImpl;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 import com.example.foodplanner.utils.AppFunctions;
 import com.google.android.material.snackbar.Snackbar;
 

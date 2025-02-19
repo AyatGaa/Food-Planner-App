@@ -1,12 +1,10 @@
 package com.example.foodplanner.Models.meals;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.example.foodplanner.network.MealRemoteDataSource;
-import com.example.foodplanner.network.NetworkCallback;
-import com.example.foodplanner.network.RandomMealCallback;
-import com.google.gson.Gson;
+import com.example.foodplanner.network.datasources.MealRemoteDataSource;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
+import com.example.foodplanner.network.callbacks.RandomMealCallback;
 
 public class MealOnlyRepositoryImpl implements MealOnlyRepository {
 

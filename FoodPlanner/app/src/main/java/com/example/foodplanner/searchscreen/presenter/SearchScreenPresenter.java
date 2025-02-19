@@ -1,9 +1,5 @@
 package com.example.foodplanner.searchscreen.presenter;
 
-import com.example.foodplanner.network.AreaCallback;
-import com.example.foodplanner.network.CategoryCallback;
-import com.example.foodplanner.network.NetworkCallback;
-
 public interface SearchScreenPresenter {
 
     void checkInternetConnection();

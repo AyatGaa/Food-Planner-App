@@ -26,8 +26,8 @@ import com.example.foodplanner.backup.BackupMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 
-import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.FilterRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.MealRemoteDataSourceImpl;
 import com.example.foodplanner.planscreen.presenter.PlanScreenPresenter;
 import com.example.foodplanner.planscreen.presenter.PlanScreenPresenterImpl;
 import com.example.foodplanner.utils.AppFunctions;

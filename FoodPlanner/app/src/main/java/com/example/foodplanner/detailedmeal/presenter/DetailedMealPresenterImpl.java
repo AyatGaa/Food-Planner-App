@@ -2,19 +2,13 @@ package com.example.foodplanner.detailedmeal.presenter;
 
 import android.util.Log;
 
-import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
-import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
-import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
-import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.view.DetailedMealView;
-import com.example.foodplanner.network.MealDetailCallback;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
-import com.example.foodplanner.network.NetworkCallback;
-import com.example.foodplanner.utils.AppFunctions;
+import com.example.foodplanner.network.callbacks.MealDetailCallback;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,10 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DetailedMealPresenterImpl implements DetailedMealPresenter, NetworkCallback {
 

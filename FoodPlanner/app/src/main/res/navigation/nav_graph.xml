@@ -2,14 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/splashScreenFragment">
 
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.example.foodplanner.splashscreen.view.SplashScreenFragment"
         android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" >
+        tools:layout="@layout/fragment_splash_screen">
         <action
             android:id="@+id/action_splashScreenFragment_to_introScreenFragment"
             app:destination="@id/introScreenFragment" />
@@ -27,7 +26,7 @@
         android:id="@+id/introScreenFragment"
         android:name="com.example.foodplanner.introscreen.IntroScreenFragment"
         android:label="fragment_intro_screen"
-        tools:layout="@layout/fragment_intro_screen" >
+        tools:layout="@layout/fragment_intro_screen">
         <action
             android:id="@+id/action_introScreenFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
@@ -42,7 +41,7 @@
         android:id="@+id/signInFragment"
         android:name="com.example.foodplanner.signin.view.SignInFragment"
         android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" >
+        tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment2"
             app:destination="@id/signUpFragment" />
@@ -54,7 +53,7 @@
         android:id="@+id/signUpFragment"
         android:name="com.example.foodplanner.signup.view.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUpFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
@@ -66,17 +65,19 @@
         android:id="@+id/homeScreenFragment"
         android:name="com.example.foodplanner.homescreen.view.HomeScreenFragment"
         android:label="fragment_home_screen"
-        tools:layout="@layout/fragment_home_screen" >
+        tools:layout="@layout/fragment_home_screen">
         <action
             android:id="@+id/action_homeScreenFragment_to_detailedMealFragment"
             app:destination="@id/detailedMealFragment"
+            app:enterAnim="@anim/slide_out"
             app:popUpTo="@id/homeScreenFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.example.foodplanner.favortitescreen.view.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" >
+        tools:layout="@layout/fragment_favourite">
         <action
             android:id="@+id/action_favouriteFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
@@ -85,7 +86,7 @@
         android:id="@+id/planFragment"
         android:name="com.example.foodplanner.planscreen.view.PlanFragment"
         android:label="fragment_plan"
-        tools:layout="@layout/fragment_plan" >
+        tools:layout="@layout/fragment_plan">
         <action
             android:id="@+id/action_planFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
@@ -94,7 +95,7 @@
         android:id="@+id/searchFragment"
         android:name="com.example.foodplanner.searchscreen.view.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_detailedMealFragment"
             app:destination="@id/detailedMealFragment"
@@ -102,9 +103,9 @@
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.foodplanner.userscreen.UserFragment"
+        android:name="com.example.foodplanner.userscreen.view.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" >
+        tools:layout="@layout/fragment_user">
         <action
             android:id="@+id/action_userFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
@@ -118,7 +119,7 @@
     <fragment
         android:id="@+id/detailedMealFragment"
         android:name="com.example.foodplanner.detailedmeal.view.DetailedMealFragment"
-        android:label="DetailedMealFragment" >
+        android:label="DetailedMealFragment">
         <argument
             android:name="detailedMeal"
             app:argType="com.example.foodplanner.Models.meals.Meal" />

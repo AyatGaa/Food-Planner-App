@@ -1,11 +1,10 @@
-package com.example.foodplanner.network;
+package com.example.foodplanner.network.datasources;
 
-import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
+import com.example.foodplanner.network.callbacks.RandomMealCallback;
 
 import io.reactivex.rxjava3.core.Single;
-import retrofit2.Call;
-import retrofit2.http.Query;
 
 public interface MealRemoteDataSource {
     void mealNetworkCall(NetworkCallback callBack);

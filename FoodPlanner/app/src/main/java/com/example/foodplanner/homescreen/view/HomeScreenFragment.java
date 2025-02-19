@@ -2,6 +2,7 @@ package com.example.foodplanner.homescreen.view;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -31,8 +32,8 @@ import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSour
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenter;
 import com.example.foodplanner.homescreen.presenter.HomeScreenPresenterImpl;
-import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
-import com.example.foodplanner.network.MealRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.FilterRemoteDataSourceImpl;
+import com.example.foodplanner.network.datasources.MealRemoteDataSourceImpl;
 import com.example.foodplanner.utils.AppFunctions;
 import com.example.foodplanner.utils.BottomSheetFragment;
 
@@ -101,6 +102,13 @@ public class HomeScreenFragment extends Fragment implements HomeScreenView, OnMe
 
         homeScreenPresenter.checkInternetConnection();
 
+        // Closes the app if i click on back btn on home screen
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                requireActivity().finish();
+            }
+        });
         return view;
     }
 

@@ -1,7 +1,7 @@
 package com.example.foodplanner.Models.meals;
 
-import com.example.foodplanner.network.NetworkCallback;
-import com.example.foodplanner.network.RandomMealCallback;
+import com.example.foodplanner.network.callbacks.NetworkCallback;
+import com.example.foodplanner.network.callbacks.RandomMealCallback;
 
 public interface MealOnlyRepository {
   void getAllMeals(NetworkCallback callBack);
