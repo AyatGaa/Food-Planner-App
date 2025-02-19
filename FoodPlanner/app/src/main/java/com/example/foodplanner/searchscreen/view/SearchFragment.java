@@ -28,7 +28,7 @@ import com.example.foodplanner.Models.ingredient.Ingredient;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
-import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.BackupMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
@@ -106,7 +106,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
                 MealRemoteDataSourceImpl.getInstance(),
                 FavouriteMealLocalDataSourceImpl.getInstance(requireContext()),
                 FilterRemoteDataSourceImpl.getInstance(),
-                FavoriteMealFirebaseImpl.getInstance()
+                BackupMealFirebaseImpl.getInstance()
         ), this, requireContext());
 
         handleChipSelection(view);

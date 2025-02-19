@@ -11,15 +11,16 @@ import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.database.favouritemeal.MealDAO;
 import com.example.foodplanner.database.plannedmeal.PlanMealDao;
 
-@Database(entities = {Meal.class,PlannedMeal.class}, version = 3)
+@Database(entities = {Meal.class, PlannedMeal.class}, version = 3)
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase appDataBase = null;
 
     public abstract MealDAO getMealDAO();
+
     public abstract PlanMealDao getPlannedMealDAO();
 
-    public static synchronized AppDataBase getInstance(Context context){
-        if(appDataBase == null){
+    public static synchronized AppDataBase getInstance(Context context) {
+        if (appDataBase == null) {
             appDataBase = Room.databaseBuilder(context, AppDataBase.class, "meals.db")
                     .fallbackToDestructiveMigration().build();
         }

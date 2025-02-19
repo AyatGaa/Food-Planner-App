@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.Models.meals.Meals;
-import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebase;
+import com.example.foodplanner.backup.BackupMealFirebase;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSource;
 import com.example.foodplanner.network.AreaCallback;
 import com.example.foodplanner.network.CategoryCallback;
@@ -29,25 +29,25 @@ public class MealRepositoryImpl implements MealRepository {
     MealRemoteDataSource mealRemoteDataSource;
     FavouriteMealLocalDataSource favouriteMealLocalDataSource;
     FilterRemoteDataSource crds;
-    FavoriteMealFirebase favFireBase;
+    BackupMealFirebase favFireBase;
     private static MealRepositoryImpl mealRepository = null;
 
     public MealRepositoryImpl(MealRemoteDataSource mealRemoteDataSource,
                               FavouriteMealLocalDataSource favouriteMealLocalDataSource,
                               FilterRemoteDataSource filterRemoteDataSource,
-                              FavoriteMealFirebase favoriteMealFirebase) {
+                              BackupMealFirebase backupMealFirebase) {
         this.mealRemoteDataSource = mealRemoteDataSource;
         this.favouriteMealLocalDataSource = favouriteMealLocalDataSource;
         this.crds = filterRemoteDataSource;
-        this.favFireBase = favoriteMealFirebase;
+        this.favFireBase = backupMealFirebase;
     }
 
     public static synchronized MealRepositoryImpl getInstance(MealRemoteDataSource mealRemoteDataSource,
                                                               FavouriteMealLocalDataSource favouriteMealLocalDataSource,
                                                               FilterRemoteDataSource filterRemoteDataSource
-            , FavoriteMealFirebase favoriteMealFirebase) {
+            , BackupMealFirebase backupMealFirebase) {
         if (mealRepository == null) {
-            mealRepository = new MealRepositoryImpl(mealRemoteDataSource, favouriteMealLocalDataSource, filterRemoteDataSource, favoriteMealFirebase);
+            mealRepository = new MealRepositoryImpl(mealRemoteDataSource, favouriteMealLocalDataSource, filterRemoteDataSource, backupMealFirebase);
         }
         return mealRepository;
     }

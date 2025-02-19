@@ -28,7 +28,7 @@ import com.example.foodplanner.Repository.modelrepoitory.MealRepository;
 import com.example.foodplanner.Repository.modelrepoitory.MealRepositoryImpl;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepository;
 import com.example.foodplanner.Repository.modelrepoitory.PlanRepositoryImpl;
-import com.example.foodplanner.backup.favouritmeals.FavoriteMealFirebaseImpl;
+import com.example.foodplanner.backup.BackupMealFirebaseImpl;
 import com.example.foodplanner.database.favouritemeal.FavouriteMealLocalDataSourceImpl;
 import com.example.foodplanner.database.plannedmeal.PlannedMealLocalDataSourceImpl;
 import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenter;
@@ -36,7 +36,6 @@ import com.example.foodplanner.detailedmeal.presenter.DetailedMealPresenterImpl;
 import com.example.foodplanner.network.FilterRemoteDataSourceImpl;
 import com.example.foodplanner.network.MealRemoteDataSourceImpl;
 import com.example.foodplanner.network.NetworkCallback;
-import com.example.foodplanner.searchscreen.presenter.SearchScreenPresenter;
 import com.example.foodplanner.utils.AppFunctions;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -78,14 +77,16 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setupUI(view);
+
         MealRepository repo = MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(),
                 FavouriteMealLocalDataSourceImpl.getInstance(getContext()),
                 FilterRemoteDataSourceImpl.getInstance(),
-                FavoriteMealFirebaseImpl.getInstance()
+                BackupMealFirebaseImpl.getInstance()
         );
-        PlanRepository planRepository = PlanRepositoryImpl.getInstance(PlannedMealLocalDataSourceImpl.getInstance(requireContext()), FavoriteMealFirebaseImpl.getInstance());
+        PlanRepository planRepository = PlanRepositoryImpl.getInstance(
+                PlannedMealLocalDataSourceImpl.getInstance(requireContext()),
+                BackupMealFirebaseImpl.getInstance());
 
         detailedMealPresenter = new DetailedMealPresenterImpl(repo, this, planRepository);
 
@@ -94,11 +95,11 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         ingredientsRecyclerView.setLayoutManager(layoutManager);
-
+//get meal detail by args
         Meal meal = DetailedMealFragmentArgs.fromBundle(getArguments()).getDetailedMeal();
 
 
-        if (meal.getStrInstructions() == null) { // not complete mal object
+        if (meal.getStrInstructions() == null || meal.getStrCategory() == null) { // not complete mal object
             detailedMealPresenter.fetchMealDetails(meal.getIdMeal());
         } else {
             showMealDetails(meal); // complete meal object
@@ -108,7 +109,6 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         btnAddToFavoritesDetailed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("fav", "onClick: on detaled fragment" + meal.getIdMeal());
                 String userId = AppFunctions.getCurrentUserId();
                 boolean isAuthenticated = AppFunctions.isAuthenticated();
                 if (isAuthenticated && userId != null) {
@@ -170,7 +170,6 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                     String selectedDate = selectedYear + "-" + String.format("%02d", (selectedMonth + 1)) + "-" + String.format("%02d", selectedDay);
                     String userId = AppFunctions.getCurrentUserId();
 
-                    Log.d("date", "onClick: " + selectedDate);
                     PlannedMeal plannedMeal = new PlannedMeal(userId, meal.getIdMeal(), meal.getStrMeal(), meal.getStrMealThumb(), selectedDate);
                     if (detailedMealPresenter.isFutureDate(selectedDate)) {
                         detailedMealPresenter.onAddToPlan(plannedMeal);
@@ -179,14 +178,9 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                     }
 
                 }, year, month, day);
-
-
         datePickerDialog.show();
     }
 
-    @Override
-    public void showMealList(List<Meal> meals) {
-    }
 
     @Override
     public void showMealDetails(Meal meal) {
@@ -217,6 +211,9 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
 
         showVideoPlayer(meal);
 
+    }
+    @Override
+    public void showMealList(List<Meal> meals) {
     }
 
     @Override

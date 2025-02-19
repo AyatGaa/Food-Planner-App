@@ -27,8 +27,6 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
         this.context = context;
         AppDataBase db = AppDataBase.getInstance(context);
         planMealDao = db.getPlannedMealDAO();
-        //  savedMeals = planMealDao.getAllPlannedMeals();
-        //savedPlannedMeals = planMealDao.getMealsForDate("2025-02-14");
     }
 
     public static PlannedMealLocalDataSourceImpl getInstance(Context context) {
@@ -40,17 +38,10 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
     }
 
     @Override
-    public Observable<List<PlannedMeal>> getMealsForDate(String selectedDate) {
-        return savedPlannedMeals = planMealDao.getMealsForDate(selectedDate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()); // observe here to be uptodate;;
-    }
-
-    @Override
     public Observable<List<PlannedMeal>> getPlannedMealsByDate(String userId, String date) {
         return savedPlannedMeals = planMealDao.getPlannedMealsByDate(userId, date)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()); // observe here to be uptodate;
+                .observeOn(AndroidSchedulers.mainThread()); // observe here to be updated;
     }
 
 
@@ -77,16 +68,7 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
                             Log.e("PlanRepository", "Error checking meal existence", error);
                         });
 
-
     }
-
-    @Override
-    public Observable<List<PlannedMeal>> getAllPlannedMeals() {
-        return savedMeals = planMealDao.getAllPlannedMeals()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
     @Override
     public void deletePlannedMeal(PlannedMeal plannedMeal) {
         planMealDao.deletePlannedMeal(plannedMeal).subscribeOn(Schedulers.io())
@@ -99,6 +81,14 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
     }
 
     @Override
+    public Observable<List<PlannedMeal>> getAllPlannedMeals() {
+        return savedMeals = planMealDao.getAllPlannedMeals()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    @Override
     public void deletePastMeals(String currentDate) {
         planMealDao.deletePastMeals(currentDate)
                 .subscribeOn(Schedulers.io())
@@ -108,6 +98,12 @@ public class PlannedMealLocalDataSourceImpl implements PlannedMealLocalDataSourc
     @Override
     public Observable<PlannedMeal> getPlannedMealById(String mealId) {
         return planMealDao.getPlannedMealById(mealId);
+    }
+    @Override
+    public Observable<List<PlannedMeal>> getMealsForDate(String selectedDate) {
+        return savedPlannedMeals = planMealDao.getMealsForDate(selectedDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()); // observe here to be updated;
     }
 
 

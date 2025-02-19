@@ -18,21 +18,25 @@ import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface PlanMealDao {
-
-
-    @Query("SELECT * FROM planned_meals WHERE idMeal = :mealId LIMIT 1")
-    Observable<PlannedMeal> getPlannedMealById(String mealId);
-    @Query("SELECT * FROM planned_meals WHERE date = :selectedDate")
-    Observable<List<PlannedMeal>> getMealsForDate(String selectedDate);
-    @Query("SELECT * FROM planned_meals WHERE userId = :userId AND date = :date")
-    Observable<List<PlannedMeal>> getPlannedMealsByDate(String userId, String date);
+    //CRUD
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertPlannedMeal(PlannedMeal plannedMeal);
+
     @Query("SELECT * FROM planned_meals")
     Observable<List<PlannedMeal>> getAllPlannedMeals();
 
     @Delete
     Completable deletePlannedMeal(PlannedMeal plannedMeal);
+
+    @Query("SELECT * FROM planned_meals WHERE idMeal = :mealId LIMIT 1")
+    Observable<PlannedMeal> getPlannedMealById(String mealId);
+
+    @Query("SELECT * FROM planned_meals WHERE userId = :userId AND date = :date")
+    Observable<List<PlannedMeal>> getPlannedMealsByDate(String userId, String date);
+
+    //further use
+    @Query("SELECT * FROM planned_meals WHERE date = :selectedDate")
+    Observable<List<PlannedMeal>> getMealsForDate(String selectedDate);
 
     @Query("DELETE FROM planned_meals WHERE date < :currentDate")
     Completable deletePastMeals(String currentDate);

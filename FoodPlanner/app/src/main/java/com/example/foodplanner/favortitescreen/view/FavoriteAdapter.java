@@ -33,6 +33,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         this.context = context;
         this.mealFavoriteList = mealFavoriteList;
     }
+
     public void updateData(List<Meal> newMeals) {
         this.mealFavoriteList.clear();
         this.mealFavoriteList.addAll(newMeals);
@@ -53,7 +54,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull FavoriteAdapter.ViewHolder holder, int position) {
         Meal meal = mealFavoriteList.get(position);
-        Log.i("TAG", "onBindViewHolder: hehr " + meal.getIdMeal());
+
         holder.mealFavoriteName.setText(meal.getStrMeal());
 
         Glide.with(context).load(meal.getStrMealThumb())
@@ -61,14 +62,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 .into(holder.mealFavoriteImage);
         holder.mealFavoriteCategory.setText(meal.getStrCategory());
 
-
         holder.deleteFavoriteBtn.setOnClickListener(view -> {
             onDeleteMealClickListener.onDeleteMealClick(meal);
-            Log.i("TAG", "onClick: meal delted");
         });
 
-
-        Log.i("TAG", "onBindViewHolder: MEAl clicked");
     }
 
     @Override
@@ -76,9 +73,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         return mealFavoriteList.size();
     }
 
-    public class ViewHolder extends  RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mealFavoriteName,mealFavoriteCategory;
+        public TextView mealFavoriteName, mealFavoriteCategory;
         public ImageView mealFavoriteImage;
         public ImageButton deleteFavoriteBtn;
 

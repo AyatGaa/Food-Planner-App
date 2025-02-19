@@ -17,18 +17,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class FavouriteMealLocalDataSourceImpl implements FavouriteMealLocalDataSource{
 
    private MealDAO mealDAO;
-
    Context context;
-   private Observable<List<Meal>> savedMeals;
-
    private static FavouriteMealLocalDataSourceImpl instance;
-
 
    private FavouriteMealLocalDataSourceImpl(Context context) {
        this.context = context;
        AppDataBase db = AppDataBase.getInstance(context);
        mealDAO = db.getMealDAO();
-      // savedMeals = mealDAO.getAllFavouriteMeals(); // take it once !
    }
 
    public static FavouriteMealLocalDataSourceImpl getInstance(Context context) {
@@ -48,8 +43,6 @@ public class FavouriteMealLocalDataSourceImpl implements FavouriteMealLocalDataS
 
     @Override
     public void insertFavoriteMeal(Meal meal) {
-
-        Log.d("fav", "Inserting meal for user: " + meal.getUserId());
         mealDAO.insertFavoriteMeal(meal)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -66,7 +59,6 @@ public class FavouriteMealLocalDataSourceImpl implements FavouriteMealLocalDataS
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-
                         ()-> Log.i("data", "deleteFavouriteMeal: deleted from local da")
                         ,error -> Log.i("data", "deleteFavouriteMeal: error")
                 );

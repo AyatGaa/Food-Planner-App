@@ -1,6 +1,5 @@
 package com.example.foodplanner.Models.meals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Meals {

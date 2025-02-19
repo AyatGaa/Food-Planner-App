@@ -80,7 +80,7 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
 
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
-        checkUserStatus();
+
         if (isFirstTime) {
             Navigation.findNavController(requireView()).navigate(R.id.action_splashScreenFragment_to_introScreenFragment, null,
                     new NavOptions.Builder()
@@ -89,6 +89,8 @@ public class SplashScreenFragment extends Fragment implements SplashScreenView {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("isFirstTime", false);
             editor.apply();
+        } else {
+            checkUserStatus();
         }
 
     }

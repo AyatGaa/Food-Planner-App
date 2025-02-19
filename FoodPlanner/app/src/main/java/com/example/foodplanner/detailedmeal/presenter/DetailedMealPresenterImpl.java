@@ -33,7 +33,9 @@ public class DetailedMealPresenterImpl implements DetailedMealPresenter, Network
     MealRepository mealRepository;
     PlanRepository planRepository;
     DetailedMealView detailedMealView;
-    public DetailedMealPresenterImpl(MealRepository mealRepository, DetailedMealView detailedMealView, PlanRepository planRepository) {
+    public DetailedMealPresenterImpl(MealRepository mealRepository,
+                                     DetailedMealView detailedMealView,
+                                     PlanRepository planRepository) {
         this.mealRepository = mealRepository;
         this.detailedMealView = detailedMealView;
         this.planRepository = planRepository;
@@ -44,8 +46,7 @@ public class DetailedMealPresenterImpl implements DetailedMealPresenter, Network
         mealRepository.fetchMealDetails(mealId, new MealDetailCallback() {
             @Override
             public void onMealDetailsFetched(Meal meal) {
-
-                detailedMealView.showMealDetails(meal); // Pass data to the View
+                detailedMealView.showMealDetails(meal); // pass data to the View
             }
 
             @Override
@@ -71,7 +72,6 @@ public class DetailedMealPresenterImpl implements DetailedMealPresenter, Network
         try {
             Date mealDate = simpleDateFormat.parse(selectedDate);
             Date currentDate = new Date();
-
             return !mealDate.before(simpleDateFormat.parse(simpleDateFormat.format(currentDate)));
         } catch (ParseException e) {
             e.printStackTrace();

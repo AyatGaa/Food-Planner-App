@@ -1,4 +1,4 @@
-package com.example.foodplanner.backup.favouritmeals;
+package com.example.foodplanner.backup;
 
 import android.util.Log;
 
@@ -17,14 +17,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
+public class BackupMealFirebaseImpl implements BackupMealFirebase {
     FirebaseDatabase database;
     DatabaseReference dbRef;
-    private static FavoriteMealFirebaseImpl instance = null;
+    private static BackupMealFirebaseImpl instance = null;
     /*
      * favorite meal =>
      *                   user_id=>
@@ -35,15 +33,15 @@ public class FavoriteMealFirebaseImpl implements FavoriteMealFirebase {
      *                                                           meal_id
      * */
 
-    public FavoriteMealFirebaseImpl() {
+    public BackupMealFirebaseImpl() {
 
         database = FirebaseDatabase.getInstance();
         dbRef = database.getReference("user_data");
     }
 
-    public static FavoriteMealFirebaseImpl getInstance() {
+    public static BackupMealFirebaseImpl getInstance() {
         if (instance == null) {
-            instance = new FavoriteMealFirebaseImpl();
+            instance = new BackupMealFirebaseImpl();
 
         }
         return instance;

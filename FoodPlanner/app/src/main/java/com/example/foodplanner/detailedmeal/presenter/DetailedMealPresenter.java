@@ -14,9 +14,9 @@ public interface DetailedMealPresenter {
 
     boolean isFutureDate(String selectedDate);
 
+    List<String> getIngredient(Meal meal);
     String extractYoutubeVideoId(String url);
 
-    List<String> getIngredient(Meal meal);
 
 
 }
