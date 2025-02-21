@@ -55,6 +55,11 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
 
     void setUi(View v) {
         calendarView = v.findViewById(R.id.planCalender);
+        Calendar calendar = Calendar.getInstance();
+        calendarView.setMinDate(calendar.getTimeInMillis());
+
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+        calendarView.setMaxDate(calendar.getTimeInMillis());
         planRecyclerView = v.findViewById(R.id.recyclerViewPlannedMeals);
         signInLayoutPlan = v.findViewById(R.id.signInLayoutPlan);
         signInButtonPlan = v.findViewById(R.id.signInButtonPlan);
@@ -95,7 +100,6 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
 
             selectedDate = getTodayDate();
             planScreenPresenter.getMealsForDate(selectedDate); // to show already existed meal
-            //planScreenPresenter.getPlannedMealsFirebase(selectedDate);
 
             calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
                 selectedDate = String.format(Locale.getDefault(), "%d-%02d-%02d", year, (month + 1), dayOfMonth);
@@ -103,8 +107,6 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
                 planScreenPresenter.getPlannedMealsFirebase(selectedDate);
 
             });
-
-
         }
 
         signInButtonPlan.setOnClickListener(v -> {
@@ -119,6 +121,7 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
+
         return String.format(Locale.getDefault(), "%d-%02d-%02d", year, (month + 1), day);
 
     }
