@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +21,7 @@ import com.example.foodplanner.Models.plannedMeal.PlannedMeal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.favortitescreen.view.FavoriteAdapter;
 import com.example.foodplanner.favortitescreen.view.OnDeleteMealClickListener;
+import com.example.foodplanner.homescreen.view.HomeScreenFragmentDirections;
 
 import java.util.List;
 
@@ -27,11 +30,12 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
     List<PlannedMeal> mealPlannedList;
     OnDeletePlanMealListener onDeletePlanMealListener;
 
-    public PlanAdapter(Context context, List<PlannedMeal> mealPlannedList, OnDeletePlanMealListener onDeletePlanMealListener){
+    public PlanAdapter(Context context, List<PlannedMeal> mealPlannedList, OnDeletePlanMealListener onDeletePlanMealListener) {
         this.context = context;
         this.mealPlannedList = mealPlannedList;
-    this.onDeletePlanMealListener = onDeletePlanMealListener;
+        this.onDeletePlanMealListener = onDeletePlanMealListener;
     }
+
     public void updateMeals(List<PlannedMeal> newMeals) {
         this.mealPlannedList = newMeals;
         notifyDataSetChanged();
@@ -60,6 +64,19 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
             onDeletePlanMealListener.onDeletePlanMealClick(meal);
         });
 
+        holder.planCardConstrainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Meal m = new Meal();
+                m.setIdMeal(meal.getIdMeal());
+                PlanFragmentDirections.ActionPlanFragmentToDetailedMealFragment action =
+                        PlanFragmentDirections.actionPlanFragmentToDetailedMealFragment(m);
+
+                Navigation.findNavController(v).navigate(action);
+
+            }
+        });
+
     }
 
     @Override
@@ -67,10 +84,11 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
         return mealPlannedList.size();
     }
 
-    public class ViewHolder  extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mealPlanName;
         public ImageView mealPlanImage;
         public ImageButton deletePlanBtn;
+        ConstraintLayout planCardConstrainLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +96,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
             mealPlanName = itemView.findViewById(R.id.mealPlanName);
             mealPlanImage = itemView.findViewById(R.id.mealPlanImage);
             deletePlanBtn = itemView.findViewById(R.id.deletePlanBtn);
+            planCardConstrainLayout = itemView.findViewById(R.id.planCardConstrainLayout);
         }
     }
 }

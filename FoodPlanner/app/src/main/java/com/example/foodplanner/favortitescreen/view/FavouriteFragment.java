@@ -110,10 +110,10 @@ public class FavouriteFragment extends Fragment implements FavoriteScreenView, O
             favoriteScreenPresenter.addMealToFavorite(meal); // undo
             favAdapter.notifyDataSetChanged();
         });
-        snackbar.setBackgroundTint(Color.parseColor("#3E5879"));
-        snackbar.setTextColor(Color.WHITE);
-
-        snackbar.show();
+        snackbar.setBackgroundTint(Color.parseColor("#FFFFFF"))
+                .setActionTextColor(Color.parseColor("#C21010"))
+                .setTextColor(Color.parseColor("#C21010"));
+         snackbar.show();
 
     }
 

@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.FoodPlanner" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.FoodPlanner" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-       <item name="colorPrimary">@color/white</item>
-       <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
 
 
     </style>
@@ -11,6 +11,12 @@
     <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out</item>
+    </style>
+
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
     </style>
 
     <style name="Theme.FoodPlanner" parent="Base.Theme.FoodPlanner" />
