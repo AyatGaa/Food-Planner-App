@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -178,6 +179,12 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
                     }
 
                 }, year, month, day);
+
+
+        DatePicker datePicker = datePickerDialog.getDatePicker();
+        datePicker.setMinDate(calendar.getTimeInMillis());
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+        datePicker.setMaxDate(calendar.getTimeInMillis());
         datePickerDialog.show();
     }
 
