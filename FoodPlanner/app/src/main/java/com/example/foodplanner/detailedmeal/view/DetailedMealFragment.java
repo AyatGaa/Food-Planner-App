@@ -212,6 +212,7 @@ public class DetailedMealFragment extends Fragment implements DetailedMealView, 
         showVideoPlayer(meal);
 
     }
+
     @Override
     public void showMealList(List<Meal> meals) {
     }

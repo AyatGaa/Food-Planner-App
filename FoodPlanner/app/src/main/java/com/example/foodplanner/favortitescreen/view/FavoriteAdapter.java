@@ -13,12 +13,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.meals.Meal;
 import com.example.foodplanner.R;
 import com.example.foodplanner.homescreen.view.HomeScreenAdapter;
+import com.example.foodplanner.planscreen.view.PlanFragmentDirections;
 import com.example.foodplanner.utils.AppFunctions;
 
 import java.util.List;
@@ -66,6 +69,16 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
             onDeleteMealClickListener.onDeleteMealClick(meal);
         });
 
+        holder.favoriteCardConstrainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FavouriteFragmentDirections.ActionFavouriteFragmentToDetailedMealFragment action =
+                        FavouriteFragmentDirections.actionFavouriteFragmentToDetailedMealFragment(meal);
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
+
+
     }
 
     @Override
@@ -78,6 +91,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         public TextView mealFavoriteName, mealFavoriteCategory;
         public ImageView mealFavoriteImage;
         public ImageButton deleteFavoriteBtn;
+        ConstraintLayout favoriteCardConstrainLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +100,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
             mealFavoriteImage = itemView.findViewById(R.id.mealFavoriteImage);
             mealFavoriteCategory = itemView.findViewById(R.id.mealFavoriteCategory);
             deleteFavoriteBtn = itemView.findViewById(R.id.deleteFavoriteBtn);
+            favoriteCardConstrainLayout = itemView.findViewById(R.id.favoriteCardConstrainLayout);
         }
     }
 }

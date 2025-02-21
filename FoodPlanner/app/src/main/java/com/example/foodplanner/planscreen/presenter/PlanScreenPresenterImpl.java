@@ -100,7 +100,7 @@ public class PlanScreenPresenterImpl implements PlanScreenPresenter {
 
     @Override
     public void addMealToPlan(PlannedMeal meal) {
-       // planRepository.insertPlannedMeal(meal);
+         planRepository.insertPlannedMeal(meal);
     }
 
     @Override

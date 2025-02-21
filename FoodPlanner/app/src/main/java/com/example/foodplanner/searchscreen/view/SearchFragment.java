@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Models.area.Area;
 import com.example.foodplanner.Models.category.Category;
@@ -54,6 +55,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
     SearchView searchView;
     ChipGroup searchChipGroup;
     TextView searchTitle;
+    LottieAnimationView loadingViewSearch;
     FilterAdapter filterAdapter;
     MealsAdapter mealsAdapter;
     SearchScreenPresenter searchPresenter;
@@ -78,7 +80,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         searchView = v.findViewById(R.id.searchView);
         searchTitle = v.findViewById(R.id.searchTitle);
         searchScreenConstraintLayout = v.findViewById(R.id.searchScreenConstraintLayout);
-
+        loadingViewSearch = v.findViewById(R.id.loadingViewSearch);
         searchRecyclerView.setVisibility(View.VISIBLE);
         mealsRecyclerView.setVisibility(View.GONE);
     }
@@ -288,40 +290,28 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
     @Override
     public void setNoConnectionSearchUI() {
         searchTitle.setText(getString(R.string.no_connection));
-        searchTitle.setGravity(Gravity.CENTER);
+        searchTitle.setGravity(Gravity.TOP);
 
         ConstraintLayout.LayoutParams textParams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
         textParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-        textParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
         textParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
         textParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+        textParams.topMargin = 80;
         searchTitle.setLayoutParams(textParams);
 
-        ImageView noConnectionImage = new ImageView(requireContext());
-        noConnectionImage.setId(View.generateViewId());
-        noConnectionImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        if (loadingViewSearch.getParent() != null) {
+            ((ViewGroup) loadingViewSearch.getParent()).removeView(loadingViewSearch);
+        }
+        if (searchTitle.getParent() != null) {
+            ((ViewGroup) searchTitle.getParent()).removeView(searchTitle);
+        }
+        loadingViewSearch.setVisibility(View.VISIBLE);
 
-
-        ConstraintLayout.LayoutParams imageParams =
-                new ConstraintLayout.LayoutParams(200, 400);
-
-        imageParams.bottomToTop = searchTitle.getId();
-        imageParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
-        imageParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
-        imageParams.topMargin = 60;
-        noConnectionImage.setLayoutParams(imageParams);
-
-        Glide.with(requireContext())
-                .load(R.drawable.cutlery_primary_color)
-                .error(R.drawable.notfound)
-                .into(noConnectionImage);
-
-        searchScreenConstraintLayout.addView(noConnectionImage);
+        searchScreenConstraintLayout.addView(loadingViewSearch);
         searchScreenConstraintLayout.addView(searchTitle);
-
     }
 
 
@@ -397,6 +387,7 @@ public class SearchFragment extends Fragment implements SearchScreenView, OnSear
         if (meals == null || meals.isEmpty()) {
             return;
         }
+
         mealsAdapter.setList(meals);
         mealsAdapter.notifyDataSetChanged();
 

@@ -81,6 +81,9 @@
         <action
             android:id="@+id/action_favouriteFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
     </fragment>
     <fragment
         android:id="@+id/planFragment"
@@ -90,6 +93,9 @@
         <action
             android:id="@+id/action_planFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_planFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

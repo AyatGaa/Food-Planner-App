@@ -57,7 +57,8 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
     }
 
     @Override
-    public void getAllIngredients() {repo.getAllIngredients(this);
+    public void getAllIngredients() {
+        repo.getAllIngredients(this);
     }
 
     @Override
@@ -83,7 +84,6 @@ public class SearchScreenPresenterImpl implements SearchScreenPresenter, Ingredi
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-
                         mealResponse -> {
                             view.showMealList(mealResponse.getMeals());
                         },

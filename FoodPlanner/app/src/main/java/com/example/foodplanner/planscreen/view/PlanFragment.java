@@ -136,8 +136,13 @@ public class PlanFragment extends Fragment implements PlanScreenView, OnDeletePl
     public void showSnackBar(PlannedMeal plannedMeal) {
         View rootView = requireActivity().findViewById(R.id.bottomNavigationView);
         Snackbar snackbar = Snackbar.make(planRecyclerView, "Meal deleted", Snackbar.LENGTH_LONG);
-        snackbar.setBackgroundTint(Color.parseColor("#B8B8B8"));
-        snackbar.setTextColor(Color.WHITE);
+        snackbar.setAnchorView(rootView).setAction("Undo", v -> {
+            planScreenPresenter.addMealToPlan(plannedMeal); // undo
+            planAdapter.notifyDataSetChanged();
+        });
+        snackbar.setBackgroundTint(Color.parseColor("#FFFFFF"))
+                .setActionTextColor(Color.parseColor("#C21010"))
+                .setTextColor(Color.parseColor("#C21010"));
         snackbar.setAnchorView(rootView);
         snackbar.show();
     }
